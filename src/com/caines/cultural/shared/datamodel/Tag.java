@@ -15,6 +15,7 @@ public class Tag implements Serializable {
 	
 	}
 	public Tag(String name) {
+		//eventually might have categories and stuff too.
 		this.id = name;
 		
 	}

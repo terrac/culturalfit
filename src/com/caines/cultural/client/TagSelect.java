@@ -17,6 +17,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 
 public class TagSelect extends Composite {
+	
+	public TagSelect() {
+		setup(new UpdateTag());
+	}
 	private final GreetingServiceAsync tagService = GWT
 			.create(GreetingService.class);
 
@@ -25,6 +29,9 @@ public class TagSelect extends Composite {
 	FlowPanel tagList = new FlowPanel();
 	Map<Label,String> tagMap = new HashMap<>();
 	public TagSelect(final TagAction ta) {
+		setup(ta);
+	}
+	public void setup(final TagAction ta) {
 		tags.addChangeHandler(new ChangeHandler() {
 			
 			@Override

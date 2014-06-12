@@ -19,6 +19,7 @@ public class GUser implements Serializable{
 	@Id
 	public String id;
 	public String displayName;
+	public UserQuestion currentQuestion;
 	
 	public String getDisplayName() {
 		return displayName;

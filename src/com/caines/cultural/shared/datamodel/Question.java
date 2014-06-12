@@ -16,8 +16,12 @@ import java.util.List;
 
 
 
+
+
+
 import javax.persistence.Id;
 
+import com.caines.cultural.server.datautil.TagUtil;
 import com.googlecode.objectify.Key;
 
 
@@ -27,11 +31,20 @@ public class Question implements Serializable{
 	}
 	
 	@Id
-	public String id;
+	public Long id;
 	
-	String question;
-	String answer1;
-	String answer2;
+	public Question(String question, String answer1, String answer2,
+			List<Key<Tag>> tag) {
+		super();
+		this.question = question;
+		this.answer1 = answer1;
+		this.answer2 = answer2;
+		this.tags = tag;
+	}
+
+	public String question;
+	public String answer1;
+	public String answer2;
 	
 	public List<Key<Tag>> tags = new ArrayList();
 	
