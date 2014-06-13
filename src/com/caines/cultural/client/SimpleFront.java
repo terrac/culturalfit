@@ -109,20 +109,50 @@ public class SimpleFront implements EntryPoint {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				greetingService.addGroup(sb.getValue(),null);
+				greetingService.addGroup(sb.getValue(),new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		});
-		vp.add(sb);
+		HorizontalPanel hp = new HorizontalPanel();
+		hp.add(new Label("Groupname:"));
+		hp.add(sb);
+		hp.add(addGroup);
+		vp.add(hp);
 		
 		final TagSelect ts = new TagSelect();
 		vp.add(ts);
+		
 		final TextArea ta = new TextArea();
 		final TextArea ta1 = new TextArea();
 		final TextArea ta2 = new TextArea();
-		vp.add(ta);
-		vp.add(ta1);
-		vp.add(ta2);
-
+		
+		hp = new HorizontalPanel();
+		hp.add(new Label("Question:"));
+		hp.add(ta);
+		
+		vp.add(hp);
+		hp = new HorizontalPanel();
+		hp.add(new Label("One Answer:"));
+		hp.add(ta1);
+		
+		vp.add(hp);
+		hp = new HorizontalPanel();
+		hp.add(new Label("Another answer:"));
+		hp.add(ta2);
+		vp.add(hp);
+		
 		SubmitButton sb1 = new SubmitButton("Add Question");
 		sb1.addClickHandler(new ClickHandler() {
 			

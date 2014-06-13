@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -21,7 +22,10 @@ public class TagSelect extends Composite {
 	
 	public TagSelect() {
 		initWidget(vp);
-		vp.add(tags);
+		HorizontalPanel hp = new HorizontalPanel();
+		hp.add(new Label("Tags:"));
+		hp.add(tags);
+		vp.add(hp);
 		vp.add(tagList);
 		setup(new UpdateTag());
 		

@@ -22,7 +22,7 @@ public class Tag implements Serializable {
 	@Id
 	public String id;
 	public String name;
-	public double amount;
+	public int amount;
 	
 	
 	public Key<Tag> getKey(){
