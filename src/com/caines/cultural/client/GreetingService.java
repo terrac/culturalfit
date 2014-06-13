@@ -20,4 +20,6 @@ public interface GreetingService extends RemoteService {
 	String addQuestion(String text, String text2, String text3, String text4);
 
 	void answerQuestion(String answer);
+
+	void addGroup(String value);
 }

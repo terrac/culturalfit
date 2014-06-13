@@ -18,4 +18,6 @@ public interface GreetingServiceAsync {
 
 	void answerQuestion(String answer, AsyncCallback<Void> callback);
 
+	void addGroup(String value,AsyncCallback<Void> callback);
+
 }
