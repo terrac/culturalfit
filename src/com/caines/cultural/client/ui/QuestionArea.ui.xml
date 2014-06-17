@@ -1,0 +1,31 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui"
+	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
+	>
+	<ui:style>
+	.important {
+		font-weight: bold;
+	}
+	</ui:style>
+	<g:HTMLPanel>
+		<table>
+		    <tr>
+		        <td colspan="2">
+					<center><g:Label  ui:field="question" height="5em"  /></center>
+				</td>
+			</tr>
+			<tr>
+			    <td>
+  					<g:Button  ui:field="answer1"  width="35em" height="5em"/>
+  				</td>
+  				<td>	
+  					<g:Button  ui:field="answer2"  width="35em" height="5em"/>
+  				</td>
+  			</tr>
+  			<tr>
+  			    <td><g:Label  ui:field="clock"  /></td>
+  			</tr>
+  		</table>
+	</g:HTMLPanel>
+</ui:UiBinder> 

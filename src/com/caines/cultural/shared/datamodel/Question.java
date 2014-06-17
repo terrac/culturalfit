@@ -26,6 +26,11 @@ import com.googlecode.objectify.Key;
 
 
 public class Question implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public Question() {
 	
 	}
@@ -52,7 +57,7 @@ public class Question implements Serializable{
 		return new Key(Question.class,id);
 	}
 	
-	public static Key<Question> getKey(String id){
+	public static Key<Question> getKey(Long id){
 		return new Key(Question.class,id);
 	}
 	

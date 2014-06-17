@@ -9,6 +9,11 @@ import com.googlecode.objectify.Key;
 
 
 public class GUser implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public GUser() {
 	
 	}
@@ -19,7 +24,8 @@ public class GUser implements Serializable{
 	@Id
 	public String id;
 	public String displayName;
-	public UserQuestion currentQuestion;
+	public Key<UserQuestion> currentQuestion;
+	public Key<Group> currentGroup;
 	
 	public String getDisplayName() {
 		return displayName;
