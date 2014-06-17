@@ -51,7 +51,8 @@ public class UserQuestion implements Serializable{
 	public boolean visited;
 
 	public Date timeVisited;
-
+	public boolean processed;
+	public boolean correct;
 	public String answer;
 	public Key<GUser> user;
 	public Key<Group> group;
