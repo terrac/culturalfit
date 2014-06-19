@@ -1,7 +1,6 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	xmlns:b="urn:import:com.github.gwtbootstrap.client.ui"
 	>
 	<ui:style>
 	.important {
@@ -9,23 +8,13 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-		<table>
-		    <tr>
-		        <td colspan="2">
-					<center><g:Label  ui:field="question" height="5em"  /></center>
-				</td>
-			</tr>
-			<tr>
-			    <td>
-  					<g:Button  ui:field="answer1"  width="35em" height="5em"/>
-  				</td>
-  				<td>	
-  					<g:Button  ui:field="answer2"  width="35em" height="5em"/>
-  				</td>
-  			</tr>
-  			<tr>
-  			    <td><g:Label  ui:field="clock"  /></td>
-  			</tr>
-  		</table>
+	<div class="container">    
+	  <h3> <g:Label  ui:field="question"  /></h3>
+          
+    <g:Button ui:field="answer1" height="15em" width="35em" />
+  	<g:Button ui:field="answer2" height="15em" width="35em" />
+  	  
+    </div>
+    	<p><g:Label  ui:field="clock"  /></p>
 	</g:HTMLPanel>
 </ui:UiBinder> 

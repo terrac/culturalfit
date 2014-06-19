@@ -5,6 +5,7 @@ import java.util.List;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
+import com.caines.cultural.shared.datamodel.UserGroup;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -30,5 +31,7 @@ public interface GreetingServiceAsync {
 	
 	void updateQuestion(Long questionKey, String value,
 			AsyncCallback<Void> asyncCallback);
+
+	void getUserGroupList(AsyncCallback<List<UserGroup>> callback);
 
 }

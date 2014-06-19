@@ -9,7 +9,6 @@ public class GroupEdit {
 	public void editGroup(final VerticalPanel vp) {
 		vp.clear();
 		//add question link
-		NextQuestion.showOrSelectGroups(vp);
 		Button b = new Button("Add Question");
 		b.addClickHandler(new ClickHandler() {
 			

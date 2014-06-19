@@ -51,7 +51,13 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		LoginInfo li = LoginService.login(null, null);
 		UserGroup g = SDao.getUserGroupDao().getQByProperty("user", li.gUser.getKey())
 				.filter("group", gKey).get();
-		List<UserQuestion> uqList = new ArrayList<>();
+		if(g == null){
+			g = new UserGroup("aoeu");
+			g.user = li.gUser.getKey();
+			SDao.getUserGroupDao().put(g);
+		}
+	
+	
 		List<UserQuestion> listAnswered = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getKey())
 				.filter("group", g.getKey()).filter("processed", false)
@@ -67,6 +73,15 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		g.correct += correct;
 		g.total += total;
 		SDao.getUserGroupDao().put(g);
+	}
+
+	@Override
+	public List<UserGroup> getUserGroupList() {
+		LoginInfo li = LoginService.login(null, null);
+		setupProfileForGroup(li.gUser.currentGroup);
+		List<UserGroup> gList = SDao.getUserGroupDao().getQByProperty("user", li.gUser.getKey())
+				.list();
+		return gList;
 	}
 
 	@Override

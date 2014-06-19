@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class AddQuestion {
 	public void addQuestion(final VerticalPanel vp) {
 		vp.clear();
-		NextQuestion.showOrSelectGroups(vp);
+		
 
 		final TextArea ta = new TextArea();
 		final TextArea ta1 = new TextArea();

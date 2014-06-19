@@ -3,7 +3,6 @@ package com.caines.cultural.client.ui;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.ViewGroups;
 import com.caines.cultural.shared.datamodel.Question;
-import com.github.gwtbootstrap.client.ui.Alert;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -51,6 +50,7 @@ public class QuestionArea extends Composite{
 
 	public QuestionArea(final AsyncCallback<Question> asyncCallback) {
 		initWidget(uiBinder.createAndBindUi(this));
+		answer1.getElement().addClassName("btn");
 		timer=new ClockTimer(clock);
 		ClickHandler ch = new ClickHandler() {
 			
@@ -105,8 +105,8 @@ public class QuestionArea extends Composite{
 
 	public void questionsFinished() {
 		question.setText("");
-		answer1.setText("");
-		answer2.setText("");
+		answer1.setVisible(false);
+		answer2.setVisible(false);
 		Window.alert("No more questions");
 		new ViewGroups().groupArea(null);
 	}

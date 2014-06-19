@@ -35,7 +35,7 @@ public class SimpleFront implements EntryPoint {
 			this.sb = sb;
 		}
 
-		abstract void onSuccess();
+		public abstract void onSuccess();
 		@Override
 		public void onClick(ClickEvent event) {
 			basicService.setCurrentGroup(sb.getText(), new AsyncCallback<Void>() {
