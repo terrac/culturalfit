@@ -30,10 +30,25 @@ public class TopArea extends Composite{
 
 	interface TopAreaUiBinder extends UiBinder<Widget, TopArea> {
 	}
-
+	static TopArea singleton;
 	public TopArea() {
+		singleton = this;
+		
 		initWidget(uiBinder.createAndBindUi(this));
 		
+		SimpleFront.basicService.getCurrentGroup(new AsyncCallback<Group>() {
+			
+			@Override
+			public void onSuccess(Group result) {
+				setGroupName(result.name);
+			}
+			
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		setupProfile();
 		
 		SimpleFront.basicService.getCurrentGroup(new AsyncCallback<Group>() {
@@ -53,7 +68,6 @@ public class TopArea extends Composite{
 				
 			}
 		});
-
 	}
 	@UiField
 	Label groupName;
@@ -65,11 +79,13 @@ public class TopArea extends Composite{
 	@UiField
 	Anchor nextQuestion;
 	@UiField
-	public
-	static VerticalPanel content;
+	public static VerticalPanel content;
 
 	
-	
+	public static void setGroupName(String name){
+		String text = "CulturalFit/"+name.replace(' ', '-');
+		singleton.groupName.setText(text);
+	}
 
 	@UiHandler("profile")
 	void onClick(ClickEvent e) {
@@ -177,5 +193,5 @@ public class TopArea extends Composite{
 		}
 	}
 
-
+	
 }

@@ -52,6 +52,7 @@ public class Question implements Serializable{
 	public String answer2;
 	
 	public List<Key<Tag>> tags = new ArrayList();
+	public boolean disabled;
 	
 	public Key<Question> getKey(){
 		return new Key(Question.class,id);

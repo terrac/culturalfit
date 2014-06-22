@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -17,20 +18,47 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.caines.cultural.server.datautil.TagUtil;
+import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 public class AdminServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		//SDao.getUserProfileDao().getQuery().filter("zipCode >", 0).filter("zipCode <",5);
+		
 		SDao.getUserQuestionDao().deleteAll(SDao.getUserQuestionDao().getQuery().list());
 		SDao.getQuestionDao().deleteAll(SDao.getQuestionDao().getQuery().list());
 		SDao.getTagDao().deleteAll(SDao.getTagDao().getQuery().list());
 		SDao.getGroupDao().deleteAll(SDao.getGroupDao().getQuery().list());
-		Group g = new Group("Java Interview Questions");
+		SDao.getUserGroupDao().deleteAll(SDao.getUserGroupDao().getQuery().list());
+		
+		LoginInfo li = LoginService.login(null, null);
+		
+		JSONObject jo = (JSONObject) new JSONTokener(IOUtils.toString(new URL("http://gdata.youtube.com/feeds/api/videos/SIFL9qfmu5U?alt=json"))).nextValue();
+
+		Gson gson = new Gson();
+		ArrayList<Group> yourObjects = new ArrayList<Group>();
+		URL url = new URL("/questions.json");
+		JsonReader reader = new JsonReader(new InputStreamReader(url.openStream()));
+		reader.
+		reader.beginArray();
+		while(reader.hasNext())
+		{
+		   Collection c = gson.fromJson(reader, Collection.class);
+		   yourObjects.add(o);
+		}
+		reader.endArray();
+		reader.close();
+		
+		Group g = new Group("Java Interview Questions",li.gUser);
+		
+		
 		{
 			String question = "What is the most important feature of Java?";
 			String answer1 = "Java is a platform independent language.";
@@ -56,9 +84,9 @@ public class AdminServlet extends HttpServlet {
 			addQuestion(g, question, answer1, answer2, tags);
 			
 		}
-		SDao.getGroupDao().put(g);
+		
 		GUser gu=LoginService.login(null, null).gUser;
-		gu.currentGroup = g.getKey();
+		gu.currentGroup = SDao.getGroupDao().put(g);
 		SDao.getGUserDao().put(gu);
 	}
 

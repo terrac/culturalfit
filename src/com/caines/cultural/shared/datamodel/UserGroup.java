@@ -25,39 +25,41 @@ import com.caines.cultural.server.datautil.TagUtil;
 import com.googlecode.objectify.Key;
 
 
-public class Group implements Serializable{
+public class UserGroup implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Group() {
+	public UserGroup() {
 	
 	}
 	
 	@Id
 	public Long id;
 	
-	public Group(String groupname,GUser gUser) {
-		
-		creator = gUser.getKey();
-		//id = groupname;
+	public UserGroup(String groupname) {
 		name = groupname;
-		lowerName = name.toLowerCase();
 	}
-	public Key<GUser> creator;
 	public String name;
-	public String lowerName;
 	public List<Key<Question>> questions = new ArrayList<>();
-	
-	public Key<Group> getKey(){
-		return new Key(Group.class,id);
+	public int total;
+	public int correct;
+	public Key<GUser> user;
+	public Key<Group> group;
+	public Key<UserGroup> getKey(){
+		return new Key(UserGroup.class,id);
 	}
 	
-	public static Key<Group> getKey(String id){
-		return new Key(Group.class,id);
+	public static Key<UserGroup> getKey(String id){
+		return new Key(UserGroup.class,id);
 	}
 	
-	
+	public int getPercent(){
+		if(total == 0){
+			total = 1;
+		}
+		return (int) ((int)100* (double)correct/total);
+	}
 	
 }

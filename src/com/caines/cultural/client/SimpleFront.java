@@ -1,17 +1,27 @@
 package com.caines.cultural.client;
 
+import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import com.caines.cultural.client.suggestion.ItemSuggestOracle;
 import com.caines.cultural.client.suggestion.SuggestService;
 import com.caines.cultural.client.ui.TopArea;
+import com.caines.cultural.client.ui.employer.EmployerTopArea;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
+import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
+import com.google.gwt.user.cellview.client.TextColumn;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasText;
@@ -22,6 +32,8 @@ import com.google.gwt.user.client.ui.SubmitButton;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.view.client.SelectionChangeEvent;
+import com.google.gwt.view.client.SingleSelectionModel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -69,10 +81,32 @@ public class SimpleFront implements EntryPoint {
 	public final static GreetingServiceAsync basicService = GWT
 			.create(GreetingService.class);
 	
+	static boolean employer = false;
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		final Button employerSwitch = new Button("Switch to Employer");
+		
+		RootPanel.get("employerSwitch").add(employerSwitch);
+		
+		employerSwitch.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(!employer){
+					employerSwitch.setText("Switch to Employee");
+					RootPanel.get().clear();
+					RootPanel.get().add(new EmployerTopArea());
+				} else {
+					employerSwitch.setText("Switch to Employer");
+					RootPanel.get().clear();
+					RootPanel.get().add(new TopArea());
+					
+				}
+				employer = !employer;
+			}
+		});
 		RootPanel.get().add(new TopArea());
 		onMyButtonClick();
 		
@@ -80,5 +114,4 @@ public class SimpleFront implements EntryPoint {
 	public static native void onMyButtonClick() /*-{
 		$wnd.setupSelectNothing();
 	}-*/;
-
 }

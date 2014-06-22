@@ -1,5 +1,6 @@
 package com.caines.cultural.client.ui;
 
+import com.caines.cultural.client.NextQuestion;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.ViewGroups;
 import com.caines.cultural.shared.datamodel.Question;
@@ -57,8 +58,8 @@ public class QuestionArea extends Composite{
 			@Override
 			public void onClick(ClickEvent event) {
 				Button l = (Button) event.getSource();
-				String answer=l.getElement().getAttribute("answerId");
-				SimpleFront.basicService.answerQuestion(answer, new AsyncCallback<Void>() {
+				String answer=l.getText();
+				SimpleFront.basicService.answerQuestion(NextQuestion.qKey,answer, new AsyncCallback<Void>() {
 					
 					@Override
 					public void onSuccess(Void result) {
@@ -104,10 +105,11 @@ public class QuestionArea extends Composite{
 	Button answer2;
 
 	public void questionsFinished() {
-		question.setText("");
+		question.setText("No More Questions For this group");
+		//suggest another related group
 		answer1.setVisible(false);
 		answer2.setVisible(false);
-		Window.alert("No more questions");
+		//Window.alert("No more questions");
 		new ViewGroups().groupArea(null);
 	}
 

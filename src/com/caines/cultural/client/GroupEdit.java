@@ -1,5 +1,7 @@
 package com.caines.cultural.client;
 
+import com.caines.cultural.client.ui.QuestionList;
+import com.caines.cultural.client.ui.TopArea;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -19,6 +21,9 @@ public class GroupEdit {
 		});
 		//edit question list
 		vp.add(b);
+		
+		TopArea.content.add(new QuestionList());
+
 	}
 
 

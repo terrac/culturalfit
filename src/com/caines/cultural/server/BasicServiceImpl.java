@@ -2,18 +2,23 @@ package com.caines.cultural.server;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
 import com.caines.cultural.client.GreetingService;
+import com.caines.cultural.server.datautil.PermissionsUtil;
 import com.caines.cultural.server.datautil.TagUtil;
 import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.UserGroup;
+import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.UserQuestion;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyService;
 
 /**
  * The server-side implementation of the RPC service.
@@ -24,23 +29,26 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	public void setupQuestions(Key<Group> gKey) {
 		LoginInfo li = LoginService.login(null, null);
-		Group g = SDao.getGroupDao().get(gKey);
+		List<Question> qList=getQuestionList();
 		List<UserQuestion> uqList = new ArrayList<>();
 		List<UserQuestion> listAnswered = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getKey())
-				.filter("group", g.getKey()).filter("visited", true).list();
+				.filter("group", gKey).filter("visited", true).list();
 
-		for (Key<Question> q : g.questions) {
+		for (Question q : qList) {
+			if(q.disabled){
+				continue;
+			}
 			boolean flag = false;
 			for (UserQuestion answered : listAnswered) {
-				if (answered.question.equals(q)) {
+				if (answered.question.equals(q.getKey())) {
 					flag = true;
 				}
 			}
 			if (flag) {
 				continue;
 			}
-			UserQuestion userQuestion = new UserQuestion(q, g.getKey());
+			UserQuestion userQuestion = new UserQuestion(q.getKey(), gKey);
 			userQuestion.user = li.gUser.getKey();
 			uqList.add(userQuestion);
 		}
@@ -52,7 +60,9 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		UserGroup g = SDao.getUserGroupDao().getQByProperty("user", li.gUser.getKey())
 				.filter("group", gKey).get();
 		if(g == null){
-			g = new UserGroup("aoeu");
+			
+			g = new UserGroup(SDao.getGroupDao().get(gKey).name);
+			g.group = gKey;
 			g.user = li.gUser.getKey();
 			SDao.getUserGroupDao().put(g);
 		}
@@ -60,7 +70,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	
 		List<UserQuestion> listAnswered = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getKey())
-				.filter("group", g.getKey()).filter("processed", false)
+				.filter("group", gKey).filter("processed", false)
 				.filter("visited", true).list();
 		int total = 0;
 		int correct = 0;
@@ -83,6 +93,13 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 				.list();
 		return gList;
 	}
+	
+	@Override
+	public List<Question> getQuestionList() {
+		LoginInfo li = LoginService.login(null, null);
+		Objectify o=ObjectifyService.begin();
+		return new ArrayList(o.get(SDao.getGroupDao().get(li.gUser.currentGroup).questions).values());
+	}
 
 	@Override
 	public Question getNextQuestion() {
@@ -90,7 +107,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		UserQuestion uq = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getKey())
 				.filter("visited", false).get();
-
+		
 		// set of curated questions
 		// with the property not visited
 		//
@@ -109,6 +126,8 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		Question question = SDao.getQuestionDao().get(uq.question);
 		uq.visited = true;
 		uq.timeVisited = new Date();
+
+		uq.group = li.gUser.currentGroup;
 		SDao.getUserQuestionDao().put(uq);
 		li.gUser.currentQuestion = uq.getKey();
 		SDao.getGUserDao().put(li.gUser);
@@ -116,7 +135,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public void answerQuestion(String answer) {
+	public void answerQuestion(Long id,String answer) {
 		LoginInfo li = LoginService.login(null, null);
 		UserQuestion uq = SDao.getUserQuestionDao().get(
 				li.gUser.currentQuestion);
@@ -125,7 +144,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		if (uq.timeVisited.getTime() < c.getTimeInMillis()) {
 			return;
 		}
-		uq.answer = answer;
+		uq.correct = answer.equals(SDao.getQuestionDao().get(id).answer1);
 		SDao.getUserQuestionDao().put(uq);
 	}
 
@@ -134,6 +153,9 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			String tagString) {
 		LoginInfo li = LoginService.login(null, null);
 		Group g = SDao.getGroupDao().get(li.gUser.currentGroup);
+		if(PermissionsUtil.canEdit(li.gUser, g)){
+			return null;
+		}
 		g.questions.add(SDao.getQuestionDao().put(
 				new Question(question, answer1, answer2, TagUtil
 						.getTagKeys(tagString))));
@@ -143,7 +165,9 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void addGroup(String value) {
-		SDao.getGroupDao().put(new Group(value));
+		LoginInfo li = LoginService.login(null, null);
+		li.gUser.currentGroup=SDao.getGroupDao().put(new Group(value,li.gUser));
+		SDao.getGUserDao().put(li.gUser);
 	}
 
 	@Override
@@ -177,6 +201,34 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		Question q = SDao.getQuestionDao().get(Question.getKey(questionKey));
 		q.tags = TagUtil.getTagKeys(tags);
 		SDao.getQuestionDao().put(q);
+	}
+	
+	@Override
+	public void disableQuestion(Long questionKey) {
+		Question q = SDao.getQuestionDao().get(Question.getKey(questionKey));
+		q.disabled = true;
+		SDao.getQuestionDao().put(q);
+	}
+	
+	@Override
+	public void sendProfile(UserProfile userProfile) {
+		LoginInfo li = LoginService.login(null, null);
+		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
+		up.salary = userProfile.salary;
+		up.zipCode = userProfile.zipCode;
+		
+		SDao.getUserProfileDao().put(up);
+	}
+	
+	@Override
+	public UserProfile getUserProfile(){
+		LoginInfo li = LoginService.login(null, null);
+		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
+		if(up == null){
+			up = new UserProfile(li.gUser);
+			SDao.getUserProfileDao().put(up);
+		}
+		return up;
 	}
 
 }

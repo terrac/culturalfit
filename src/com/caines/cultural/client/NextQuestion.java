@@ -17,7 +17,7 @@ public class NextQuestion {
 	
 	QuestionArea questionArea;
 	VerticalPanel content = new VerticalPanel();
-	
+	public static Long qKey;
 	public void showNextQuestion(VerticalPanel vp) {
 		if(vp != null){
 			content = vp;
@@ -41,6 +41,7 @@ public class NextQuestion {
 					questionArea.questionsFinished();
 					return;
 				}
+				qKey = result.id;
 				questionArea.setQuestion(result);
 			}
 			

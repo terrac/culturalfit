@@ -1,11 +1,13 @@
 package com.caines.cultural.client;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
+import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
@@ -16,7 +18,7 @@ public interface GreetingServiceAsync {
 
 	void addQuestion( String question, String rAnswer, String wAnswer,String tags, AsyncCallback<String> callback);
 
-	void answerQuestion(String answer, AsyncCallback<Void> callback);
+	void answerQuestion(Long id, String answer, AsyncCallback<Void> callback);
 
 	void addGroup(String value,AsyncCallback<Void> callback);
 
@@ -33,5 +35,13 @@ public interface GreetingServiceAsync {
 			AsyncCallback<Void> asyncCallback);
 
 	void getUserGroupList(AsyncCallback<List<UserGroup>> callback);
+
+	void getQuestionList(AsyncCallback<List<Question>> callback);
+
+	void disableQuestion(Long questionKey, AsyncCallback<Void> callback);
+
+	void sendProfile(UserProfile userProfile, AsyncCallback<Void> callback);
+
+	void getUserProfile(AsyncCallback<UserProfile> callback);
 
 }

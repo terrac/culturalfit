@@ -18,6 +18,7 @@ import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
+import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.UserQuestion;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.QueryResultIterable;
@@ -41,6 +42,7 @@ public class Dao<T> extends DAOBase
 		ObjectifyService.register(Tag.class);
 		ObjectifyService.register(UserQuestion.class);
 		ObjectifyService.register(UserGroup.class);
+		ObjectifyService.register(UserProfile.class);
 		
 	}
 
