@@ -1,0 +1,141 @@
+{
+	"Welcome": [
+        {
+            "question": "This website has a bunch of groups with questions.  Pick a group, answer some questions and then check out a profile to see your rating.  You only have a minute to answer",
+            "rightAnswer": "This is the right answer",
+            "wrongAnswer": "This is the wrong answer"
+        }
+    ],
+    "Java Beginner Questions": [
+        {
+            "question": "Which one of these is a java IDE",
+            "rightAnswer": "Eclipse",
+            "wrongAnswer": "Visual Studio"
+        },
+        {
+            "question": "What makes an IDE useful",
+            "rightAnswer": "It allows for code completion",
+            "wrongAnswer": "It allows for the editing of files"
+        },
+        {
+            "question": "The difference between an abstract class and an interface is the ability to call an interface from any method",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "Object orientation in Java allows for more abstraction",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "StringBuffers are immutable in Java",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Strings are immutable in Java",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "Java Advanced Questions": [
+        {
+            "question": "If there are two places where you have compiled the same static string, can you use the == method across the two different variables?",
+            "rightAnswer": "Yes",
+            "wrongAnswer": "No"
+        },
+        {
+            "question": "In Java 8 taking a small part of a string using the substring method can cause a memory leak",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        }
+    ],
+    "HTML Basic Questions": [
+        {
+            "question": "The <table> tag should be used to represent layout",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "CSS should be used to represent layout",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "The h1 element should represent the heading of the page",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The p element represents pronouns",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The a element represents links",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The a element represents links",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Href is a part of the p element",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "Src is a part of the img element",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The img element shows images on a page",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The li element limits the amount of items on a page",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "The li element shows lists on a page",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The ui element holds li elements",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "The ui element holds a elements",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "HTML Advanced Questions": [
+        {
+            "question": "The a element is an anchor",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "Software Development Basic Questions": [
+        {
+            "question": "Array indexing should start with",
+            "rightAnswer": "0",
+            "wrongAnswer": "1"
+        }
+    ],
+    "SQL Basic Questions": [
+        {
+            "question": "Getting data is accomplished with the GET keyword",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        }
+    ]
+}

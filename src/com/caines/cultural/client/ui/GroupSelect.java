@@ -8,8 +8,12 @@ import com.caines.cultural.client.suggestion.SuggestService;
 import com.caines.cultural.client.suggestion.ItemSuggestOracle.ItemSuggestCallback;
 import com.caines.cultural.shared.datamodel.Group;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -21,10 +25,13 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
+import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.SuggestOracle.Callback;
 import com.google.gwt.user.client.ui.SuggestOracle.Request;
 import com.google.gwt.user.client.ui.SuggestOracle.Response;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class GroupSelect extends Composite {
 
@@ -34,36 +41,22 @@ public class GroupSelect extends Composite {
 	interface GroupSelectUiBinder extends UiBinder<Widget, GroupSelect> {
 	}
 
-	@UiField
-	Button addGroup;
+//	@UiField
+//	Button manageGroup;
 	
+	@UiField
+	Button selectGroup;
+	boolean suggestHasValidGroup = true;
 	@UiField(provided = true) // MAKE SURE YOU HAVE THIS LINE
 	SuggestBox suggestBox;
 	public GroupSelect() {
 		
-		final ItemSuggestOracle oracle = new ItemSuggestOracle() {
-			@Override
-			public void checkExists(Response retValue2) {
-
-				addGroup.setText("Add Group");
-				for(Suggestion su:retValue2.getSuggestions()){
-					ItemSuggestion isu = (ItemSuggestion) su;
-					if(isu.getDisplayString().equals(suggestBox.getText())){
-						if(isu.canEdit){
-							addGroup.setText("Edit Group");	
-						} else {
-							addGroup.setText("Created");								
-						}
-					}
-				}
-			}
-			
+		final ItemSuggestOracle oracle = new ItemSuggestOracle() {			
 			@Override
 			public void requestSuggestions(Request request, Callback callback) {
 			    SuggestService.Util.getInstance().getGroup(request, new ItemSuggestCallback(request, callback));
 			}
 		};
-		
 		SimpleFront.basicService.getCurrentGroup(new AsyncCallback<Group>() {
 			
 			
@@ -71,7 +64,6 @@ public class GroupSelect extends Composite {
 			public void onSuccess(Group result) {
 				if(result != null){
 					suggestBox.setValue(result.name);
-					addGroup.setText("Edit Group");
 				}
 			}
 			
@@ -81,42 +73,64 @@ public class GroupSelect extends Composite {
 			}
 		});
 		suggestBox = new SuggestBox(oracle);
+		
 		suggestBox.getElement().addClassName("input-xlarge search-query");
 		
 		initWidget(uiBinder.createAndBindUi(this));
+		//addGroup.setVisible(false);
 		
-		addGroup.addClickHandler(new GroupAddHandler(suggestBox));
-
-	}
-	private final class GroupAddHandler implements ClickHandler {
-		private final SuggestBox sb;
-
-		private GroupAddHandler(SuggestBox sb) {
-			this.sb = sb;
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			Button b = (Button) event.getSource();
-			if(b.getText().equals("Edit Group")){
-				new GroupEdit().editGroup(TopArea.content);
-				return;
-			}
-			SimpleFront.basicService.addGroup(sb.getValue(),new AsyncCallback<Void>() {
+		String[] buttons = new String[]{"Java Beginner Questions","Java Advanced Questions"};
+		for(String a : buttons){
+			Button b = new Button(a);
+			TopArea.content.add(b);
+			b.addClickHandler(new ClickHandler() {
 				
 				@Override
-				public void onSuccess(Void result) {
-					addGroup.setText("Edit Group");
-					TopArea.setGroupName(sb.getValue());
-				}
-				
-				@Override
-				public void onFailure(Throwable caught) {
-					// TODO Auto-generated method stub
-					
+				public void onClick(ClickEvent event) {
+					Button b = (Button) event.getSource();
+					TopArea.setGroupName(b.getText());
+					SimpleFront.basicService.setCurrentGroup(b.getText(), new AsyncCallback<Void>() {
+						
+						@Override
+						public void onSuccess(Void result) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void onFailure(Throwable caught) {
+							// TODO Auto-generated method stub
+							
+						}
+					});
 				}
 			});
 		}
+		
+		selectGroup.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				if(!suggestHasValidGroup){
+					return;
+				}
+				TopArea.setGroupName(suggestBox.getText());
+				SimpleFront.basicService.setCurrentGroup(suggestBox.getText(), new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+		});
 	}
-
+	
 }

@@ -12,7 +12,7 @@
 			  <label class="control-label" for="searchinput">Search Input</label>
 			  <div class="controls">
 			    <g:SuggestBox ui:field="suggestBox"></g:SuggestBox>    
-			    <g:Button ui:field="addGroup" text="Add Button"></g:Button>
+			    <g:Button ui:field="selectGroup" text="Select Group"></g:Button>
 			  </div>
 			</div>
 		</div>    

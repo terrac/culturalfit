@@ -1,0 +1,200 @@
+1 gwt splits up url and moves to profile/userprofile if given the correct user profile key
+2 button on profile page for "public profile link"
+2 make sure selecting salary and zip code save and reload
+
+1 profile link (history)
+3
+
+#1 fix add/edit/select
+#3 fix answered
+
+#1 a check for a null usegroup, if so then set to a "welcome" question with one question
+#2 5 most popular groups as buttons
+#3 make the typing have a select group button (not edit or add to start with, that should be a seperate thing
+
+#1 parse json on admin page and create questions
+2 profile link
+#2.5 make profile inputs clearer (label of salary, hint for zipcode and label, not shown for salary if not selected)
+3 get brian to do it
+
+
+
+2 change logic so that people can add questions
+3 do basic employer page
+4 create a login screen 
+  a base servlet which checks login and displays a "please login" or redirects to website
+5 a restful link to the profile page (with an option to make it public)
+6 show off to reddit
+
+1 add a couple if statements that makes the answers
+  a put a font tag or something inside the button
+  b based on the length of the text get a % and use that to resize the font of the text
+1 add a description of how the questions should be in the edit group page
+
+1 you can add questions to be approved
+  a add an extra field with a button (Approve) on group edit
+  b edit group shows to everyone, but if they aren't the creator the question has a value approved=false
+  c make the text boxes for the questions bigger
+
+1 more questions java, television, video games, work life balance , python, programming
+
+1 search by group match
+  a group selectore
+  b on selected call a search
+  c sort by usergroup % matches
+  d limit 100
+  e filter by location (select state (and city, if desired)
+  f display salary with users
+  g show example idea
+
+
+ zip code (RadiusBox.java, http://www.unitedstateszipcodes.org/zip-code-database/, put on page then parse
+ and filter using radius box 
+
+4 Add a "For potential employers" button in the top right corner
+
+5 it has a single list heading, a button to switch back to employees in the same spot
+
+
+7 5 groups (java, television, video games, work life balance, , python, programming)
+
+8 company you currently work for (not visible)
+
+
+9 create no users, but write some scrpts to allow 4000 to be created so that it looks like the website
+ is steadily gaining in popularity 
+
+#1 make the top group name get updated on it being changed, make that a static method
+#  of the top area
+  
+#2 list and ability to disable questions (mention that you cannot edit them)
+
+
+
+1 make edit group be
+
+1 group permissions (administrator, can add other people as well)
+2 question list (and ability to disable)
+#3 do something better than the alert and make sure there is a minimum spacing on the label
+  a suggest a related group (pick a tag and pull groups with the same tag, do a couple)
+  b add some buttons which set the current group and get the next question
+
+
+
+1 make sure that answering questions correctly is saved
+2 check %
+
+
+
+
+
+
+
+1 profile setup
+  e give a % for the group, make running out of questions move to the profile.
+  f have a list of all the groups with %s, but only process the current one, but give a date of last processing, and a button to update
+
+  a userresults
+  #b if they don't exist then do setup and pull all user questions that have processed = false;
+  #c on setup run through all the new questions and get answered correctly/total
+  #d take the existing amount answered correctly/ total and add the two together
+  
+2 do more questions and more groups, get a profile going  
+
+1 on Add group
+  a move to the edit group page
+  b have a button to add questions (default to this)
+  c have a button to view questions and edit tags or disable
+  d
+
+#1 on "no more questions" move back to view 
+2
+
+
+
+1 profile shows %match with group answers
+  a run through all groups
+  b if the group has new answers (userGroup newAnswers = true)
+  c run through all user questions and questions and
+2 move add question to "edit group" page
+3 make the add question give a right answer
+
+1 fill out groups and questions
+2 make the navigation lose add question and gain a "navitgate groups" which will go to add questions
+3 statistics, charts, case studies (ie, you do some comparisons and write your comment on how it worked out)
+
+
+
+
+
+
+
+1 5 java interview questions
+  b a link to reset visited
+  
+  
+  
+
+
+1 show the current group selected, have a button to choose a new group
+2 fix submit button on next question
+3 add 5 questions to a group
+  a google java interview questions
+4 write a page that sets up fake users to answer questions (give a percentage to make it look like how I think it should)
+5 develop a search page?
+
+1 if no group selected, don't show next question
+2 once a group is selected update the next shown question
+3 Add 3 groups, Add 5 fake questions to group
+4 Deploy
+5 Develop profile element that shows % cultural fit with group (one is with group moderators, other is with gen pop)
+6 Develop some strong questions, and group modification tools
+  a on clicking edit group
+  b list questions, http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/cellview/client/CellTable.html 
+  c you can disable, but not edit questions
+  d and add new questions
+
+
+
+1 go in and try to add a question to a group
+2 go to next questions and have it suggest some groups, once selected it then
+  goes through the questions in that group
+3 add more questions,   
+
+2 run and test add question
+ a same with tag logic
+3 run and test next question
+4 a "group" page that allows you to create a top level tag
+  a additionally eventually modify questions
+
+
+1 general ideas
+  a one minute per question
+  b a "cultural fit button
+  c each top level tag is curated by a group
+
+
+
+
+
+
+
+
+
+
+
+
+
+2 write add question page
+  a on simple front
+  b tag component, 3 text areas
+  c on submit, send
+
+
+
+4 finish next question page
+
+3 write profile page
+  a on simple front
+  b tag component
+  c add personal tags

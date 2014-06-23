@@ -8,10 +8,16 @@
 	</ui:style>
 	<g:HTMLPanel>
 	    <div class="well well-lg">
+	       <g:HorizontalPanel> 
+	       <g:Label text="Set your desired salary"></g:Label> 
 	       <g:ListBox ui:field="salary"> </g:ListBox>
+	       <g:Label text="Set your zip code"></g:Label>
 	       <g:TextBox ui:field="zipCode"></g:TextBox>
+	    
+	       </g:HorizontalPanel>
 		</div>		
 		<ul class="list-group" ui:field="listGroups">
 		</ul>
+		<g:Button ui:field="publicButton" text="Public Profile"></g:Button>
 	</g:HTMLPanel>
 </ui:UiBinder> 

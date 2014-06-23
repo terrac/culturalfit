@@ -57,7 +57,7 @@ public class UserGroup implements Serializable{
 	
 	public int getPercent(){
 		if(total == 0){
-			total = 1;
+			return 0;
 		}
 		return (int) ((int)100* (double)correct/total);
 	}

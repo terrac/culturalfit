@@ -10,6 +10,7 @@ import com.caines.cultural.client.ui.TopArea;
 import com.caines.cultural.client.ui.employer.EmployerTopArea;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
+import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -86,6 +87,7 @@ public class SimpleFront implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		
 		final Button employerSwitch = new Button("Switch to Employer");
 		
 		RootPanel.get("employerSwitch").add(employerSwitch);

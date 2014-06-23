@@ -79,7 +79,10 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			if(answered.correct){
 				correct++;
 			}
+			answered.processed = true;
+			
 		}
+		SDao.getUserQuestionDao().putAll(listAnswered);
 		g.correct += correct;
 		g.total += total;
 		SDao.getUserGroupDao().put(g);

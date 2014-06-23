@@ -19,6 +19,8 @@ import java.util.List;
 
 
 
+
+
 import javax.persistence.Id;
 
 import com.caines.cultural.server.datautil.TagUtil;
@@ -43,7 +45,8 @@ public class UserProfile implements Serializable{
 	}
 	public Key<GUser> user;
 	public int salary;
-	public int zipCode;
+	public String zipCode;
+	public String name;
 	public Key<UserProfile> getKey(){
 		return new Key(UserProfile.class,id);
 	}
