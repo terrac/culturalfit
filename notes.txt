@@ -1,6 +1,22 @@
-1 gwt splits up url and moves to profile/userprofile if given the correct user profile key
-2 button on profile page for "public profile link"
+1 create zip code datastore
+2
+
+1 save state/ save salary
+2 pull back top group matches by state
+  a Filter by state
+  b order by group match (drop down)
+3 Build in 50+-10 fake results in different states
+4 have a "purchase a message", for now just have it say coming soon 
+
+1 send email to brian
 2 make sure selecting salary and zip code save and reload
+3 submit questions to group
+4 employer
+5 more questions
+C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;%SYSTEMROOT%\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x86;C:\Program Files (x86)\Intel\OpenCL SDK\2.0\bin\x64;C:\Program Files (x86)\Git\cmd;C:\Program Files\TortoiseGit\bin
+
+#1 gwt splits up url and moves to profile/userprofile if given the correct user profile key
+#2 button on profile page for "public profile link"
 
 1 profile link (history)
 3

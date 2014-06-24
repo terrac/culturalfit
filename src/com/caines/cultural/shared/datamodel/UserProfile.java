@@ -45,7 +45,7 @@ public class UserProfile implements Serializable{
 	}
 	public Key<GUser> user;
 	public int salary;
-	public String zipCode;
+	public ZipCode zipCode;
 	public String name;
 	public Key<UserProfile> getKey(){
 		return new Key(UserProfile.class,id);

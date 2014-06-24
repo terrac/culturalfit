@@ -1,8 +1,11 @@
 package com.caines.cultural.server;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -19,6 +22,7 @@ import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
+import com.caines.cultural.shared.datamodel.ZipCode;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -43,6 +47,23 @@ public class AdminServlet extends HttpServlet {
 		SDao.getUserGroupDao().deleteAll(
 				SDao.getUserGroupDao().getQuery().list());
 		SDao.getGUserDao().deleteAll(SDao.getGUserDao().getQuery().list());
+		
+		
+        URL oracle = new URL("http://127.0.0.1:8888/zips.csv");
+        BufferedReader in = new BufferedReader(
+        new InputStreamReader(oracle.openStream()));
+
+        String inputLine;
+        List<ZipCode> zl = new ArrayList<ZipCode>();
+        while ((inputLine = in.readLine()) != null){
+        	String[] line=inputLine.replace("\"","").split(",");
+//        	System.out.println(line[0]);
+//        	System.out.println(line[2]);
+//        	System.out.println(line[3]);
+        	zl.add(new ZipCode(Integer.parseInt(line[0]),Double.parseDouble(line[2]), Double.parseDouble(line[3])));
+        }
+        in.close();
+		SDao.getZipCodeDao().putAll(zl);
 		LoginInfo li = LoginService.login(null, null);
 	
 		JsonParser jp = new JsonParser();

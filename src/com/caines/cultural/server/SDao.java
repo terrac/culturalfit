@@ -7,6 +7,7 @@ import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.UserQuestion;
+import com.caines.cultural.shared.datamodel.ZipCode;
 
 
 public class SDao {
@@ -36,5 +37,9 @@ public class SDao {
 	
 	public static Dao<UserProfile> getUserProfileDao() {
 		return new Dao<UserProfile>(UserProfile.class);
+	}
+	
+	public static Dao<ZipCode> getZipCodeDao() {
+		return new Dao<ZipCode>(ZipCode.class);
 	}
 }

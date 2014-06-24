@@ -56,6 +56,7 @@ public class ProfileGroups extends Composite {
 
 	public ProfileGroups() {
 		initWidget(uiBinder.createAndBindUi(this));
+		salary.addItem("Not selected", "-1");
 		for (int a = 10; a < 250; a += 10) {
 			salary.addItem(a + ",000", "" + a * 100);
 		}

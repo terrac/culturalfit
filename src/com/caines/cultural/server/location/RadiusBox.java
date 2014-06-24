@@ -1,4 +1,10 @@
 package com.caines.cultural.server.location;
+
+import java.util.List;
+
+import com.caines.cultural.server.SDao;
+import com.caines.cultural.shared.datamodel.ZipCode;
+
 public class RadiusBox {
     static final Double kEarthRadiusMiles = 3956.0;
     public static RadiusBox create(Double latitude, Double longitude, Double radiusInMiles)
@@ -99,18 +105,24 @@ public class RadiusBox {
                 + ", topLine=" + topLine + "]";
     }
 
-    public String getSqlQuery() {
-        StringBuilder sb = new StringBuilder();
-        sb.append ("SELECT * FROM ZIP_CODES WHERE ");
-        sb.append ("LATITUDE >= ");
-        sb.append(bottomLine);
-        sb.append (" AND LATITUDE <= ");
-        sb.append(topLine);
-        sb.append (" AND LONGITUDE >= ");
-        sb.append(leftLine);
-        sb.append (" AND LONGITUDE <= ");
-        sb.append(rightLine);
-        sb.append (" ORDER BY CITY, STATE, ZIP");
-        return sb.toString();
+    public List<ZipCode> getQuery() {
+    	List<ZipCode> zc= SDao.getZipCodeDao().getQuery()
+    	.filter("lattitude >=", bottomLine)
+        .filter("lattitude <=", topLine)
+        .filter("longitude >=", bottomLine)
+        .filter("longitude <=", bottomLine).list();
+    	return zc;
+//        StringBuilder sb = new StringBuilder();
+//        sb.append ("SELECT * FROM ZIP_CODES WHERE ");
+//        sb.append ("LATITUDE >= ");
+//        sb.append(bottomLine);
+//        sb.append (" AND LATITUDE <= ");
+//        sb.append(topLine);
+//        sb.append (" AND LONGITUDE >= ");
+//        sb.append(leftLine);
+//        sb.append (" AND LONGITUDE <= ");
+//        sb.append(rightLine);
+//        sb.append (" ORDER BY CITY, STATE, ZIP");
+//        return sb.toString();
     }
 }

@@ -30,8 +30,8 @@ public class ZipCode implements Serializable {
 	public Long id;
 
 	public int zip;
-	double lattitude;
-	double longitude;
+	public double lattitude;
+	public double longitude;
 
 	public Key<ZipCode> getKey() {
 		return new Key(ZipCode.class, id);
