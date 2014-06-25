@@ -7,6 +7,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface EmployerServiceAsync {
 
-	void getBasicQueryWithFilters(AsyncCallback<List<UserProfile>> callback);
+	void getBasicQueryWithFilters(String zip, String string,
+			AsyncCallback<List<UserProfile>> callback);
 
 }

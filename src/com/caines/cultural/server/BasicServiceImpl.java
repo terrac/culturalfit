@@ -15,6 +15,7 @@ import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.UserQuestion;
+import com.caines.cultural.shared.datamodel.ZipCode;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
@@ -232,6 +233,16 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			SDao.getUserProfileDao().put(up);
 		}
 		return up;
+	}
+	
+	@Override
+	public void setZipCode(String zip){
+		LoginInfo li = LoginService.login(null, null);
+		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
+		ZipCode zipCode = SDao.getZipCodeDao().getByProperty("zip",zip);
+		up.zipCode = zipCode.getKey();
+		up.zip = zipCode.zip;
+		SDao.getUserProfileDao().put(up);
 	}
 
 }

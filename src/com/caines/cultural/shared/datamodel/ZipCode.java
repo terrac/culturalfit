@@ -20,7 +20,7 @@ public class ZipCode implements Serializable {
 
 	}
 
-	public ZipCode(int zip, double lat,double lon) {
+	public ZipCode(String zip, double lat,double lon) {
 		this.zip = zip;
 		lattitude = lat;
 		longitude = lon;
@@ -29,7 +29,7 @@ public class ZipCode implements Serializable {
 	@Id
 	public Long id;
 
-	public int zip;
+	public String zip;
 	public double lattitude;
 	public double longitude;
 

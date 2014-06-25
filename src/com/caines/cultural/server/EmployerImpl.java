@@ -9,6 +9,7 @@ import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.ZipCode;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.googlecode.objectify.ObjectifyService;
 
 /**
  * The server-side implementation of the RPC service.
@@ -18,13 +19,21 @@ public class EmployerImpl extends RemoteServiceServlet implements
 		EmployerService {
 
 	@Override
-	public List<UserProfile> getBasicQueryWithFilters() {
+	public List<UserProfile> getBasicQueryWithFilters(String zip, String radius) {
+		int rad = Integer.parseInt(radius);
+		
 		LoginInfo li = LoginService.login(null, null);
 		RadiusBox rb = new RadiusBox();
-		ZipCode zc = SDao.getUserProfileDao().getByProperty("user",li.gUser.getKey()).zipCode;
-		rb.create(zc., longitude, 5);
-		
-		return null;
+		ZipCode zc = SDao.getZipCodeDao().getByProperty("zip",zip);
+		rb.create(zc.lattitude, zc.longitude, Double.parseDouble(radius));
+		List<ZipCode> zcList = rb.getQuery();
+		List<UserProfile> upList = new ArrayList<UserProfile>();
+		for(ZipCode z : zcList){
+			upList.addAll(SDao.getUserProfileDao().listByProperty("zipCode", z));
+		}
+		//probably will cache this query and then do other queries off of it (invalidating
+		//once a day or something)
+		return upList;
 	}
 
 

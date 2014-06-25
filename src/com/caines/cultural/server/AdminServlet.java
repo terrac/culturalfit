@@ -60,7 +60,13 @@ public class AdminServlet extends HttpServlet {
 //        	System.out.println(line[0]);
 //        	System.out.println(line[2]);
 //        	System.out.println(line[3]);
-        	zl.add(new ZipCode(Integer.parseInt(line[0]),Double.parseDouble(line[2]), Double.parseDouble(line[3])));
+        		try {
+					zl.add(new ZipCode(line[0],Double.parseDouble(line[2]), Double.parseDouble(line[3])));
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			
         }
         in.close();
 		SDao.getZipCodeDao().putAll(zl);
@@ -87,7 +93,7 @@ public class AdminServlet extends HttpServlet {
 			}
 			SDao.getGroupDao().put(g);
 		}
-
+		resp.getWriter().write("finished");
 	}
 
 	public void addQuestion(Group g, String question, String answer1,

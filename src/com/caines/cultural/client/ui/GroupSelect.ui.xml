@@ -9,7 +9,6 @@
 	<g:HTMLPanel>
 		<div class="container">
 		    <div class="control-group">
-			  <label class="control-label" for="searchinput">Search Input</label>
 			  <div class="controls">
 			    <g:SuggestBox ui:field="suggestBox"></g:SuggestBox>    
 			    <g:Button ui:field="selectGroup" text="Select Group"></g:Button>

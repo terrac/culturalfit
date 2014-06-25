@@ -14,6 +14,8 @@ import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -58,7 +60,7 @@ public class ProfileGroups extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		salary.addItem("Not selected", "-1");
 		for (int a = 10; a < 250; a += 10) {
-			salary.addItem(a + ",000", "" + a * 100);
+			salary.addItem(a + ",000", "" + a * 1000);
 		}
 		SimpleFront.basicService
 				.getUserProfile(new AsyncCallback<UserProfile>() {
@@ -71,7 +73,7 @@ public class ProfileGroups extends Composite {
 								salary.setSelectedIndex(a);
 							}
 						}
-						zipCode.setValue("" + userProfile.zipCode);
+						zipCode.setValue("" + userProfile.getZipCodeDisplay());
 					}
 
 					@Override
@@ -103,11 +105,24 @@ public class ProfileGroups extends Composite {
 						});
 			}
 		});
-		zipCode.addChangeHandler(new ChangeHandler() {
-
+		zipCode.addValueChangeHandler(new ValueChangeHandler<String>() {
+			
 			@Override
-			public void onChange(ChangeEvent event) {
-				userProfile.zipCode = zipCode.getValue();
+			public void onValueChange(ValueChangeEvent<String> event) {
+				SimpleFront.basicService.setZipCode(event.getValue(), new AsyncCallback<Void>() {
+					
+					@Override
+					public void onSuccess(Void result) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		});
 		SimpleFront.basicService

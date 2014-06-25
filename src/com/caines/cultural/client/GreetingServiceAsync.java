@@ -44,4 +44,6 @@ public interface GreetingServiceAsync {
 
 	void getUserProfile(AsyncCallback<UserProfile> callback);
 
+	void setZipCode(String zip, AsyncCallback<Void> callback);
+
 }

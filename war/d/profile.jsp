@@ -13,5 +13,12 @@
   	<ul class="list-group">
 	  <%=JUtil.showList()%></li>
 	</ul>
+	<button onclick="myFunction()">Contact this person</button>
+
+	<script>
+	function myFunction() {
+	    alert("Not implemented yet, will cost 10 dollars");
+	}
+	</script>
   </body>
 </html>

@@ -61,4 +61,7 @@ public interface GreetingService extends RemoteService {
 	UserProfile getUserProfile();
 
 
+	void setZipCode(String zip);
+
+
 }

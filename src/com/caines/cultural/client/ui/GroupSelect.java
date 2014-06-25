@@ -45,7 +45,7 @@ public class GroupSelect extends Composite {
 //	Button manageGroup;
 	
 	@UiField
-	Button selectGroup;
+	public Button selectGroup;
 	boolean suggestHasValidGroup = true;
 	@UiField(provided = true) // MAKE SURE YOU HAVE THIS LINE
 	SuggestBox suggestBox;
