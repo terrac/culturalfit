@@ -9,7 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * The client-side stub for the RPC service.
  */
-@RemoteServiceRelativePath("greet")
+@RemoteServiceRelativePath("employer")
 public interface EmployerService extends RemoteService {
 
 	List<UserProfile> getBasicQueryWithFilters(String zip, String string);

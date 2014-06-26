@@ -3,7 +3,9 @@ package com.caines.cultural.client;
 import java.util.Collection;
 import java.util.List;
 
+import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.Group;
+import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
@@ -61,7 +63,12 @@ public interface GreetingService extends RemoteService {
 	UserProfile getUserProfile();
 
 
-	void setZipCode(String zip);
+	
+
+	void setLocation(long locationKey);
+
+
+	Tuple<UserProfile,List<Location>> getProfileData();
 
 
 }

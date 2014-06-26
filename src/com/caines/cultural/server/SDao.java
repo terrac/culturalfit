@@ -2,6 +2,7 @@ package com.caines.cultural.server;
 
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
+import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
@@ -41,5 +42,9 @@ public class SDao {
 	
 	public static Dao<ZipCode> getZipCodeDao() {
 		return new Dao<ZipCode>(ZipCode.class);
+	}
+	
+	public static Dao<Location> getLocationDao() {
+		return new Dao<Location>(Location.class);
 	}
 }

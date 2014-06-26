@@ -15,6 +15,7 @@ import javax.persistence.Transient;
 
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
+import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
@@ -45,6 +46,7 @@ public class Dao<T> extends DAOBase
 		ObjectifyService.register(UserGroup.class);
 		ObjectifyService.register(UserProfile.class);
 		ObjectifyService.register(ZipCode.class);
+		ObjectifyService.register(Location.class);
 		
 	}
 

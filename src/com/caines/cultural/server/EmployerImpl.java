@@ -23,17 +23,18 @@ public class EmployerImpl extends RemoteServiceServlet implements
 		int rad = Integer.parseInt(radius);
 		
 		LoginInfo li = LoginService.login(null, null);
-		RadiusBox rb = new RadiusBox();
-		ZipCode zc = SDao.getZipCodeDao().getByProperty("zip",zip);
-		rb.create(zc.lattitude, zc.longitude, Double.parseDouble(radius));
-		List<ZipCode> zcList = rb.getQuery();
-		List<UserProfile> upList = new ArrayList<UserProfile>();
-		for(ZipCode z : zcList){
-			upList.addAll(SDao.getUserProfileDao().listByProperty("zipCode", z));
-		}
+//		RadiusBox rb = new RadiusBox();
+//		ZipCode zc = SDao.getZipCodeDao().getByProperty("zip",zip);
+//		rb.create(zc.lattitude, zc.longitude, Double.parseDouble(radius));
+//		List<ZipCode> zcList = rb.getQuery();
+//		List<UserProfile> upList = new ArrayList<UserProfile>();
+//		for(ZipCode z : zcList){
+//			upList.addAll(SDao.getUserProfileDao().listByProperty("zipCode", z));
+//		}
 		//probably will cache this query and then do other queries off of it (invalidating
 		//once a day or something)
-		return upList;
+		return SDao.getUserProfileDao().listByProperty("zipCode", SDao.getZipCodeDao().getByProperty("zip",zip));
+		//return upList;
 	}
 
 

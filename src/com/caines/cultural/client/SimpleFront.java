@@ -82,8 +82,6 @@ public class SimpleFront implements EntryPoint {
 	public final static GreetingServiceAsync basicService = GWT
 			.create(GreetingService.class);
 	
-	public final static EmployerServiceAsync employerService = GWT
-			.create(EmployerService.class);
 	
 	static boolean employer = false;
 	/**

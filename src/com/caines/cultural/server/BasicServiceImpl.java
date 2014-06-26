@@ -10,7 +10,9 @@ import com.caines.cultural.client.GreetingService;
 import com.caines.cultural.server.datautil.PermissionsUtil;
 import com.caines.cultural.server.datautil.TagUtil;
 import com.caines.cultural.shared.LoginInfo;
+import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.Group;
+import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
@@ -219,7 +221,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		LoginInfo li = LoginService.login(null, null);
 		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
 		up.salary = userProfile.salary;
-		up.zipCode = userProfile.zipCode;
+		up.location= userProfile.location;
 		
 		SDao.getUserProfileDao().put(up);
 	}
@@ -236,13 +238,16 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	public void setZipCode(String zip){
+	public void setLocation(long locationKey){
 		LoginInfo li = LoginService.login(null, null);
 		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
-		ZipCode zipCode = SDao.getZipCodeDao().getByProperty("zip",zip);
-		up.zipCode = zipCode.getKey();
-		up.zip = zipCode.zip;
+		up.location = Location.getKey(locationKey);
 		SDao.getUserProfileDao().put(up);
 	}
 
+	@Override
+	public Tuple<UserProfile,List<Location>> getProfileData(){
+
+		return new Tuple<UserProfile,List<Location>>(getUserProfile(),SDao.getLocationDao().getQuery().order("order").list());
+	}
 }

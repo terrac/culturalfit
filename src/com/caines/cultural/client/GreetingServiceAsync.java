@@ -3,7 +3,9 @@ package com.caines.cultural.client;
 import java.util.Collection;
 import java.util.List;
 
+import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.Group;
+import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
@@ -44,6 +46,8 @@ public interface GreetingServiceAsync {
 
 	void getUserProfile(AsyncCallback<UserProfile> callback);
 
-	void setZipCode(String zip, AsyncCallback<Void> callback);
+	void setLocation(long locationKey, AsyncCallback<Void> callback);
+
+	void getProfileData(AsyncCallback<Tuple<UserProfile,List<Location>>> callback);
 
 }

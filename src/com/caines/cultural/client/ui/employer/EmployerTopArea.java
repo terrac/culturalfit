@@ -4,8 +4,11 @@ import java.util.List;
 
 import sun.java2d.pipe.SpanShapeRenderer.Simple;
 
+import com.caines.cultural.client.EmployerService;
+import com.caines.cultural.client.EmployerServiceAsync;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.ui.GroupSelect;
+import com.caines.cultural.client.ui.ProfileGroups;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -39,17 +42,24 @@ public class EmployerTopArea extends Composite {
 
 	public EmployerTopArea() {
 		initWidget(uiBinder.createAndBindUi(this));
-		radius.addItem("10","10");
-		radius.addItem("25","25");
 		
-		GroupSelect selectGroup = new GroupSelect();
-		selectGroup.selectGroup.addClickHandler(new ClickHandler() {
-			
+		
+		SimpleFront.basicService
+		.getUserProfile(new AsyncCallback<UserProfile>() {
+
 			@Override
-			public void onClick(ClickEvent event) {
-				updateList();
+			public void onSuccess(UserProfile result) {
+				ProfileGroups.setSelectedLocation(result, location);
+				//zipCode.setValue(result.getZipCodeDisplay());
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+
 			}
 		});
+		updateList();
 	}
 
 	@UiField
@@ -58,26 +68,35 @@ public class EmployerTopArea extends Composite {
 	@UiField
 	Anchor findEmployees;
 	
-	@UiField
-	ListBox radius;
 	
 	@UiField
-	TextBox zipCode;
+	ListBox location;
 	
 	@UiField
 	GroupSelect groupSelect;
+
+	@UiField
+	Button submit;
 	
-	@UiHandler("radius")
-	void onClick(ChangeEvent e) {
 	
-	}
-	@UiHandler("zipCode")
-	void onClick(ValueChangeEvent<String> e) {
+//	@UiHandler("submit")
+//	void onClick(ChangeEvent e) {
+//		updateList();
+//	}
+//	@UiHandler("radius")
+//	void onClick(ChangeEvent e) {
+//	
+//	}
+//	@UiHandler("zipCode")
+//	void onClick(ValueChangeEvent<String> e) {
+//	
+//	}
+	public final static EmployerServiceAsync employerService = GWT
+			.create(EmployerService.class);
 	
-	}
 	public void updateList(){
 		
-		SimpleFront.employerService.getBasicQueryWithFilters(zipCode.getValue(),radius.getValue(radius.getSelectedIndex()),new AsyncCallback<List<UserProfile>>() {
+		employerService.getBasicQueryWithFilters(location.getValue(location.getSelectedIndex()),new AsyncCallback<List<UserProfile>>() {
 			
 			@Override
 			public void onSuccess(List<UserProfile> result) {
@@ -94,8 +113,8 @@ public class EmployerTopArea extends Composite {
 			
 			@Override
 			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
+				caught.printStackTrace();
+				Window.alert("fail");
 			}
 		});
 	}

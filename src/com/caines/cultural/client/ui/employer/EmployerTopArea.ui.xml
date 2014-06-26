@@ -15,18 +15,13 @@
 			</div>
 			<div class="well well-lg container">
 				<div class="row">
-					<div class="col-md-2">
-						<label class="control-label" for="textinput">Select a radius</label>
-						<div class="controls">
-							<g:ListBox ui:field="radius">
-							</g:ListBox>
-						</div>
-					</div>
+					
 
 					<div class="col-md-2">
-						<label class="control-label" for="textinput">Set a base zip code</label>
+						<label class="control-label" for="textinput">Pick a location</label>
 						<div class="controls">
-							<g:TextBox ui:field="zipCode"></g:TextBox>
+	       					<g:ListBox ui:field="location"> </g:ListBox>
+	       
 						</div>
 					</div>
 
@@ -38,6 +33,7 @@
 					</div>
 				</div>
 			</div>
+			<g:Button ui:field="submit" text="Submit"></g:Button>
 			<ul class="list-group" ui:field="listGroups">
 			</ul>
 		</div>

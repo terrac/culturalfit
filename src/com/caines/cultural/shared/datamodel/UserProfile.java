@@ -46,8 +46,7 @@ public class UserProfile implements Serializable{
 	}
 	public Key<GUser> user;
 	public int salary;
-	public Key<ZipCode> zipCode;
-	public String zip;
+	public Key<Location> location;
 	public String name;
 	public Key<UserProfile> getKey(){
 		return new Key(UserProfile.class,id);
@@ -55,13 +54,6 @@ public class UserProfile implements Serializable{
 	
 	public static Key<UserProfile> getKey(String id){
 		return new Key(UserProfile.class,id);
-	}
-
-	public String getZipCodeDisplay() {
-		if(zipCode == null){
-			return "";
-		}
-		return zip;
 	}
 	
 	
