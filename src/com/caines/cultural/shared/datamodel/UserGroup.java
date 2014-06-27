@@ -38,8 +38,9 @@ public class UserGroup implements Serializable{
 	@Id
 	public Long id;
 	
-	public UserGroup(String groupname) {
+	public UserGroup(String groupname,Key<Location> location) {
 		name = groupname;
+		locationMapping = location;
 	}
 	public String name;
 	public List<Key<Question>> questions = new ArrayList<>();
@@ -47,6 +48,7 @@ public class UserGroup implements Serializable{
 	public int correct;
 	public Key<GUser> user;
 	public Key<Group> group;
+	public Key<Location> locationMapping;
 	public Key<UserGroup> getKey(){
 		return new Key(UserGroup.class,id);
 	}

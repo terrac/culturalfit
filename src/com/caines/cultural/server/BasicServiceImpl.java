@@ -63,8 +63,8 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		UserGroup g = SDao.getUserGroupDao().getQByProperty("user", li.gUser.getKey())
 				.filter("group", gKey).get();
 		if(g == null){
-			
-			g = new UserGroup(SDao.getGroupDao().get(gKey).name);
+			UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser.getKey());
+			g = new UserGroup(SDao.getGroupDao().get(gKey).name,up.location);
 			g.group = gKey;
 			g.user = li.gUser.getKey();
 			SDao.getUserGroupDao().put(g);
@@ -217,11 +217,11 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 	
 	@Override
-	public void sendProfile(UserProfile userProfile) {
+	public void sendProfile(int salary, Key<Location> location) {
 		LoginInfo li = LoginService.login(null, null);
 		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
-		up.salary = userProfile.salary;
-		up.location= userProfile.location;
+		up.salary = salary;
+		up.location= location;
 		
 		SDao.getUserProfileDao().put(up);
 	}

@@ -11,6 +11,7 @@ import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.googlecode.objectify.Key;
 
 /**
  * The async counterpart of <code>GreetingService</code>.
@@ -42,7 +43,8 @@ public interface GreetingServiceAsync {
 
 	void disableQuestion(Long questionKey, AsyncCallback<Void> callback);
 
-	void sendProfile(UserProfile userProfile, AsyncCallback<Void> callback);
+	void sendProfile(int salary, Key<Location> location,
+			AsyncCallback<Void> callback);
 
 	void getUserProfile(AsyncCallback<UserProfile> callback);
 

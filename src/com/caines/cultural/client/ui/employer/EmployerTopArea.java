@@ -9,6 +9,8 @@ import com.caines.cultural.client.EmployerServiceAsync;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.ui.GroupSelect;
 import com.caines.cultural.client.ui.ProfileGroups;
+import com.caines.cultural.shared.Tuple;
+import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
@@ -42,99 +44,80 @@ public class EmployerTopArea extends Composite {
 
 	public EmployerTopArea() {
 		initWidget(uiBinder.createAndBindUi(this));
-		
-		
+
 		SimpleFront.basicService
-		.getUserProfile(new AsyncCallback<UserProfile>() {
+				.getUserProfile(new AsyncCallback<UserProfile>() {
 
-			@Override
-			public void onSuccess(UserProfile result) {
-				ProfileGroups.setSelectedLocation(result, location);
-				//zipCode.setValue(result.getZipCodeDisplay());
-			}
+					@Override
+					public void onSuccess(UserProfile result) {
+						ProfileGroups.updateProfileData(location, null);
+						// zipCode.setValue(result.getZipCodeDisplay());
+					}
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
 
-			}
-		});
+					}
+				});
 		updateList();
 	}
 
 	@UiField
 	UListElement listGroups;
-	
+
 	@UiField
 	Anchor findEmployees;
-	
-	
+
 	@UiField
 	ListBox location;
-	
+
 	@UiField
 	GroupSelect groupSelect;
 
 	@UiField
 	Button submit;
-	
-	
-//	@UiHandler("submit")
-//	void onClick(ChangeEvent e) {
-//		updateList();
-//	}
-//	@UiHandler("radius")
-//	void onClick(ChangeEvent e) {
-//	
-//	}
-//	@UiHandler("zipCode")
-//	void onClick(ValueChangeEvent<String> e) {
-//	
-//	}
+
+	// @UiHandler("submit")
+	// void onClick(ChangeEvent e) {
+	// updateList();
+	// }
+	// @UiHandler("radius")
+	// void onClick(ChangeEvent e) {
+	//
+	// }
+	// @UiHandler("zipCode")
+	// void onClick(ValueChangeEvent<String> e) {
+	//
+	// }
 	public final static EmployerServiceAsync employerService = GWT
 			.create(EmployerService.class);
-	
-	public void updateList(){
-		
-		employerService.getBasicQueryWithFilters(location.getValue(location.getSelectedIndex()),new AsyncCallback<List<UserProfile>>() {
-			
-			@Override
-			public void onSuccess(List<UserProfile> result) {
-				for(UserProfile up : result){
-					LIElement liElement = Document.get()
-							.createLIElement();
-					liElement.setInnerHTML(up.name);
-					liElement
-							.addClassName("list-group-item list-width");
-					listGroups.appendChild(liElement);	
-				}
-				
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				caught.printStackTrace();
-				Window.alert("fail");
-			}
-		});
+
+	public void updateList() {
+
+		employerService.getBasicQueryWithFilters(
+				location.getValue(location.getSelectedIndex()),
+				new AsyncCallback<Tuple<List<UserProfile>, List<UserGroup>>>() {
+
+					@Override
+					public void onFailure(Throwable caught) {
+						caught.printStackTrace();
+						Window.alert("fail");
+					}
+
+					@Override
+					public void onSuccess(
+							Tuple<List<UserProfile>, List<UserGroup>> result) {
+						for (UserProfile up : result.a) {
+							LIElement liElement = Document.get()
+									.createLIElement();
+							liElement.setInnerHTML(up.name);
+							liElement
+									.addClassName("list-group-item list-width");
+							listGroups.appendChild(liElement);
+						}
+					}
+				});
 	}
-//
-//	public EmployerTopArea(String firstName) {
-//		initWidget(uiBinder.createAndBindUi(this));
-//		button.setText(firstName);
-//	}
-//
-//	@UiHandler("button")
-//	void onClick(ClickEvent e) {
-//		Window.alert("Hello!");
-//	}
-//
-//	public void setText(String text) {
-//		button.setText(text);
-//	}
-//
-//	public String getText() {
-//		return button.getText();
-//	}
 
 }

@@ -1,4 +1,11 @@
-states
+1 build a location to group mapping
+ a (it 
+
+1 location
+2 finish up location and testing
+3 fake user profiles
+4 send out
+5 rework add groups
 
 1 test zip code query
 2 populate with 10 fake users

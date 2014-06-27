@@ -12,6 +12,7 @@ import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.googlecode.objectify.Key;
 
 /**
  * The client-side stub for the RPC service.
@@ -57,9 +58,7 @@ public interface GreetingService extends RemoteService {
 	void disableQuestion(Long questionKey);
 
 
-	void sendProfile(UserProfile userProfile);
-
-
+	
 	UserProfile getUserProfile();
 
 
@@ -69,6 +68,9 @@ public interface GreetingService extends RemoteService {
 
 
 	Tuple<UserProfile,List<Location>> getProfileData();
+
+
+	void sendProfile(int salary, Key<Location> location);
 
 
 }
