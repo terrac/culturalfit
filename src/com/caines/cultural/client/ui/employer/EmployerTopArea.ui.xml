@@ -15,27 +15,28 @@
 			</div>
 			<div class="well well-lg container">
 				<div class="row">
-					
+
 
 					<div class="col-md-2">
 						<label class="control-label" for="textinput">Pick a location</label>
 						<div class="controls">
-	       					<g:ListBox ui:field="location"> </g:ListBox>
-	       
+							<g:ListBox ui:field="location">
+							</g:ListBox>
+
 						</div>
 					</div>
 
 					<div class="col-md-2">
 						<label class="control-label" for="textinput">Set a group</label>
 						<div class="controls">
-							<u:GroupSelect ui:field="groupSelect"></u:GroupSelect>
+							<u:GroupSelect ui:field="groupSelect" hasButtons="false"></u:GroupSelect>
 						</div>
 					</div>
 				</div>
 			</div>
 			<g:Button ui:field="submit" text="Submit"></g:Button>
-			<ul class="list-group" ui:field="listGroups">
-			</ul>
+			<g:VerticalPanel ui:field="listGroups"></g:VerticalPanel>
+
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 

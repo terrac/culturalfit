@@ -11,6 +11,7 @@ import com.caines.cultural.server.datautil.PermissionsUtil;
 import com.caines.cultural.server.datautil.TagUtil;
 import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.Tuple;
+import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
@@ -18,6 +19,9 @@ import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.UserQuestion;
 import com.caines.cultural.shared.datamodel.ZipCode;
+import com.google.appengine.api.users.User;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Objectify;
@@ -95,7 +99,13 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	public List<UserGroup> getUserGroupList() {
 		LoginInfo li = LoginService.login(null, null);
 		setupProfileForGroup(li.gUser.currentGroup);
-		List<UserGroup> gList = SDao.getUserGroupDao().getQByProperty("user", li.gUser.getKey())
+		
+		return getUserGroupList(li.gUser.getKey());
+	}
+	
+	@Override
+	public List<UserGroup> getUserGroupList(Key<GUser> key){
+		List<UserGroup> gList = SDao.getUserGroupDao().getQByProperty("user", key)
 				.list();
 		return gList;
 	}
@@ -192,6 +202,9 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public Group getCurrentGroup() {
 		LoginInfo li = LoginService.login(null, null);
+		if(!li.loggedIn){
+			return null;
+		}
 		return SDao.getGroupDao().get(li.gUser.currentGroup);
 	}
 
@@ -222,7 +235,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
 		up.salary = salary;
 		up.location= location;
-		
+		setLocation(location.getId());
 		SDao.getUserProfileDao().put(up);
 	}
 	
@@ -242,6 +255,11 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		LoginInfo li = LoginService.login(null, null);
 		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
 		up.location = Location.getKey(locationKey);
+		List<UserGroup> ugList = SDao.getUserGroupDao().getQByProperty("user", up.user).list();
+		for(UserGroup ug :ugList){
+			ug.locationMapping = up.location;
+		}
+		SDao.getUserGroupDao().putAll(ugList);
 		SDao.getUserProfileDao().put(up);
 	}
 
@@ -249,5 +267,16 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	public Tuple<UserProfile,List<Location>> getProfileData(){
 
 		return new Tuple<UserProfile,List<Location>>(getUserProfile(),SDao.getLocationDao().getQuery().order("order").list());
+	}
+	
+	@Override
+	public Tuple<String,Boolean> getLogInOutString(){
+		UserService userService = UserServiceFactory.getUserService();
+		String path = "/";
+		if(!userService.isUserLoggedIn()){
+			return new Tuple<String,Boolean>(userService.createLoginURL(path),true);
+		} else {
+			return new Tuple<String,Boolean>(userService.createLogoutURL(path),false);
+		}
 	}
 }

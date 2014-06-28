@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.caines.cultural.shared.Tuple;
+import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
@@ -19,11 +20,12 @@ import com.googlecode.objectify.Key;
 public interface GreetingServiceAsync {
 	void getNextQuestion(AsyncCallback<Question> question);
 
-	void addQuestion( String question, String rAnswer, String wAnswer,String tags, AsyncCallback<String> callback);
+	void addQuestion(String question, String rAnswer, String wAnswer,
+			String tags, AsyncCallback<String> callback);
 
 	void answerQuestion(Long id, String answer, AsyncCallback<Void> callback);
 
-	void addGroup(String value,AsyncCallback<Void> callback);
+	void addGroup(String value, AsyncCallback<Void> callback);
 
 	void getTopGroups(AsyncCallback<List<Group>> callback);
 
@@ -33,7 +35,6 @@ public interface GreetingServiceAsync {
 
 	void getQuestionToEdit(Long questionKey, AsyncCallback<Question> question);
 
-	
 	void updateQuestion(Long questionKey, String value,
 			AsyncCallback<Void> asyncCallback);
 
@@ -50,6 +51,12 @@ public interface GreetingServiceAsync {
 
 	void setLocation(long locationKey, AsyncCallback<Void> callback);
 
-	void getProfileData(AsyncCallback<Tuple<UserProfile,List<Location>>> callback);
+	void getProfileData(
+			AsyncCallback<Tuple<UserProfile, List<Location>>> callback);
+
+	void getUserGroupList(Key<GUser> key,
+			AsyncCallback<List<UserGroup>> callback);
+
+	void getLogInOutString(AsyncCallback<Tuple<String, Boolean>> callback);
 
 }

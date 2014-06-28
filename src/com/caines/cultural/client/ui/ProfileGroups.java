@@ -23,6 +23,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.objectify.Key;
 
@@ -31,6 +32,50 @@ public class ProfileGroups extends Composite {
 	private static ProfileGroupsUiBinder uiBinder = GWT
 			.create(ProfileGroupsUiBinder.class);
 
+	private static final class SetupProfileData implements
+			AsyncCallback<Tuple<UserProfile, List<Location>>> {
+		private final ListBox locat;
+		private final ListBox salary;
+
+		private SetupProfileData(ListBox locat, ListBox salary) {
+			this.locat = locat;
+			this.salary = salary;
+		}
+
+		@Override
+		public void onSuccess(
+				Tuple<UserProfile, List<Location>> result) {
+			UserProfile uP = (UserProfile) result.a;
+			user = uP.user;
+			if(salary != null){
+				for (int a = 0; a < salary.getItemCount(); a++) {
+					if (a * 10000 == uP.salary) {
+						salary.setSelectedIndex(a);
+					}
+				}	
+			}
+			
+			for (Location l : ((List<Location>) result.b)) {
+				locat.addItem(l.name, "" + l.id);
+			}
+			if(uP.location != null){
+				String loc = "" + uP.location.getId();
+				for (int a = 0; a < locat.getItemCount(); a++) {
+					if (locat.getValue(a).equals(loc)) {
+						locat.setSelectedIndex(a);
+					}
+				}	
+			}
+			
+
+		}
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+
+		}
+	}
 	interface ProfileGroupsUiBinder extends UiBinder<Widget, ProfileGroups> {
 	}
 
@@ -48,6 +93,9 @@ public class ProfileGroups extends Composite {
 
 	@UiField
 	Button publicButton;
+
+
+
 	//
 	// @UiField
 	// TextBox profileName;
@@ -61,7 +109,7 @@ public class ProfileGroups extends Composite {
 		for (int a = 10; a < 250; a += 10) {
 			salary.addItem(a + ",000", "" + a * 1000);
 		}
-		updateProfileData(salary, location);
+		updateProfileData( location,salary);
 
 		update.addClickHandler(new ClickHandler() {
 
@@ -104,43 +152,10 @@ public class ProfileGroups extends Composite {
 				});
 	}
 
-	public static void updateProfileData(final ListBox location,
+	public static void updateProfileData(final ListBox locat,
 			final ListBox salary) {
 		SimpleFront.basicService
-				.getProfileData(new AsyncCallback<Tuple<UserProfile, List<Location>>>() {
-
-					@Override
-					public void onSuccess(
-							Tuple<UserProfile, List<Location>> result) {
-						UserProfile uP = (UserProfile) result.a;
-						user = uP.user;
-						if(salary != null){
-							for (int a = 0; a < salary.getItemCount(); a++) {
-								if (a * 10000 == uP.salary) {
-									salary.setSelectedIndex(a);
-								}
-							}	
-						}
-						
-						for (Location l : ((List<Location>) result.b)) {
-							location.addItem(l.name, "" + l.id);
-						}
-
-						String loc = "" + uP.location.getId();
-						for (int a = 0; a < location.getItemCount(); a++) {
-							if (location.getValue(a).equals(loc)) {
-								location.setSelectedIndex(a);
-							}
-						}
-
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-				});
+				.getProfileData(new SetupProfileData(locat, salary));
 	}
 
 	// @UiField

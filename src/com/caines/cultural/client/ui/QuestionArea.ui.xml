@@ -1,20 +1,82 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
-	xmlns:g="urn:import:com.google.gwt.user.client.ui"
-	>
-	<ui:style>
-	.important {
-		font-weight: bold;
-	}
-	</ui:style>
+	xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:u="urn:import:com.caines.cultural.client.ui">
+
 	<g:HTMLPanel>
-	<div class="container">    
-	  <h3> <g:Label  ui:field="question"  /></h3>
-          
-    <g:Button ui:field="answer1" height="15em" width="35em" />
-  	<g:Button ui:field="answer2" height="15em" width="35em" />
-  	  
-    </div>
-    	<p><g:Label  ui:field="clock"  /></p>
+		<div class="container">
+			<h3>
+				<g:Label ui:field="question" />
+			</h3>
+
+			<g:Button ui:field="answer1" height="15em" width="35em" />
+			<g:Button ui:field="answer2" height="15em" width="35em" />
+
+		</div>
+		<div class="time-container">
+			<div class="minutes-seconds seconds">
+				<ul>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+					<li></li>
+				</ul>
+			</div>
+		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 

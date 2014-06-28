@@ -2,24 +2,46 @@
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
 	<ui:style>
-	.important {
+		.important {
 		font-weight: bold;
-	}
+		}
 	</ui:style>
 	<g:HTMLPanel>
-	    <div class="well well-lg">
-	       <g:HorizontalPanel> 
-	       <g:Label text="Set your desired salary"></g:Label> 
-	       <g:ListBox ui:field="salary"> </g:ListBox>
-	    
-	       <g:Label text="Pick a location"></g:Label> 
-	       <g:ListBox ui:field="location"> </g:ListBox>
-	       <g:Button ui:field="update" text="Update"></g:Button>
-			
-	       </g:HorizontalPanel>
-		</div>		
+		<div class="container">
+			<div class="well well-lg">
+				<div class="row">
+					<div class="col-md-2">
+						<div class="control-group">
+							<label for="textinput" class="control-label">Set your desired salary</label>
+							<div class="controls">
+								<g:ListBox ui:field="salary">
+								</g:ListBox>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="control-group">
+							<label for="textinput" class="control-label">Pick a location</label>
+							<div class="controls">
+								<g:ListBox ui:field="location">
+								</g:ListBox>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-2">
+						<g:Button ui:field="update" text="Update"></g:Button>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
 		<ul class="list-group" ui:field="listGroups">
 		</ul>
-		<g:Button ui:field="publicButton" text="Public Profile"></g:Button>
+		<div class="container">
+			<g:Button ui:field="publicButton" text="Public Profile"></g:Button>
+		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 

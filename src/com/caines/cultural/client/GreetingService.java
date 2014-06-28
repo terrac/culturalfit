@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.caines.cultural.shared.Tuple;
+import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
@@ -71,6 +72,12 @@ public interface GreetingService extends RemoteService {
 
 
 	void sendProfile(int salary, Key<Location> location);
+
+
+	List<UserGroup> getUserGroupList(Key<GUser> key);
+
+
+	Tuple<String, Boolean> getLogInOutString();
 
 
 }

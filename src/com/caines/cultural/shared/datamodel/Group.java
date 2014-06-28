@@ -39,8 +39,9 @@ public class Group implements Serializable{
 	public Long id;
 	
 	public Group(String groupname,GUser gUser) {
-		
-		creator = gUser.getKey();
+		if(gUser != null){
+			creator = gUser.getKey();	
+		}
 		//id = groupname;
 		name = groupname;
 		lowerName = name.toLowerCase();

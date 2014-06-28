@@ -48,6 +48,7 @@ public class MainServlet extends HttpServlet {
     +"<meta http-equiv=content-type content=text/html; charset=UTF-8>"
     +"<link type=text/css rel=stylesheet href=/assets/CulturalFit.css>"
     +"<link href=/assets/bootstrap.min.css rel=stylesheet>"
+    +"<script src=/assets/jQuery.js></script>"
     +"<script src=/assets/bootstrap.min.js></script>"
     +"<title>Cultural Fit: Who you are, not what you are</title>"
     +"<script type=text/javascript language=javascript src=/culturalfit/culturalfit.nocache.js></script>"

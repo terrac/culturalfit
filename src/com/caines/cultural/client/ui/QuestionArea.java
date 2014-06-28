@@ -25,34 +25,34 @@ public class QuestionArea extends Composite{
 	interface QuestionAreaUiBinder extends UiBinder<Widget, QuestionArea> {
 	}
 	
-	private final class ClockTimer extends Timer {
-		private final Label clock;
-		int count = 60;
-
-		private ClockTimer(Label clock) {
-			this.clock = clock;
-		}
-
-		@Override
-		public void run() {
-			count--;
-			if(count <= 0){
-				cancel();
-			}
-			clock.setText(""+count);
-		}
-	}
-
-	@UiField
-	Label clock;
-
-	
-	ClockTimer timer;
+//	private final class ClockTimer extends Timer {
+//		private final Label clock;
+//		int count = 60;
+//
+//		private ClockTimer(Label clock) {
+//			this.clock = clock;
+//		}
+//
+//		@Override
+//		public void run() {
+//			count--;
+//			if(count <= 0){
+//				cancel();
+//			}
+//			clock.setText(""+count);
+//		}
+//	}
+//
+//	@UiField
+//	Label clock;
+//
+//	
+//	ClockTimer timer;
 
 	public QuestionArea(final AsyncCallback<Question> asyncCallback) {
 		initWidget(uiBinder.createAndBindUi(this));
 		answer1.getElement().addClassName("btn");
-		timer=new ClockTimer(clock);
+		//timer=new ClockTimer(clock);
 		ClickHandler ch = new ClickHandler() {
 			
 			@Override
@@ -89,8 +89,9 @@ public class QuestionArea extends Composite{
 			answer1.setText(result.answer2);
 			answer2.setText(result.answer1);
 		}
-		timer.scheduleRepeating(1000);
-		timer.count= 60;
+		Clock.startClock();
+//		timer.scheduleRepeating(1000);
+//		timer.count= 60;
 
 	}
 

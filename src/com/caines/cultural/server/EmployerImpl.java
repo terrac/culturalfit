@@ -34,7 +34,7 @@ public class EmployerImpl extends RemoteServiceServlet implements
 		Key<Location> key = Location.getKey(Long.parseLong(location));
 		
 		
-		List<UserGroup> ugList = SDao.getUserGroupDao().getQuery().filter("location", key).order("correct").list();
+		List<UserGroup> ugList = SDao.getUserGroupDao().getQuery().filter("locationMapping", key).order("correct").list();
 		
 		List<Key<GUser>> uList = new ArrayList<>();
 		for(UserGroup ug : ugList){

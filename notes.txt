@@ -1,3 +1,35 @@
+1 remove clock when not being used
+2 login welcome page
+  a simple bootstrap welcome with a couple of lines
+3 Put on resume
+
+
+#1 fix button select on employer page
+#2 wire up login/logout
+3 welcome page
+Main points of welcome
+login button
+
+1 welcome page
+  a (login/logout link below the button)
+  b if logged out then do a popup welcoming 
+  (set a cookie to only do it once, popup is a label and clicking on it moves
+   in or clicking on a button does)
+2 Pretty timer
+
+
+
+1 create popup
+  a do a query on it to find all groups associated
+  b list groups with 
+
+1 put the appropriate % match, then the desired salary
+2 on clicking a list of groups should pop out
+3 fake users
+
+#1 write an "updateGroupLocation" function
+2 fake users by faking groups and profiles through basicimpl methods
+
 a
 1 build a location to group mapping
  a (it 

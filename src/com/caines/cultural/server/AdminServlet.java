@@ -30,6 +30,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.ObjectifyService;
 
 public class AdminServlet extends HttpServlet {
 
@@ -38,19 +39,21 @@ public class AdminServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// SDao.getUserProfileDao().getQuery().filter("zipCode >",
 		// 0).filter("zipCode <",5);
-
-		SDao.getUserQuestionDao().deleteAll(
-				SDao.getUserQuestionDao().getQuery().list());
-		SDao.getQuestionDao()
-				.deleteAll(SDao.getQuestionDao().getQuery().list());
-		SDao.getTagDao().deleteAll(SDao.getTagDao().getQuery().list());
-		SDao.getGroupDao().deleteAll(SDao.getGroupDao().getQuery().list());
-		SDao.getUserGroupDao().deleteAll(
-				SDao.getUserGroupDao().getQuery().list());
-		SDao.getGUserDao().deleteAll(SDao.getGUserDao().getQuery().list());
-
-
-		String[] loc = new String[] { "Not on the list", "Atlanta", "Seattle",
+		boolean flag = Boolean.parseBoolean(req.getParameter("delete"));
+		if(flag){
+			SDao.getUserQuestionDao().deleteAll(
+					SDao.getUserQuestionDao().getQuery().list());
+			SDao.getQuestionDao()
+					.deleteAll(SDao.getQuestionDao().getQuery().list());
+			SDao.getTagDao().deleteAll(SDao.getTagDao().getQuery().list());
+			SDao.getGroupDao().deleteAll(SDao.getGroupDao().getQuery().list());
+			SDao.getUserGroupDao().deleteAll(
+					SDao.getUserGroupDao().getQuery().list());
+			SDao.getGUserDao().deleteAll(SDao.getGUserDao().getQuery().list());
+			SDao.getUserProfileDao().deleteAll(SDao.getUserProfileDao().getQuery().list());
+		}
+		
+		String[] loc = new String[] { "Atlanta", "Seattle",
 				"Philidelphia", "Chicago", "Los Angeles", "Dallas", "Boston",
 				"Silicon Valley", "Washington DC", "New York" };
 		List<Location> lList = new ArrayList<Location>();
@@ -79,7 +82,7 @@ public class AdminServlet extends HttpServlet {
 				.deleteAll(SDao.getLocationDao().getQuery().list());
 		SDao.getLocationDao().putAll(lList);
 
-		URL oracle = new URL("http://127.0.0.1:8888/zips.csv");
+		//URL oracle = new URL("http://127.0.0.1:8888/zips.csv");
 		// BufferedReader in = new BufferedReader(
 		// new InputStreamReader(oracle.openStream()));
 		//
@@ -101,11 +104,12 @@ public class AdminServlet extends HttpServlet {
 		// }
 		// in.close();
 		// SDao.getZipCodeDao().putAll(zl);
+		
 		LoginInfo li = LoginService.login(null, null);
 
 		JsonParser jp = new JsonParser();
 		String json = IOUtils.toString(new URL(
-				"http://127.0.0.1:8888/questions.txt"));
+				"http://cultural-fit.appspot.com/questions.txt"));
 		// System.out.println(json);
 		JsonElement je = jp.parse(json);
 		for (Entry<String, JsonElement> b : je.getAsJsonObject().entrySet()) {

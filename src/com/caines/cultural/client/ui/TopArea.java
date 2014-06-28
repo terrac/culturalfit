@@ -35,40 +35,9 @@ public class TopArea extends Composite{
 		singleton = this;
 		
 		initWidget(uiBinder.createAndBindUi(this));
-		
-		SimpleFront.basicService.getCurrentGroup(new AsyncCallback<Group>() {
-			
-			@Override
-			public void onSuccess(Group result) {
-				setGroupName(result.name);
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
 		setupProfile();
 		
-		SimpleFront.basicService.getCurrentGroup(new AsyncCallback<Group>() {
-			
-			@Override
-			public void onSuccess(Group result) {
-				if(result != null){
-					groupName.setText(result.name);
-				} else {
-					
-				}
-			}
-			
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-	}
+		}
 	@UiField
 	Label groupName;
 	

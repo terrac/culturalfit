@@ -22,9 +22,11 @@ import java.util.List;
 
 
 
+
 import javax.persistence.Id;
 
 import com.caines.cultural.server.datautil.TagUtil;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.googlecode.objectify.Key;
 
 
@@ -43,11 +45,17 @@ public class UserProfile implements Serializable{
 	
 	public UserProfile(GUser gUser) {		
 		user = gUser.getKey();
+		name = gUser.displayName;
 	}
 	public Key<GUser> user;
 	public int salary;
 	public Key<Location> location;
 	public String name;
+	public String getSalaryDisplay(){
+		
+		return NumberFormat.getCurrencyFormat().format(salary);
+				
+	}
 	public Key<UserProfile> getKey(){
 		return new Key(UserProfile.class,id);
 	}
