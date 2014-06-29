@@ -28,7 +28,17 @@
 							</div>
 						</div>
 					</div>
-
+					
+					<div class="col-md-2">
+						<div class="control-group">
+							<label for="textinput" class="control-label">Desired weeks of vacation</label>
+							<div class="controls">
+								<g:ListBox ui:field="vacation">
+								</g:ListBox>
+							</div>
+						</div>
+					</div>
+					
 					<div class="col-2">
 						<g:Button ui:field="update" text="Update"></g:Button>
 					</div>
@@ -38,8 +48,11 @@
 
 
 		</div>
-		<ul class="list-group" ui:field="listGroups">
-		</ul>
+		<div class="container">
+
+			<ul class="list-group" ui:field="listGroups">
+			</ul>
+		</div>
 		<div class="container">
 			<g:Button ui:field="publicButton" text="Public Profile"></g:Button>
 		</div>

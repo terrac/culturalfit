@@ -46,6 +46,7 @@ public class UserGroup implements Serializable{
 	public List<Key<Question>> questions = new ArrayList<>();
 	public int total;
 	public int correct;
+	public double correctPercent;
 	public Key<GUser> user;
 	public Key<Group> group;
 	public Key<Location> locationMapping;
@@ -61,7 +62,14 @@ public class UserGroup implements Serializable{
 		if(total == 0){
 			return 0;
 		}
-		return (int) ((int)100* (double)correct/total);
+		return (int) (100* correctPercent);
+	}
+
+	@Override
+	public String toString() {
+		return "UserGroup [total=" + total + ", correct=" + correct + ", user="
+				+ user + ", group=" + group + ", locationMapping="
+				+ locationMapping + "]";
 	}
 	
 }

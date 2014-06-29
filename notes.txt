@@ -1,7 +1,29 @@
-1 remove clock when not being used
-2 login welcome page
+1 desired weeks of vacation
+#2 remove select group button, add small popup for success
+3 grid search
+4 add questions
+1 servlet to set groups with a null user to current user
+2 fake users
+  a run through all groups
+  b give some random %s and numbers based on the numbers
+  c look into grid component for search
+3 Add question button / manage group/create group button
+#1 remove clock when not being used
+#2 login welcome page
   a simple bootstrap welcome with a couple of lines
+  Welcome to Culture Fit
+  
+  Culture fit exists because the interview process needs some major updating.  
+  
+  It is here for people who want to be great employees and not talented interviewees.
+  
+  It is here for people who want to find the right candidate rather than become talented interviewers.
+  
+  Answer some questions, look for some talented employees in your area and see what it can do for you.
+  
 3 Put on resume
+
+4 question stuff
 
 
 #1 fix button select on employer page

@@ -1,0 +1,37 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+	<g:FlowPanel>
+		<g:HTMLPanel>
+			<div class="container">
+				<h1>Welcome to Culture Fit</h1>
+				<p class="lead">
+					Culture fit exists because the interview process needs
+					some
+					major updating.
+				</p>
+
+				<h3>What it is here for</h3>
+				<p>
+					It is here for people who want to be great employees and not
+					talented interviewees.
+
+				</p>
+
+				<p>
+
+					It is here for people who want to find the
+					right candidate rather
+					than become talented interviewers.
+
+				</p>
+
+				<h3>The next step</h3>
+				<p>Answer some questions, look for some talented employees in
+					your
+					area and see what it can do for you.</p>
+				<g:Button ui:field="submit" text="Ok Thanks"></g:Button>
+			</div>
+		</g:HTMLPanel>
+	</g:FlowPanel>
+</ui:UiBinder>

@@ -12,7 +12,7 @@
 			<g:Button ui:field="answer2" height="15em" width="35em" />
 
 		</div>
-		<div class="time-container">
+		<div id="clock" class="time-container">
 			<div class="minutes-seconds seconds">
 				<ul>
 					<li></li>

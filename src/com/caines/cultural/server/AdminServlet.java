@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -23,6 +24,8 @@ import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
+import com.caines.cultural.shared.datamodel.UserGroup;
+import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.ZipCode;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -39,8 +42,8 @@ public class AdminServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// SDao.getUserProfileDao().getQuery().filter("zipCode >",
 		// 0).filter("zipCode <",5);
-		boolean flag = Boolean.parseBoolean(req.getParameter("delete"));
-		if(flag){
+		boolean flag = Boolean.parseBoolean(req.getParameter("dontdelete"));
+		if(!flag){
 			SDao.getUserQuestionDao().deleteAll(
 					SDao.getUserQuestionDao().getQuery().list());
 			SDao.getQuestionDao()
@@ -76,7 +79,7 @@ public class AdminServlet extends HttpServlet {
 				"Wisconsin" };
 		for(String l : states){
 			order++;
-			lList.add(new Location(l, order));
+			//lList.add(new Location(l, order));
 		}
 		SDao.getLocationDao()
 				.deleteAll(SDao.getLocationDao().getQuery().list());
@@ -130,8 +133,43 @@ public class AdminServlet extends HttpServlet {
 			}
 			SDao.getGroupDao().put(g);
 		}
-		resp.getWriter().write("finished");
-	}
+		resp.getWriter().write("finished basics");
+		List<Group> listGroup = SDao.getGroupDao().getQuery().list();
+		List<Location> listLocation = SDao.getLocationDao().getQuery().list();
+		int[] salaryA = new int[]{70000,80000,90000,100000,110000,120000,130000};
+		Random r = new Random();
+		
+		List<UserGroup> ugList = new ArrayList<>();
+		List<UserProfile> upList = new ArrayList<UserProfile>();
+		for(int a = 0; a < 500; a++){
+			
+			Location l = listLocation.get(r.nextInt(listLocation.size()));
+			GUser gu = new GUser("fake-"+a, "fake-"+a);
+			Key<GUser> gKey= SDao.getGUserDao().put(gu);
+			for(Group g : listGroup){
+				if(r.nextDouble() > .3){
+					UserGroup ug=new UserGroup(g.name+"/"+l.name, l.getKey());
+					ug.user = gKey;
+					ug.group = g.getKey();
+					ug.total = (int) (r.nextInt(g.questions.size()))+1;
+					if(ug.total > 0){
+						ug.correct = r.nextInt(ug.total)+1;	
+						ug.correctPercent = (double)ug.correct/ug.total;
+					}
+					ugList.add(ug);
+				}
+			}
+			UserProfile up = new UserProfile(gu);
+			up.location = l.getKey();
+			up.salary = salaryA[r.nextInt(salaryA.length)];
+			upList.add(up);
+		}
+		SDao.getUserGroupDao().putAll(ugList);
+		SDao.getUserProfileDao().putAll(upList);
+		//System.out.println(upList);
+		resp.getWriter().write("<br>finished fake users");
+	
+}
 
 	public void addQuestion(Group g, String question, String answer1,
 			String answer2, String tags) {

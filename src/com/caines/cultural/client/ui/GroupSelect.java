@@ -6,6 +6,7 @@ import com.caines.cultural.client.suggestion.ItemSuggestOracle;
 import com.caines.cultural.client.suggestion.ItemSuggestion;
 import com.caines.cultural.client.suggestion.SuggestService;
 import com.caines.cultural.client.suggestion.ItemSuggestOracle.ItemSuggestCallback;
+import com.caines.cultural.client.ui.callback.SuccessAlertCallback;
 import com.caines.cultural.shared.datamodel.Group;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
@@ -78,7 +79,7 @@ public class GroupSelect extends Composite {
 	public Button selectGroup;
 	boolean suggestHasValidGroup = true;
 	@UiField(provided = true) // MAKE SURE YOU HAVE THIS LINE
-	SuggestBox suggestBox;
+	public SuggestBox suggestBox;
 	
 	public GroupSelect() {
 		this(true);
@@ -115,6 +116,7 @@ public class GroupSelect extends Composite {
 
 			wellDiv.setClassName("");
 			gContainer.setVisible(false);
+			selectGroup.setVisible(false);
 		}
 		//addGroup.setVisible(false);
 		
@@ -135,20 +137,7 @@ public class GroupSelect extends Composite {
 					return;
 				}
 				TopArea.setGroupName(suggestBox.getText());
-				SimpleFront.basicService.setCurrentGroup(suggestBox.getText(), new AsyncCallback<Void>() {
-					
-					@Override
-					public void onSuccess(Void result) {
-						// TODO Auto-generated method stub
-						
-					}
-					
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
+				SimpleFront.basicService.setCurrentGroup(suggestBox.getText(), new SuccessAlertCallback("Selected"));
 			}
 		});
 	}

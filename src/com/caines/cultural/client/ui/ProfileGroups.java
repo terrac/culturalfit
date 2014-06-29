@@ -3,6 +3,7 @@ package com.caines.cultural.client.ui;
 import java.util.List;
 
 import com.caines.cultural.client.SimpleFront;
+import com.caines.cultural.client.ui.callback.SuccessAlertCallback;
 import com.caines.cultural.client.ui.callback.VoidCallback;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.GUser;
@@ -34,12 +35,19 @@ public class ProfileGroups extends Composite {
 
 	private static final class SetupProfileData implements
 			AsyncCallback<Tuple<UserProfile, List<Location>>> {
-		private final ListBox locat;
-		private final ListBox salary;
+		private ListBox locat;
+		private ListBox salary;
+		private ListBox vacation;
 
-		private SetupProfileData(ListBox locat, ListBox salary) {
+		private SetupProfileData(ListBox locat) {
+			this.locat = locat;
+		}
+
+		public SetupProfileData(ListBox locat, ListBox salary, ListBox vacation) {
+			super();
 			this.locat = locat;
 			this.salary = salary;
+			this.vacation = vacation;
 		}
 
 		@Override
@@ -51,6 +59,14 @@ public class ProfileGroups extends Composite {
 				for (int a = 0; a < salary.getItemCount(); a++) {
 					if (a * 10000 == uP.salary) {
 						salary.setSelectedIndex(a);
+					}
+				}	
+			}
+			
+			if(vacation != null){
+				for (int a = 0; a < vacation.getItemCount(); a++) {
+					if (a == uP.vacation) {
+						vacation.setSelectedIndex(a);
 					}
 				}	
 			}
@@ -89,6 +105,9 @@ public class ProfileGroups extends Composite {
 	ListBox location;
 
 	@UiField
+	ListBox vacation;
+
+	@UiField
 	Button update;
 
 	@UiField
@@ -109,7 +128,12 @@ public class ProfileGroups extends Composite {
 		for (int a = 10; a < 250; a += 10) {
 			salary.addItem(a + ",000", "" + a * 1000);
 		}
-		updateProfileData( location,salary);
+		
+		vacation.addItem("Not selected", "-1");
+		for (int a = 6; a < 9; a += 1) {
+			vacation.addItem(a +"Weeks",""+ a);
+		}
+		updateProfileData( location,salary,vacation);
 
 		update.addClickHandler(new ClickHandler() {
 
@@ -120,8 +144,8 @@ public class ProfileGroups extends Composite {
 						.getSelectedIndex()));
 				Key<Location> lVal = Location.getKey(Long.parseLong(location
 						.getValue(location.getSelectedIndex())));
-				SimpleFront.basicService.sendProfile(salaryVal,lVal,new VoidCallback());
-
+				SimpleFront.basicService.sendProfile(salaryVal,lVal,new SuccessAlertCallback("Updated"));
+			
 			}
 		});
 
@@ -153,10 +177,11 @@ public class ProfileGroups extends Composite {
 	}
 
 	public static void updateProfileData(final ListBox locat,
-			final ListBox salary) {
+			final ListBox salary,ListBox vacation) {
 		SimpleFront.basicService
-				.getProfileData(new SetupProfileData(locat, salary));
+				.getProfileData(new SetupProfileData(locat, salary,vacation));
 	}
+	
 
 	// @UiField
 	// Button button;

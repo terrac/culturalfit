@@ -14,6 +14,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("employer")
 public interface EmployerService extends RemoteService {
 
-	Tuple<List<UserProfile>, List<UserGroup>> getBasicQueryWithFilters(String location);
+Tuple<List<UserProfile>, List<UserGroup>> getBasicQueryWithFilters(
+			String location, String groupName);
 
 }

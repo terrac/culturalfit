@@ -45,7 +45,7 @@ function startClock(){
 	}
 	seconds = 0;
 	$(".seconds li").removeClass("seconds-active");
-	 
+	$(".seconds").show(); 
 }
 seconds = 0;
 started = false;
@@ -57,4 +57,8 @@ function getDateTime() {
 	if (seconds == 0) {
 		$(".seconds li").removeClass("seconds-active");
 	}
+}
+
+function hideClock(){
+	$(".seconds").hide();
 }

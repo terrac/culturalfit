@@ -58,6 +58,12 @@ public class Group implements Serializable{
 	public static Key<Group> getKey(String id){
 		return new Key(Group.class,id);
 	}
+
+	@Override
+	public String toString() {
+		return "Group [id=" + id + ", name=" + name + "]";
+	}
+
 	
 	
 	

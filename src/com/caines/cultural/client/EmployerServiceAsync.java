@@ -10,6 +10,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface EmployerServiceAsync {
 
 	void getBasicQueryWithFilters(String location,
-			AsyncCallback<Tuple<List<UserProfile>, List<UserGroup>>> callback);
+			String groupName, AsyncCallback<Tuple<List<UserProfile>, List<UserGroup>>> callback);
 
 }

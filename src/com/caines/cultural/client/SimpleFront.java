@@ -1,6 +1,7 @@
 package com.caines.cultural.client;
 
 import com.caines.cultural.client.ui.TopArea;
+import com.caines.cultural.client.ui.WelcomePopup;
 import com.caines.cultural.client.ui.employer.EmployerTopArea;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.Group;
@@ -8,6 +9,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -138,10 +140,16 @@ public class SimpleFront implements EntryPoint {
 
 					}
 				});
-		
+		String checkWelcome = Cookies.getCookie("welcome");
+		if (checkWelcome == null) {
+			new WelcomePopup().show();
+			Cookies.setCookie("welcome", "true");
+		}
+
 	}
 
 	public static native void onMyButtonClick() /*-{
 		$wnd.setupSelectNothing();
 	}-*/;
+
 }

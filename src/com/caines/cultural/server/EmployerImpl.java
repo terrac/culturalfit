@@ -8,6 +8,7 @@ import com.caines.cultural.server.location.RadiusBox;
 import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.GUser;
+import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
@@ -26,15 +27,19 @@ public class EmployerImpl extends RemoteServiceServlet implements
 		EmployerService {
 
 	@Override
-	public Tuple<List<UserProfile>,List<UserGroup>> getBasicQueryWithFilters(String location) {
+	public Tuple<List<UserProfile>,List<UserGroup>> getBasicQueryWithFilters(String location,String groupName) {
 		LoginInfo li = LoginService.login(null, null);
 
 		//probably will cache this query and then do other queries off of it (invalidating
 		//once a day or something)
 		Key<Location> key = Location.getKey(Long.parseLong(location));
 		
+//		Key<Group> gKey=SDao.getGroupDao().getQuery().get().getKey();
+//		System.out.println(SDao.getGroupDao().getQuery().list());
+//		System.out.println();
 		
-		List<UserGroup> ugList = SDao.getUserGroupDao().getQuery().filter("locationMapping", key).order("correct").list();
+		Key<Group> gKey = SDao.getGroupDao().getByProperty("name", groupName).getKey();
+		List<UserGroup> ugList = SDao.getUserGroupDao().getQuery().filter("group", gKey).filter("locationMapping", key).order("correct").list();
 		
 		List<Key<GUser>> uList = new ArrayList<>();
 		for(UserGroup ug : ugList){

@@ -108,6 +108,8 @@ public class EmployerTopArea extends Composite {
 		}
 		employerService.getBasicQueryWithFilters(
 				location.getValue(location.getSelectedIndex()),
+				groupSelect.suggestBox.getText()
+				,
 				new AsyncCallback<Tuple<List<UserProfile>, List<UserGroup>>>() {
 
 					@Override
@@ -126,7 +128,7 @@ public class EmployerTopArea extends Composite {
 							Label label = new Label(result.b.get(a)
 									.getPercent()
 									+ "%  Salary:"
-									+ result.a.get(a).getSalaryDisplay());
+									+ result.a.get(a).getSalaryDisplay()+"Vacation:"+result.a.get(a).getSalaryDisplay());
 							final UserProfile up = result.a.get(a);
 
 							label.addClickHandler(new ClickHandler() {
