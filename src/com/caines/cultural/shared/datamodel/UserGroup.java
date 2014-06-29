@@ -47,6 +47,8 @@ public class UserGroup implements Serializable{
 	public int total;
 	public int correct;
 	public double correctPercent;
+	//includes amount of questions answered
+	public double score;	
 	public Key<GUser> user;
 	public Key<Group> group;
 	public Key<Location> locationMapping;

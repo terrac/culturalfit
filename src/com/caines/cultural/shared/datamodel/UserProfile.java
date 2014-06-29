@@ -41,8 +41,10 @@ public class UserProfile implements Serializable {
 	}
 
 	public String getVacationDisplay() {
-
-		return vacation+" Weeks";
+		if(vacation == 0){
+			return "";
+		}
+		return "Vacation:" +vacation+" Weeks";
 
 	}
 

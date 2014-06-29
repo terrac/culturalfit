@@ -131,7 +131,7 @@ public class ProfileGroups extends Composite {
 		
 		vacation.addItem("Not selected", "-1");
 		for (int a = 6; a < 9; a += 1) {
-			vacation.addItem(a +"Weeks",""+ a);
+			vacation.addItem(a +" Weeks",""+ a);
 		}
 		updateProfileData( location,salary,vacation);
 

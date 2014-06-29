@@ -31,7 +31,7 @@
 					
 					<div class="col-md-2">
 						<div class="control-group">
-							<label for="textinput" class="control-label">Desired weeks of vacation</label>
+							<label for="textinput" class="control-label">Desired vacation</label>
 							<div class="controls">
 								<g:ListBox ui:field="vacation">
 								</g:ListBox>

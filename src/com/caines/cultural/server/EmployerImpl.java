@@ -39,7 +39,7 @@ public class EmployerImpl extends RemoteServiceServlet implements
 //		System.out.println();
 		
 		Key<Group> gKey = SDao.getGroupDao().getByProperty("name", groupName).getKey();
-		List<UserGroup> ugList = SDao.getUserGroupDao().getQuery().filter("group", gKey).filter("locationMapping", key).order("correct").list();
+		List<UserGroup> ugList = SDao.getUserGroupDao().getQuery().filter("group", gKey).filter("locationMapping", key).order("-correct").list();
 		
 		List<Key<GUser>> uList = new ArrayList<>();
 		for(UserGroup ug : ugList){

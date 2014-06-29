@@ -50,7 +50,7 @@ public class EmployerTopArea extends Composite {
 
 					@Override
 					public void onSuccess(UserProfile result) {
-						ProfileGroups.updateProfileData(location, null);
+						ProfileGroups.updateProfileData(location, null,null);
 						updateList();
 
 						// zipCode.setValue(result.getZipCodeDisplay());
@@ -125,10 +125,10 @@ public class EmployerTopArea extends Composite {
 						listGroups.clear();
 						listGroups.addStyleName("list-group");
 						for (int a = 0; a < result.a.size(); a++) {
-							Label label = new Label(result.b.get(a)
-									.getPercent()
-									+ "%  Salary:"
-									+ result.a.get(a).getSalaryDisplay()+"Vacation:"+result.a.get(a).getSalaryDisplay());
+							Label label = new Label("("+result.b.get(a)
+									.correct
+									+ " Correct Answers)  Salary:"
+									+ result.a.get(a).getSalaryDisplay()+" "+result.a.get(a).getVacationDisplay());
 							final UserProfile up = result.a.get(a);
 
 							label.addClickHandler(new ClickHandler() {

@@ -1,4 +1,13 @@
-1 desired weeks of vacation
+1 fetch by magic number
+  a (match with group)
+  b ( salary range)
+  c ( least recent contact/view )
+
+2 more questions/ create group and submit/manage questions
+
+3 beta recruiter signup (free credits for beta testers)
+
+#1 desired weeks of vacation
 #2 remove select group button, add small popup for success
 3 grid search
 4 add questions
