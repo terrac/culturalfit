@@ -26,15 +26,26 @@
 						</div>
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<label class="control-label" for="textinput">Set a group</label>
 						<div class="controls">
 							<u:GroupSelect ui:field="groupSelect" hasButtons="false"></u:GroupSelect>
 						</div>
 					</div>
+
+
+					<div class="col-md-2">
+					    <label class="control-label" for="textinput"></label>
+						
+						<div class="controls">
+							<g:Button ui:field="submit" text="Submit"></g:Button>
+						</div>
+					</div>
+
+
 				</div>
 			</div>
-			<g:Button ui:field="submit" text="Submit"></g:Button>
+			Potential Employees
 			<g:VerticalPanel ui:field="listGroups"></g:VerticalPanel>
 
 		</div>

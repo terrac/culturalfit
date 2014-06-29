@@ -14,6 +14,7 @@ import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.LIElement;
+import com.google.gwt.dom.client.Style.Cursor;
 import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -27,6 +28,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -44,7 +48,7 @@ public class EmployerTopArea extends Composite {
 	public EmployerTopArea() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		
+		submit.getElement().setClassName("btn btn-primary");
 		SimpleFront.basicService
 				.getUserProfile(new AsyncCallback<UserProfile>() {
 
@@ -125,22 +129,27 @@ public class EmployerTopArea extends Composite {
 						listGroups.clear();
 						listGroups.addStyleName("list-group");
 						for (int a = 0; a < result.a.size(); a++) {
-							Label label = new Label("("+result.b.get(a)
+							String text = "("+result.b.get(a)
 									.correct
 									+ " Correct Answers)  Salary:"
-									+ result.a.get(a).getSalaryDisplay()+" "+result.a.get(a).getVacationDisplay());
+									+ result.a.get(a).getSalaryDisplay()+" "+result.a.get(a).getVacationDisplay();
 							final UserProfile up = result.a.get(a);
 
-							label.addClickHandler(new ClickHandler() {
+														//label.addStyleName();
+							ClickHandler handler = new ClickHandler() {
 
 								@Override
 								public void onClick(ClickEvent event) {
 									Label l = (Label) event.getSource();
 									new PopupGroupList(up).center();
 								}
-							});
-							label.addStyleName("list-group-item list-width");
-							listGroups.add(label);
+							};
+							Label link = new Label();
+							link.getElement().getStyle().setCursor(Cursor.POINTER); 
+							link.getElement().setInnerHTML("<img src='/assets/person.png'>"+text);
+							link.getElement().setClassName("list-group-item list-width");
+							link.addClickHandler(handler);
+							listGroups.add(link);
 						}
 
 					}

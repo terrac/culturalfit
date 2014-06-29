@@ -2,7 +2,7 @@
   a (match with group)
   b ( salary range)
   c ( least recent contact/view )
-
+    1 save queries, 
 2 more questions/ create group and submit/manage questions
 
 3 beta recruiter signup (free credits for beta testers)
