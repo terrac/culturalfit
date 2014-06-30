@@ -53,7 +53,14 @@ public class ProfileGroups extends Composite {
 		@Override
 		public void onSuccess(
 				Tuple<UserProfile, List<Location>> result) {
+			for (Location l : ((List<Location>) result.b)) {
+				locat.addItem(l.name, "" + l.id);
+			}
+			
 			UserProfile uP = (UserProfile) result.a;
+			if(uP == null){
+				return;
+			}
 			user = uP.user;
 			if(salary != null){
 				for (int a = 0; a < salary.getItemCount(); a++) {
@@ -71,9 +78,7 @@ public class ProfileGroups extends Composite {
 				}	
 			}
 			
-			for (Location l : ((List<Location>) result.b)) {
-				locat.addItem(l.name, "" + l.id);
-			}
+			
 			if(uP.location != null){
 				String loc = "" + uP.location.getId();
 				for (int a = 0; a < locat.getItemCount(); a++) {
@@ -89,7 +94,8 @@ public class ProfileGroups extends Composite {
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-
+			caught.printStackTrace();
+			Window.alert("fail");
 		}
 	}
 	interface ProfileGroupsUiBinder extends UiBinder<Widget, ProfileGroups> {

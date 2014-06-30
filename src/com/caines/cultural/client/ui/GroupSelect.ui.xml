@@ -18,5 +18,6 @@
 				</div>
 			</div>
 		</div>
+		<g:Button ui:field="editGroup" text="Create/Manage/AddQuestion"></g:Button>
 	</g:HTMLPanel>
 </ui:UiBinder> 

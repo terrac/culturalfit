@@ -36,5 +36,8 @@ public class GUser implements Serializable{
 	public static Key<GUser> getKey(String userkey){
 		return new Key(GUser.class,userkey);
 	}
+	public boolean isAdmin() {
+		return false;
+	}
 	
 }

@@ -66,14 +66,14 @@ public class SimpleFront implements EntryPoint {
 			.create(GreetingService.class);
 
 	static boolean employer = false;
-
+	Button employerSwitch = new Button("Switch to Employer");
+	public static SimpleFront singleton;
 	/**
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
-
+		singleton = this;
 		HorizontalPanel hp = new HorizontalPanel();
-		final Button employerSwitch = new Button("Switch to Employer");
 		final Anchor logIn = new Anchor("Log In");
 		logIn.getElement().setClassName("btn");
 		employerSwitch.getElement().setClassName("btn");
@@ -86,13 +86,9 @@ public class SimpleFront implements EntryPoint {
 			@Override
 			public void onClick(ClickEvent event) {
 				if (!employer) {
-					employerSwitch.setText("Switch to Employee");
-					RootPanel.get().clear();
-					RootPanel.get().add(new EmployerTopArea());
+					moveToEmployer();
 				} else {
-					employerSwitch.setText("Switch to Employer");
-					RootPanel.get().clear();
-					RootPanel.get().add(new TopArea());
+					moveToJobSeeker();
 
 				}
 				employer = !employer;
@@ -146,6 +142,18 @@ public class SimpleFront implements EntryPoint {
 			Cookies.setCookie("welcome", "true");
 		}
 
+	}
+
+	public void moveToEmployer() {
+		employerSwitch.setText("Switch to Employee");
+		RootPanel.get().clear();
+		RootPanel.get().add(new EmployerTopArea());
+	}
+
+	public void moveToJobSeeker() {
+		employerSwitch.setText("Switch to Employer");
+		RootPanel.get().clear();
+		RootPanel.get().add(new TopArea());
 	}
 
 	public static native void onMyButtonClick() /*-{

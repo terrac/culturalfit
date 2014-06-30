@@ -50,7 +50,7 @@ public class Group implements Serializable{
 	public String name;
 	public String lowerName;
 	public List<Key<Question>> questions = new ArrayList<>();
-	
+	public int seconds = 60 ;
 	public Key<Group> getKey(){
 		return new Key(Group.class,id);
 	}

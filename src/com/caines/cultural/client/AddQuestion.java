@@ -4,6 +4,7 @@ import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -41,7 +42,7 @@ public class AddQuestion {
 		final SuggestBox ts = new SuggestBox(new TagSelect());
 
 		hp.add(ts);
-		vp.add(hp);
+		//vp.add(hp);
 
 		SubmitButton sb1 = new SubmitButton("Add Question");
 		vp.add(sb1);
@@ -55,7 +56,10 @@ public class AddQuestion {
 
 							@Override
 							public void onSuccess(String result) {
-								// what
+								Window.alert("Submitted");
+								tq.setText("");
+								ta.setText("");
+								ta2.setText("");
 							}
 
 							@Override

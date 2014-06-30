@@ -36,14 +36,14 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	public void setupQuestions(Key<Group> gKey) {
 		LoginInfo li = LoginService.login(null, null);
-		List<Question> qList=getQuestionList();
+		List<Question> qList = getQuestionList();
 		List<UserQuestion> uqList = new ArrayList<>();
 		List<UserQuestion> listAnswered = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getKey())
 				.filter("group", gKey).filter("visited", true).list();
 
 		for (Question q : qList) {
-			if(q.disabled){
+			if (q.disabled) {
 				continue;
 			}
 			boolean flag = false;
@@ -64,17 +64,18 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	public void setupProfileForGroup(Key<Group> gKey) {
 		LoginInfo li = LoginService.login(null, null);
-		UserGroup g = SDao.getUserGroupDao().getQByProperty("user", li.gUser.getKey())
+		UserGroup g = SDao.getUserGroupDao()
+				.getQByProperty("user", li.gUser.getKey())
 				.filter("group", gKey).get();
-		if(g == null){
-			UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser.getKey());
-			g = new UserGroup(SDao.getGroupDao().get(gKey).name,up.location);
+		if (g == null) {
+			UserProfile up = SDao.getUserProfileDao().getByProperty("user",
+					li.gUser.getKey());
+			g = new UserGroup(SDao.getGroupDao().get(gKey).name, up.location);
 			g.group = gKey;
 			g.user = li.gUser.getKey();
 			SDao.getUserGroupDao().put(g);
 		}
-	
-	
+
 		List<UserQuestion> listAnswered = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getKey())
 				.filter("group", gKey).filter("processed", false)
@@ -83,11 +84,11 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		int correct = 0;
 		for (UserQuestion answered : listAnswered) {
 			total++;
-			if(answered.correct){
+			if (answered.correct) {
 				correct++;
 			}
 			answered.processed = true;
-			
+
 		}
 		SDao.getUserQuestionDao().putAll(listAnswered);
 		g.correct += correct;
@@ -99,22 +100,24 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	public List<UserGroup> getUserGroupList() {
 		LoginInfo li = LoginService.login(null, null);
 		setupProfileForGroup(li.gUser.currentGroup);
-		
+
 		return getUserGroupList(li.gUser.getKey());
 	}
-	
+
 	@Override
-	public List<UserGroup> getUserGroupList(Key<GUser> key){
-		List<UserGroup> gList = SDao.getUserGroupDao().getQByProperty("user", key)
-				.list();
+	public List<UserGroup> getUserGroupList(Key<GUser> key) {
+		List<UserGroup> gList = SDao.getUserGroupDao()
+				.getQByProperty("user", key).list();
 		return gList;
 	}
-	
+
 	@Override
 	public List<Question> getQuestionList() {
 		LoginInfo li = LoginService.login(null, null);
-		Objectify o=ObjectifyService.begin();
-		return new ArrayList(o.get(SDao.getGroupDao().get(li.gUser.currentGroup).questions).values());
+		Objectify o = ObjectifyService.begin();
+		return new ArrayList(o.get(
+				SDao.getGroupDao().get(li.gUser.currentGroup).questions)
+				.values());
 	}
 
 	@Override
@@ -123,7 +126,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		UserQuestion uq = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getKey())
 				.filter("visited", false).get();
-		
+
 		// set of curated questions
 		// with the property not visited
 		//
@@ -151,7 +154,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public void answerQuestion(Long id,String answer) {
+	public void answerQuestion(Long id, String answer) {
 		LoginInfo li = LoginService.login(null, null);
 		UserQuestion uq = SDao.getUserQuestionDao().get(
 				li.gUser.currentQuestion);
@@ -169,7 +172,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			String tagString) {
 		LoginInfo li = LoginService.login(null, null);
 		Group g = SDao.getGroupDao().get(li.gUser.currentGroup);
-		if(PermissionsUtil.canEdit(li.gUser, g)){
+		if (PermissionsUtil.canEdit(li.gUser, g)) {
 			return null;
 		}
 		g.questions.add(SDao.getQuestionDao().put(
@@ -182,7 +185,8 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public void addGroup(String value) {
 		LoginInfo li = LoginService.login(null, null);
-		li.gUser.currentGroup=SDao.getGroupDao().put(new Group(value,li.gUser));
+		li.gUser.currentGroup = SDao.getGroupDao().put(
+				new Group(value, li.gUser));
 		SDao.getGUserDao().put(li.gUser);
 	}
 
@@ -202,7 +206,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public Group getCurrentGroup() {
 		LoginInfo li = LoginService.login(null, null);
-		if(!li.loggedIn){
+		if (!li.loggedIn) {
 			return null;
 		}
 		return SDao.getGroupDao().get(li.gUser.currentGroup);
@@ -221,42 +225,49 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		q.tags = TagUtil.getTagKeys(tags);
 		SDao.getQuestionDao().put(q);
 	}
-	
+
 	@Override
 	public void disableQuestion(Long questionKey) {
 		Question q = SDao.getQuestionDao().get(Question.getKey(questionKey));
 		q.disabled = true;
 		SDao.getQuestionDao().put(q);
 	}
-	
+
 	@Override
 	public void sendProfile(int salary, Key<Location> location) {
 		LoginInfo li = LoginService.login(null, null);
-		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
+		UserProfile up = SDao.getUserProfileDao().getByProperty("user",
+				li.gUser);
 		up.salary = salary;
-		up.location= location;
+		up.location = location;
 		setLocation(location.getId());
 		SDao.getUserProfileDao().put(up);
 	}
-	
+
 	@Override
-	public UserProfile getUserProfile(){
+	public UserProfile getUserProfile() {
 		LoginInfo li = LoginService.login(null, null);
-		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
-		if(up == null){
+		if(li.gUser == null){
+			return null;
+		}
+		UserProfile up = SDao.getUserProfileDao().getByProperty("user",
+				li.gUser);
+		if (up == null) {
 			up = new UserProfile(li.gUser);
 			SDao.getUserProfileDao().put(up);
 		}
 		return up;
 	}
-	
+
 	@Override
-	public void setLocation(long locationKey){
+	public void setLocation(long locationKey) {
 		LoginInfo li = LoginService.login(null, null);
-		UserProfile up = SDao.getUserProfileDao().getByProperty("user", li.gUser);
+		UserProfile up = SDao.getUserProfileDao().getByProperty("user",
+				li.gUser);
 		up.location = Location.getKey(locationKey);
-		List<UserGroup> ugList = SDao.getUserGroupDao().getQByProperty("user", up.user).list();
-		for(UserGroup ug :ugList){
+		List<UserGroup> ugList = SDao.getUserGroupDao()
+				.getQByProperty("user", up.user).list();
+		for (UserGroup ug : ugList) {
 			ug.locationMapping = up.location;
 		}
 		SDao.getUserGroupDao().putAll(ugList);
@@ -264,19 +275,37 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public Tuple<UserProfile,List<Location>> getProfileData(){
+	public Tuple<UserProfile, List<Location>> getProfileData() {
 
-		return new Tuple<UserProfile,List<Location>>(getUserProfile(),SDao.getLocationDao().getQuery().order("order").list());
+		return new Tuple<UserProfile, List<Location>>(getUserProfile(), SDao
+				.getLocationDao().getQuery().order("order").list());
 	}
-	
+
 	@Override
-	public Tuple<String,Boolean> getLogInOutString(){
+	public Tuple<String, Boolean> getLogInOutString() {
 		UserService userService = UserServiceFactory.getUserService();
 		String path = "/";
-		if(!userService.isUserLoggedIn()){
-			return new Tuple<String,Boolean>(userService.createLoginURL(path),true);
+		if (!userService.isUserLoggedIn()) {
+			return new Tuple<String, Boolean>(userService.createLoginURL(path),
+					true);
 		} else {
-			return new Tuple<String,Boolean>(userService.createLogoutURL(path),false);
+			return new Tuple<String, Boolean>(
+					userService.createLogoutURL(path), false);
 		}
+	}
+
+	@Override
+	public String editGroup(String groupName) {
+		LoginInfo li = LoginService.login(null, null);
+		Group g = SDao.getGroupDao().getByProperty("name", groupName);
+
+		if (g == null) {
+			addGroup(groupName);
+			return "Created";
+		}
+		if(PermissionsUtil.canEdit(li.gUser, g)){
+			return "owner";
+		}
+		return "toEdit";
 	}
 }

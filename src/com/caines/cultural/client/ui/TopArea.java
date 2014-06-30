@@ -24,23 +24,25 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class TopArea extends Composite{
+public class TopArea extends Composite {
 
 	private static TopAreaUiBinder uiBinder = GWT.create(TopAreaUiBinder.class);
 
 	interface TopAreaUiBinder extends UiBinder<Widget, TopArea> {
 	}
+
 	static TopArea singleton;
+
 	public TopArea() {
 		singleton = this;
-		
+
 		initWidget(uiBinder.createAndBindUi(this));
-		setupProfile();
-		
-		}
+		nextQuestion();
+	}
+
 	@UiField
 	Label groupName;
-	
+
 	@UiField
 	Anchor profile;
 	@UiField
@@ -50,16 +52,15 @@ public class TopArea extends Composite{
 	@UiField
 	public static VerticalPanel content;
 
-	
-	public static void setGroupName(String name){
-		String text = "CulturalFit/"+name.replace(' ', '-');
+	public static void setGroupName(String name) {
+		String text = "CulturalFit/" + name.replace(' ', '-');
 		singleton.groupName.setText(text);
 	}
 
 	@UiHandler("profile")
 	void onClick(ClickEvent e) {
 		setupProfile();
-		
+
 	}
 
 	public void setupProfile() {
@@ -80,30 +81,34 @@ public class TopArea extends Composite{
 
 	@UiHandler("nextQuestion")
 	void onClickNext(ClickEvent e) {
+		nextQuestion();
+	}
+
+	public void nextQuestion() {
 		removeActive();
 		nextQuestion.getElement().getParentElement().addClassName("active");
 		new NextQuestion().showNextQuestion(content);
 	}
 
-	public void removeActive(){
+	public void removeActive() {
 		profile.getElement().getParentElement().removeClassName("active");
 		viewGroups.getElement().getParentElement().removeClassName("active");
 		nextQuestion.getElement().getParentElement().removeClassName("active");
 	}
-	
-	
+
 	public static void showOrSelectGroups(VerticalPanel vp) {
 		final Button addGroup = new Button("Select Group");
-		
+
 		final SuggestBox sb = new SuggestBox(new ItemSuggestOracle() {
-			
+
 			@Override
 			public void requestSuggestions(Request request, Callback callback) {
-			    SuggestService.Util.getInstance().getGroup(request, new ItemSuggestCallback(request, callback));
+				SuggestService.Util.getInstance().getGroup(request,
+						new ItemSuggestCallback(request, callback));
 			}
 		});
 		final SetupTopGroups callback = new SetupTopGroups() {
-			
+
 			@Override
 			public void addPage(HorizontalPanel hp) {
 				hp.add(sb);
@@ -111,38 +116,39 @@ public class TopArea extends Composite{
 			}
 		};
 		SimpleFront.basicService.getCurrentGroup(new AsyncCallback<Group>() {
-			
+
 			@Override
 			public void onSuccess(Group result) {
-				if(result != null){
+				if (result != null) {
 					callback.hp.add(new Label(result.name));
 				} else {
 					SimpleFront.basicService.getTopGroups(callback);
 				}
 			}
-			
+
 			@Override
 			public void onFailure(Throwable caught) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
 
 		vp.add(callback.hp);
-		addGroup.addClickHandler(new SetGroup(sb){
-			public void onSuccess(){}
+		addGroup.addClickHandler(new SetGroup(sb) {
+			public void onSuccess() {
+			}
 		});
 	}
+
 	abstract static class SetupTopGroups implements AsyncCallback<List<Group>> {
 		HorizontalPanel hp = new HorizontalPanel();
-		
 
 		@Override
 		public void onSuccess(List<Group> result) {
-			for(Group g : result){
+			for (Group g : result) {
 				final Button b = new Button();
 				b.setText(g.name);
-				b.addClickHandler(new SetGroup(b){
+				b.addClickHandler(new SetGroup(b) {
 					@Override
 					public void onSuccess() {
 						new NextQuestion().showNextQuestion(TopArea.content);
@@ -152,15 +158,14 @@ public class TopArea extends Composite{
 			}
 			addPage(hp);
 		}
-		
+
 		public abstract void addPage(HorizontalPanel hp);
-		
+
 		@Override
 		public void onFailure(Throwable caught) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 
-	
 }

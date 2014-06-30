@@ -1,3 +1,15 @@
+1 workflow
+  a start on next question
+  #b remove timer
+
+1 rethink welcome page
+
+
+1 make some admin options to test group create
+
+
+1 on clicking ok thanks, relocate to login page
+
 1 fetch by magic number
   a (match with group)
   b ( salary range)

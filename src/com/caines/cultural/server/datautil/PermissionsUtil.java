@@ -13,7 +13,12 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 public class PermissionsUtil {
 	public static boolean canEdit(GUser user,Group g){
-		
+		if(user == null){
+			return false;
+		}
+		if(user.isAdmin()){
+			return true;
+		}
 		return user.getKey().equals(g.creator);
 		
 	}

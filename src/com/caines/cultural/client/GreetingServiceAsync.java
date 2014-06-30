@@ -59,4 +59,6 @@ public interface GreetingServiceAsync {
 
 	void getLogInOutString(AsyncCallback<Tuple<String, Boolean>> callback);
 
+	void editGroup(String groupName, AsyncCallback<String> callback);
+
 }

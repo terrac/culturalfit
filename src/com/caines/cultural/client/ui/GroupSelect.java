@@ -77,6 +77,10 @@ public class GroupSelect extends Composite {
 	
 	@UiField
 	public Button selectGroup;
+
+	@UiField
+	public Button editGroup;
+
 	boolean suggestHasValidGroup = true;
 	@UiField(provided = true) // MAKE SURE YOU HAVE THIS LINE
 	public SuggestBox suggestBox;
@@ -112,11 +116,37 @@ public class GroupSelect extends Composite {
 		suggestBox.getElement().addClassName("input-xlarge search-query");
 		
 		initWidget(uiBinder.createAndBindUi(this));
+		editGroup.getElement().setClassName("btn btn-primary");
+		editGroup.addClickHandler(new ClickHandler() {
+			
+			@Override
+			public void onClick(ClickEvent event) {
+				SimpleFront.basicService.editGroup(suggestBox.getValue(), new AsyncCallback<String>() {
+					
+					@Override
+					public void onSuccess(String result) {
+						if("Created".equals(result)){
+							Window.alert("Created");
+						} else {
+							boolean owner = "owner".equals(result);
+							new GroupEdit().editGroup(TopArea.content,owner);
+						}
+					}
+					
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+			}
+		});
 		if(!hasButtons){
 
 			wellDiv.setClassName("");
 			gContainer.setVisible(false);
 			selectGroup.setVisible(false);
+			editGroup.setVisible(false);
 		}
 		//addGroup.setVisible(false);
 		

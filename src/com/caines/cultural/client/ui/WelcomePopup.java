@@ -5,6 +5,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -25,6 +26,7 @@ public class WelcomePopup extends DialogBox {
 			@Override
 			public void onClick(ClickEvent event) {
 				WelcomePopup.this.hide();
+				Window.Location.assign("/c/main");
 			}
 		});
     }

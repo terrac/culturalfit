@@ -80,4 +80,9 @@ public interface GreetingService extends RemoteService {
 	Tuple<String, Boolean> getLogInOutString();
 
 
+	String editGroup(String groupName);
+
+
+
+
 }

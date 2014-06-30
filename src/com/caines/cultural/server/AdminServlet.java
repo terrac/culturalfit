@@ -58,7 +58,7 @@ public class AdminServlet extends HttpServlet {
 		
 		String[] loc = new String[] { "Atlanta", "Seattle",
 				"Philidelphia", "Chicago", "Los Angeles", "Dallas", "Boston",
-				"Silicon Valley", "Washington DC", "New York" };
+				"Silicon Valley", "Washington DC", "New York" ,"Austin","Remote"};
 		List<Location> lList = new ArrayList<Location>();
 		int order = 0;
 		for (int a = loc.length-1; a >= 0; a--) {
@@ -117,7 +117,7 @@ public class AdminServlet extends HttpServlet {
 		JsonElement je = jp.parse(json);
 		for (Entry<String, JsonElement> b : je.getAsJsonObject().entrySet()) {
 			Group g = new Group(b.getKey(), li.gUser);
-
+			
 			JsonArray ja = b.getValue().getAsJsonArray();
 			for (int a = 0; a < ja.size(); a++) {
 				JsonObject question = ja.get(a).getAsJsonObject();

@@ -92,6 +92,9 @@ public class QuestionArea extends Composite {
 			answer2.setText(result.answer1);
 		}
 		startClock();
+		if(TopArea.singleton.groupName.getText().equals("Welcome")){
+			hideClock();
+		}
 		// timer.scheduleRepeating(1000);
 		// timer.count= 60;
 
@@ -112,6 +115,7 @@ public class QuestionArea extends Composite {
 		answer1.setVisible(false);
 		answer2.setVisible(false);
 		hideClock();
+		TopArea.singleton.setupProfile();
 		// Window.alert("No more questions");
 		new ViewGroups().groupArea(null);
 	}
