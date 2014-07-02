@@ -34,24 +34,24 @@ public abstract class SideBar {
 	 * @return
 	 */
 	
-	public static String getServletRep(String signinrep,String url, String gkey){
+	public static String getServletRep(String signinrep,String url, String gRef){
 		
 		return "<html>" +
 				"<head>" +
 //				"<script type=\"text/javascript\" language=\"javascript\" src=\"villagedc/villagedc.nocache.js\"></script>" +
 //				"<link type=\"text/css\" rel=stylesheet href=villagedc.css>" +
 				"</head>" +
-				"<body>"+getClientRep(signinrep, url,gkey);
+				"<body>"+getClientRep(signinrep, url,gRef);
 	}
 	
 	public static String getRep(String signinrep,String url){
 		return 
 				"<a href=\""+url+"\" class=\"gwt-Anchor\" tabindex=\"0\">"+signinrep+"</a>";
 	}
-	public static String getClientRep(String signinrep,String url,String gkey){
+	public static String getClientRep(String signinrep,String url,String gRef){
 		String share =" "+ getRep("leaderboard", "/leaderboard");
-		if(gkey!= null){
-			share=" "+ getRep("share", "/leaderboard?gkey="+gkey);
+		if(gRef!= null){
+			share=" "+ getRep("share", "/leaderboard?gRef="+gRef);
 		} 
 		return 
 		getRep(signinrep, url) + " " + getRep("gamelist", "/displaypersongames") + " " + getRep("profile", "/profile") + share;

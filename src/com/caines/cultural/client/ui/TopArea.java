@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -36,8 +37,17 @@ public class TopArea extends Composite {
 	public TopArea() {
 		singleton = this;
 
-		initWidget(uiBinder.createAndBindUi(this));
-		nextQuestion();
+	}
+
+	public boolean setup() {
+		if(Window.Location.getPath().contains("employer")){
+			SimpleFront.singleton.moveToEmployer();
+			return false;
+		} else {
+			initWidget(uiBinder.createAndBindUi(this));
+			nextQuestion();
+			return true;
+		}
 	}
 
 	@UiField
@@ -75,7 +85,7 @@ public class TopArea extends Composite {
 		removeActive();
 		viewGroups.getElement().getParentElement().addClassName("active");
 		content.clear();
-		content.add(new GroupSelect());
+		content.add(new GroupSelect(content));
 		new ViewGroups().groupArea(content);
 	}
 

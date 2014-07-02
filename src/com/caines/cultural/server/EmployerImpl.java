@@ -4,20 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.caines.cultural.client.EmployerService;
-import com.caines.cultural.server.location.RadiusBox;
-import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
-import com.caines.cultural.shared.datamodel.ZipCode;
-import com.google.appengine.api.users.User;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import com.googlecode.objectify.Key;
-import com.googlecode.objectify.Objectify;
-import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Ref;
 
 /**
  * The server-side implementation of the RPC service.
@@ -28,25 +22,25 @@ public class EmployerImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Tuple<List<UserProfile>,List<UserGroup>> getBasicQueryWithFilters(String location,String groupName) {
-		LoginInfo li = LoginService.login(null, null);
+//		LoginInfo li = LoginService.login(null, null);
 
 		//probably will cache this query and then do other queries off of it (invalidating
 		//once a day or something)
-		Key<Location> key = Location.getKey(Long.parseLong(location));
+		Ref<Location> Ref = Location.getRef(Long.parseLong(location));
 		
-//		Key<Group> gKey=SDao.getGroupDao().getQuery().get().getKey();
+//		Ref<Group> gRef=SDao.getGroupDao().getQuery().get().getRef();
 //		System.out.println(SDao.getGroupDao().getQuery().list());
 //		System.out.println();
 		
-		Key<Group> gKey = SDao.getGroupDao().getByProperty("name", groupName).getKey();
-		List<UserGroup> ugList = SDao.getUserGroupDao().getQuery().filter("group", gKey).filter("locationMapping", key).order("-correct").list();
+		Ref<Group> gRef = SDao.getGroupDao().getByProperty("name", groupName).getRef();
+		List<UserGroup> ugList = SDao.getUserGroupDao().getQuery().filter("group", gRef).filter("locationMapping", Ref).order("-correct").list();
 		
-		List<Key<GUser>> uList = new ArrayList<>();
+		List<Ref<GUser>> uList = new ArrayList<>();
 		for(UserGroup ug : ugList){
 			uList.add(ug.user);
 		}
 		
-		return new Tuple(SDao.getUserProfileDao().getQuery().filter("user in", uList).list(),ugList);
+		return new Tuple<List<UserProfile>, List<UserGroup>>(SDao.getUserProfileDao().getQuery().filter("user in", uList).list(),ugList);
 		//return upList;
 	}
 

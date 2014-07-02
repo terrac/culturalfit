@@ -1,6 +1,5 @@
 package com.caines.cultural.client;
 
-import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -76,13 +75,13 @@ public class AddQuestion {
 	Label ta1 = new Label();
 	Label ta2 = new Label();
 
-	public void editQuestion(final VerticalPanel vp,final Long questionKey) {
+	public void editQuestion(final VerticalPanel vp,final Long questionRef) {
 		HorizontalPanel hp = new HorizontalPanel();
 		hp.add(new Label("Groupname:"));
 		hp.add(new Label(""));
 		vp.add(hp);
 
-		SimpleFront.basicService.getQuestionToEdit(questionKey,
+		SimpleFront.basicService.getQuestionToEdit(questionRef,
 				new AsyncCallback<Question>() {
 
 					@Override
@@ -127,7 +126,7 @@ public class AddQuestion {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SimpleFront.basicService.updateQuestion(questionKey,ts.getValue(),new AsyncCallback<Void>() {
+				SimpleFront.basicService.updateQuestion(questionRef,ts.getValue(),new AsyncCallback<Void>() {
 
 					@Override
 					public void onFailure(Throwable caught) {

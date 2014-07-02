@@ -1,274 +1,138 @@
 package com.caines.cultural.server;
 
-
-
-import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.Embedded;
-import javax.persistence.Transient;
-
-import com.caines.cultural.shared.datamodel.GUser;
-import com.caines.cultural.shared.datamodel.Group;
-import com.caines.cultural.shared.datamodel.Location;
-import com.caines.cultural.shared.datamodel.Question;
-import com.caines.cultural.shared.datamodel.Tag;
-import com.caines.cultural.shared.datamodel.UserGroup;
-import com.caines.cultural.shared.datamodel.UserProfile;
-import com.caines.cultural.shared.datamodel.UserQuestion;
-import com.caines.cultural.shared.datamodel.ZipCode;
-import com.google.appengine.api.datastore.EntityNotFoundException;
-import com.google.appengine.api.datastore.QueryResultIterable;
 import com.google.appengine.api.datastore.QueryResultIterator;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.NotFoundException;
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Query;
-import com.googlecode.objectify.helper.DAOBase;
+import com.googlecode.objectify.cmd.Query;
 
-public class Dao<T> extends DAOBase
-{
+import static com.googlecode.objectify.ObjectifyService.ofy;
 
-	static final int BAD_MODIFIERS = Modifier.FINAL | Modifier.STATIC | Modifier.TRANSIENT;
+public class Dao<T> {
 
-	static
-	{
-		ObjectifyService.register(GUser.class);
-		ObjectifyService.register(Group.class);
-		ObjectifyService.register(Question.class);
-		ObjectifyService.register(Tag.class);
-		ObjectifyService.register(UserQuestion.class);
-		ObjectifyService.register(UserGroup.class);
-		ObjectifyService.register(UserProfile.class);
-		ObjectifyService.register(ZipCode.class);
-		ObjectifyService.register(Location.class);
-		
-	}
+	static final int BAD_MODIFIERS = Modifier.FINAL | Modifier.STATIC
+			| Modifier.TRANSIENT;
 
 	protected Class<T> clazz;
 
 	/**
 	 * We've got to get the associated domain class somehow
-	 *
+	 * 
 	 * @param clazz
 	 */
-	protected Dao(Class<T> clazz)
-	{
+	protected Dao(Class<T> clazz) {
 		this.clazz = clazz;
 	}
 
-	public Key<T> put(T entity)
+	public Ref<T> put(T entity)
 
 	{
-		return ofy().put(entity);
-	}
-
-	public Map<Key<T>, T> putAll(Iterable<T> entities)
-	{
-		return ofy().put(entities);
-	}
-
-	public void delete(T entity)
-	{
-		ofy().delete(entity);
-	}
-
-	public void deleteKey(Key<T> entityKey)
-	{
-		ofy().delete(entityKey);
-	}
-
-	public void deleteAll(Iterable<T> entities)
-	{
-		ofy().delete(entities);
-	}
-
-	public void deleteKeys(Iterable<Key<T>> keys)
-	{
-		ofy().delete(keys);
-	}
-
-	public T get(Long id) 
-	{
-		return ofy().get(this.clazz, id);
-	}
 	
-	public T getRN(Long id) 
-	{
+		return Ref.create(OService.ofy().save().entity(entity).now());
+	}
+
+	public Map<Key<T>, T> putAll(Iterable<T> entities) {
+		return OService.ofy().save().entities(entities).now();
+	}
+
+	public void delete(T entity) {
+		ofy().delete().entity(entity);
+	}
+
+	public void deleteAll(Iterable<T> entities) {
+		ofy().delete().entities(entities);
+	}
+
+	public T get(Long id) {
+
+		return OService.ofy().load().type(this.clazz).id(id).now();
+	}
+
+	public T get(String id) {
+
+		return OService.ofy().load().type(this.clazz).id(id).now();
+	}
+
+	public T getRN(Long id) {
 		T o;
 		try {
-			o = ofy().get(this.clazz, id);
-		} catch (NotFoundException e) {
-			return null;
-		}
-		return o;
-	}
-	
-	public T getRN(String id) 
-	{
-		T o;
-		try {
-			o = ofy().get(this.clazz, id);
+			o = get(id);
 		} catch (NotFoundException e) {
 			return null;
 		}
 		return o;
 	}
 
-	public T get(Key<T> key) 
-	{
-		return ofy().get(key);
-	}
-	
-	public T getRN(Key<T> key) 
-	{
+	public T getRN(String id) {
 		T o;
 		try {
-			o = ofy().get(key);
+			o = get(id);
 		} catch (NotFoundException e) {
 			return null;
 		}
-		
+		return o;
+	}
+
+	public T get(Ref<T> ref) {
+		return ref.get();
+	}
+
+	public T getRN(Ref<T> Ref) {
+		T o;
+		try {
+			o = get(Ref);
+		} catch (NotFoundException e) {
+			return null;
+		}
+
 		return o;
 	}
 
 	/**
 	 * Convenience method to get all objects matching a single property
-	 *
+	 * 
 	 * @param propName
 	 * @param propValue
 	 * @return T matching Object
 	 */
-	public T getByProperty(String propName, Object propValue)
-	{
-		Query<T> q = ofy().query(clazz);
+	public T getByProperty(String propName, Object propValue) {
+		Query<T> q = ofy().load().type(clazz);
 		q.filter(propName, propValue);
-		return q.get();
+		return q.first().now();
 	}
 
-	public List<T> listByProperty(String propName, Object propValue)
-	{
-		Query<T> q = ofy().query(clazz);
+	public List<T> listByProperty(String propName, Object propValue) {
+		Query<T> q = ofy().load().type(clazz);
 		q.filter(propName, propValue);
 		return asList(q.iterator());
 	}
-	
-	public Query<T> getQByProperty(String propName, Object propValue)
-	{
-		Query<T> q = ofy().query(clazz);
+
+	public Query<T> getQByProperty(String propName, Object propValue) {
+		Query<T> q = ofy().load().type(clazz);
 		q.filter(propName, propValue);
 		return q;
 	}
 
-	public List<Key<T>> listKeysByProperty(String propName, Object propValue)
-	{
-		Query<T> q = ofy().query(clazz);
-		q.filter(propName, propValue);
-		return asKeyList(q.fetchKeys());
-	}
-
-//	public T getByExample(T exampleObj)
-//	{
-//		Query<T> queryByExample = buildQueryByExample(exampleObj);
-//		Iterable<T> iterableResults = queryByExample.fetch();
-//		Iterator<T> i = iterableResults.iterator();
-//		T obj = i.next();
-//		if (i.hasNext())
-//			throw new RuntimeException("Too many results");
-//		return obj;
-//	}
-
-//	public List<T> listByExample(T exampleObj)
-//	{
-//		Query<T> queryByExample = buildQueryByExample(exampleObj);
-//		return asList(queryByExample.fetch());
-//	}
-
-	private List<T> asList(QueryResultIterator<T> queryResultIterator)
-	{
+	private List<T> asList(QueryResultIterator<T> queryResultIterator) {
 		ArrayList<T> list = new ArrayList<T>();
-		while( queryResultIterator.hasNext())
-		{
+		while (queryResultIterator.hasNext()) {
 			list.add(queryResultIterator.next());
 		}
 		return list;
 	}
 
-	private List<Key<T>> asKeyList(Iterable<Key<T>> iterableKeys)
-	{
-		ArrayList<Key<T>> keys = new ArrayList<Key<T>>();
-		for (Key<T> key : iterableKeys)
-		{
-			keys.add(key);
-		}
-		return keys;
+	public Query<T> getQuery() {
+		return OService.ofy().load().type(this.clazz);
 	}
 
-	private Query<T> buildQueryByExample(T exampleObj)
-	{
-		Query<T> q = ofy().query(clazz);
-
-		// Add all non-null properties to query filter
-		for (Field field : clazz.getDeclaredFields())
-		{
-			// Ignore transient, embedded, array, and collection properties
-			if (field.isAnnotationPresent(Transient.class)
-				|| (field.isAnnotationPresent(Embedded.class))
-				|| (field.getType().isArray())
-				|| (Collection.class.isAssignableFrom(field.getType()))
-				|| ((field.getModifiers() & BAD_MODIFIERS) != 0))
-				continue;
-
-			field.setAccessible(true);
-
-			Object value;
-			try
-			{
-				value = field.get(exampleObj);
-			}
-			catch (IllegalArgumentException e)
-			{
-				throw new RuntimeException(e);
-			}
-			catch (IllegalAccessException e)
-			{
-				throw new RuntimeException(e);
-			}
-			if (value != null)
-			{
-				q.filter(field.getName(), value);
-			}
-		}
-
-		return q;
+	public Query<T> fieldStartsWith(String field, String search) {
+		Query<T> query = getQuery();
+		return query.filter(field + " >=", search).filter(field + " <=", search + "\ufffd");
 	}
-	public Query<T> getQuery(){
-		return ofy().query(clazz);
-	}
-	
-	public <V> QueryResultIterator<T> getChildren(Key<V> parent, Class<T> clazz, String filt, Object val){
-		
-		  if(parent == null) throw new IllegalArgumentException();
-		  
-		  
-		  return ofy().query(clazz).ancestor(parent).filter(filt, val).iterator();
-		}
-	
-	public <V> T getChild(Key<V> parent, Class<T> clazz, String filt, Object val){
-		
-		  if(parent == null) throw new IllegalArgumentException();
-		  
-		  
-		  return ofy().query(clazz).ancestor(parent).filter(filt, val).get();
-		}
-	public Query<T> fieldStartsWith(String field, String search){
-		Query<T> query=getQuery();
-		query.filter(field + " >=", search);
-	    return query.filter(field + " <=", search+"\ufffd");
-	}
+
 }

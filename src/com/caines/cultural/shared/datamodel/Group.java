@@ -19,12 +19,17 @@ import java.util.List;
 
 
 
-import javax.persistence.Id;
-
-import com.caines.cultural.server.datautil.TagUtil;
-import com.googlecode.objectify.Key;
 
 
+
+
+
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
+
+@Entity
 public class Group implements Serializable{
 	/**
 	 * 
@@ -40,31 +45,28 @@ public class Group implements Serializable{
 	
 	public Group(String groupname,GUser gUser) {
 		if(gUser != null){
-			creator = gUser.getKey();	
+			creator = gUser.getRef();	
 		}
 		//id = groupname;
 		name = groupname;
 		lowerName = name.toLowerCase();
 	}
-	public Key<GUser> creator;
+	public Ref<GUser> creator;
 	public String name;
+	@Index
 	public String lowerName;
-	public List<Key<Question>> questions = new ArrayList<>();
+	public List<Ref<Question>> questions = new ArrayList<>();
 	public int seconds = 60 ;
-	public Key<Group> getKey(){
-		return new Key(Group.class,id);
-	}
 	
-	public static Key<Group> getKey(String id){
-		return new Key(Group.class,id);
-	}
 
 	@Override
 	public String toString() {
 		return "Group [id=" + id + ", name=" + name + "]";
 	}
 
-	
+	public Ref<Group> getRef(){
+		return Ref.create(this);
+	}
 	
 	
 }

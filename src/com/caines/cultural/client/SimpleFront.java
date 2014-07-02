@@ -1,7 +1,6 @@
 package com.caines.cultural.client;
 
 import com.caines.cultural.client.ui.TopArea;
-import com.caines.cultural.client.ui.WelcomePopup;
 import com.caines.cultural.client.ui.employer.EmployerTopArea;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.Group;
@@ -9,7 +8,6 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -113,8 +111,10 @@ public class SimpleFront implements EntryPoint {
 
 			}
 		});
-
-		RootPanel.get().add(new TopArea());
+		TopArea ta = new TopArea();
+		if(ta.setup()){
+			RootPanel.get("top").add(ta);
+		}
 		onMyButtonClick();
 
 		SimpleFront.basicService
@@ -136,24 +136,24 @@ public class SimpleFront implements EntryPoint {
 
 					}
 				});
-		String checkWelcome = Cookies.getCookie("welcome");
-		if (checkWelcome == null) {
-			new WelcomePopup().show();
-			Cookies.setCookie("welcome", "true");
-		}
+//		String checkWelcome = Cookies.getCookie("welcome");
+//		if (checkWelcome == null) {
+//			new WelcomePopup().show();
+//			Cookies.setCookie("welcome", "true");
+//		}
 
 	}
 
 	public void moveToEmployer() {
 		employerSwitch.setText("Switch to Employee");
-		RootPanel.get().clear();
-		RootPanel.get().add(new EmployerTopArea());
+		RootPanel.get("top").clear();
+		RootPanel.get("top").add(new EmployerTopArea());
 	}
 
 	public void moveToJobSeeker() {
 		employerSwitch.setText("Switch to Employer");
-		RootPanel.get().clear();
-		RootPanel.get().add(new TopArea());
+		RootPanel.get("top").clear();
+		RootPanel.get("top").add(new TopArea());
 	}
 
 	public static native void onMyButtonClick() /*-{

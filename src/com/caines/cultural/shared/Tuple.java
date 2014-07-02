@@ -3,6 +3,10 @@ package com.caines.cultural.shared;
 import java.io.Serializable;
 
 public class Tuple<K,V> implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public K a;
 	public V b;
 	public Tuple() {

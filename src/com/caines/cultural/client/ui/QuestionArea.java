@@ -9,13 +9,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class QuestionArea extends Composite {
@@ -60,7 +57,7 @@ public class QuestionArea extends Composite {
 			public void onClick(ClickEvent event) {
 				Button l = (Button) event.getSource();
 				String answer = l.getText();
-				SimpleFront.basicService.answerQuestion(NextQuestion.qKey,
+				SimpleFront.basicService.answerQuestion(NextQuestion.qRef,
 						answer, new AsyncCallback<Void>() {
 
 							@Override

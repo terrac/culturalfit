@@ -3,11 +3,13 @@ package com.caines.cultural.shared.datamodel;
 
 import java.io.Serializable;
 
-import javax.persistence.Id;
-
-import com.googlecode.objectify.Key;
 
 
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+
+@Entity
 public class GUser implements Serializable{
 	/**
 	 * 
@@ -24,20 +26,19 @@ public class GUser implements Serializable{
 	@Id
 	public String id;
 	public String displayName;
-	public Key<UserQuestion> currentQuestion;
-	public Key<Group> currentGroup;
+	public Ref<UserQuestion> currentQuestion;
+	public Ref<Group> currentGroup;
+	public boolean admin;
 	
 	public String getDisplayName() {
 		return displayName;
 	}
-	public Key<GUser> getKey(){
-		return new Key(GUser.class,id);
-	}
-	public static Key<GUser> getKey(String userkey){
-		return new Key(GUser.class,userkey);
-	}
+	
 	public boolean isAdmin() {
-		return false;
+		return admin;
 	}
 	
+	public Ref<GUser> getRef(){
+		return Ref.create(this);
+	}
 }

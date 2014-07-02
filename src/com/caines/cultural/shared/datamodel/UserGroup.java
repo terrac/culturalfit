@@ -5,26 +5,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-import javax.persistence.Id;
-
-import com.caines.cultural.server.datautil.TagUtil;
-import com.googlecode.objectify.Key;
-
-
+@Entity
 public class UserGroup implements Serializable{
 	/**
 	 * 
@@ -38,27 +24,21 @@ public class UserGroup implements Serializable{
 	@Id
 	public Long id;
 	
-	public UserGroup(String groupname,Key<Location> location) {
+	public UserGroup(String groupname,Ref<Location> location) {
 		name = groupname;
 		locationMapping = location;
 	}
 	public String name;
-	public List<Key<Question>> questions = new ArrayList<>();
+	public List<Ref<Question>> questions = new ArrayList<>();
 	public int total;
+	@Index
 	public int correct;
 	public double correctPercent;
 	//includes amount of questions answered
 	public double score;	
-	public Key<GUser> user;
-	public Key<Group> group;
-	public Key<Location> locationMapping;
-	public Key<UserGroup> getKey(){
-		return new Key(UserGroup.class,id);
-	}
-	
-	public static Key<UserGroup> getKey(String id){
-		return new Key(UserGroup.class,id);
-	}
+	public Ref<GUser> user;
+	public Ref<Group> group;
+	public Ref<Location> locationMapping;
 	
 	public int getPercent(){
 		if(total == 0){

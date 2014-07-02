@@ -17,6 +17,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public class SuggestServiceImpl extends RemoteServiceServlet implements
 		SuggestService {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public SuggestOracle.Response getGroup(SuggestOracle.Request req) {
 		LoginInfo li = LoginService.login(null, null);
 		

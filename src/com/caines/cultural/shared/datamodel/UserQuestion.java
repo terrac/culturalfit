@@ -2,32 +2,13 @@ package com.caines.cultural.shared.datamodel;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import javax.persistence.Id;
-
-import com.caines.cultural.server.datautil.TagUtil;
-import com.googlecode.objectify.Key;
-
-
+@Entity
 public class UserQuestion implements Serializable{
 	/**
 	 * 
@@ -38,15 +19,15 @@ public class UserQuestion implements Serializable{
 	
 	}
 	
-	public UserQuestion(Key<Question> q, Key<Group> key) {
+	public UserQuestion(Ref<Question> q, Ref<Group> Ref) {
 		question = q;
-		group = key;
+		group = Ref;
 	}
 
 	@Id
 	public Long id;
 	
-	public Key<Question> question;
+	public Ref<Question> question;
 
 	public boolean visited;
 
@@ -54,16 +35,9 @@ public class UserQuestion implements Serializable{
 	public boolean processed;
 	public boolean correct;
 	public String answer;
-	public Key<GUser> user;
-	public Key<Group> group;
+	public Ref<GUser> user;
+	public Ref<Group> group;
 	
-	public Key<UserQuestion> getKey(){
-		return new Key(UserQuestion.class,id);
-	}
-	
-	public static Key<UserQuestion> getKey(String id){
-		return new Key(UserQuestion.class,id);
-	}
 	
 	
 	

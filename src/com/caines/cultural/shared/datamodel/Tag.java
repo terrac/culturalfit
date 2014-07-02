@@ -5,11 +5,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Id;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
-import com.googlecode.objectify.Key;
-
-
+@Entity
 public class Tag implements Serializable {
 	/**
 	 * 
@@ -28,14 +28,13 @@ public class Tag implements Serializable {
 	@Id
 	public String id;
 	public String name;
+	@Index
 	public int amount;
 	
 	
-	public Key<Tag> getKey(){
-		return new Key(Tag.class,id);
-	}
+	
 	public static List<String> toString(List<Tag> list) {
-		List<String> a = new ArrayList();
+		List<String> a = new ArrayList<>();
 		for(Tag b : list){
 			a.add(b.getName());
 		}

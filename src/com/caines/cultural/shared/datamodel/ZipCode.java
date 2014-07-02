@@ -1,15 +1,10 @@
 package com.caines.cultural.shared.datamodel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import javax.persistence.Id;
-
-import com.caines.cultural.server.datautil.TagUtil;
-import com.googlecode.objectify.Key;
-
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+@Entity
 public class ZipCode implements Serializable {
 	/**
 	 * 
@@ -33,12 +28,6 @@ public class ZipCode implements Serializable {
 	public double lattitude;
 	public double longitude;
 
-	public Key<ZipCode> getKey() {
-		return new Key(ZipCode.class, id);
-	}
 
-	public static Key<ZipCode> getKey(String id) {
-		return new Key(ZipCode.class, id);
-	}
 
 }

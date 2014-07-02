@@ -1,33 +1,17 @@
 package com.caines.cultural.server;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.List;
-import java.util.Map.Entry;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.io.IOUtils;
-
-import com.caines.cultural.server.datautil.TagUtil;
-import com.caines.cultural.shared.LoginInfo;
-import com.caines.cultural.shared.datamodel.GUser;
-import com.caines.cultural.shared.datamodel.Group;
-import com.caines.cultural.shared.datamodel.Question;
-import com.caines.cultural.shared.datamodel.Tag;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
-import com.googlecode.objectify.Key;
-
 public class MainServlet extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -56,6 +40,7 @@ public class MainServlet extends HttpServlet {
   +"</head>"                                       
   +"<body>"
   	+"<div id=employerSwitch class=topright></div>"
+	+"<div id=top></div>"
 	+"<div id=content></div>"
   +"</body>"
 +"</html>";

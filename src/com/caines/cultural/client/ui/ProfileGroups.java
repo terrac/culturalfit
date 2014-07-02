@@ -4,12 +4,11 @@ import java.util.List;
 
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.ui.callback.SuccessAlertCallback;
-import com.caines.cultural.client.ui.callback.VoidCallback;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.UserGroup;
-import com.caines.cultural.shared.datamodel.UserProfile;
+import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.LIElement;
@@ -24,9 +23,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 
 public class ProfileGroups extends Composite {
 
@@ -34,14 +32,10 @@ public class ProfileGroups extends Composite {
 			.create(ProfileGroupsUiBinder.class);
 
 	private static final class SetupProfileData implements
-			AsyncCallback<Tuple<UserProfile, List<Location>>> {
+			AsyncCallback<Tuple<SharedUserProfile, List<Location>>> {
 		private ListBox locat;
 		private ListBox salary;
 		private ListBox vacation;
-
-		private SetupProfileData(ListBox locat) {
-			this.locat = locat;
-		}
 
 		public SetupProfileData(ListBox locat, ListBox salary, ListBox vacation) {
 			super();
@@ -51,43 +45,38 @@ public class ProfileGroups extends Composite {
 		}
 
 		@Override
-		public void onSuccess(
-				Tuple<UserProfile, List<Location>> result) {
+		public void onSuccess(Tuple<SharedUserProfile, List<Location>> result) {
 			for (Location l : ((List<Location>) result.b)) {
 				locat.addItem(l.name, "" + l.id);
 			}
-			
-			UserProfile uP = (UserProfile) result.a;
-			if(uP == null){
+
+			SharedUserProfile uP = result.a;
+			if (uP == null) {
 				return;
 			}
-			user = uP.user;
-			if(salary != null){
+			// user = uP.user;
+			if (salary != null) {
 				for (int a = 0; a < salary.getItemCount(); a++) {
 					if (a * 10000 == uP.salary) {
 						salary.setSelectedIndex(a);
 					}
-				}	
+				}
 			}
-			
-			if(vacation != null){
+
+			if (vacation != null) {
 				for (int a = 0; a < vacation.getItemCount(); a++) {
 					if (a == uP.vacation) {
 						vacation.setSelectedIndex(a);
 					}
-				}	
+				}
 			}
-			
-			
-			if(uP.location != null){
-				String loc = "" + uP.location.getId();
-				for (int a = 0; a < locat.getItemCount(); a++) {
-					if (locat.getValue(a).equals(loc)) {
-						locat.setSelectedIndex(a);
-					}
-				}	
+
+			String loc = "" + uP.location;
+			for (int a = 0; a < locat.getItemCount(); a++) {
+				if (locat.getValue(a).equals(loc)) {
+					locat.setSelectedIndex(a);
+				}
 			}
-			
 
 		}
 
@@ -98,6 +87,7 @@ public class ProfileGroups extends Composite {
 			Window.alert("fail");
 		}
 	}
+
 	interface ProfileGroupsUiBinder extends UiBinder<Widget, ProfileGroups> {
 	}
 
@@ -119,14 +109,11 @@ public class ProfileGroups extends Composite {
 	@UiField
 	Button publicButton;
 
-
-
 	//
 	// @UiField
 	// TextBox profileName;
 	// <g:Label text="Profile Identifier"></g:Label>
 	// <g:TextBox ui:field="profileName"></g:TextBox>
-
 
 	public ProfileGroups() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -134,24 +121,25 @@ public class ProfileGroups extends Composite {
 		for (int a = 10; a < 250; a += 10) {
 			salary.addItem(a + ",000", "" + a * 1000);
 		}
-		
+
 		vacation.addItem("Not selected", "-1");
 		for (int a = 6; a < 9; a += 1) {
-			vacation.addItem(a +" Weeks",""+ a);
+			vacation.addItem(a + " Weeks", "" + a);
 		}
-		updateProfileData( location,salary,vacation);
+		updateProfileData(location, salary, vacation);
 
 		update.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				 
+
 				int salaryVal = Integer.parseInt(salary.getValue(salary
 						.getSelectedIndex()));
-				Key<Location> lVal = Location.getKey(Long.parseLong(location
-						.getValue(location.getSelectedIndex())));
-				SimpleFront.basicService.sendProfile(salaryVal,lVal,new SuccessAlertCallback("Updated"));
-			
+				long lVal = Long.parseLong(location.getValue(location
+						.getSelectedIndex()));
+				SimpleFront.basicService.sendProfile(salaryVal, lVal,
+						new SuccessAlertCallback("Updated"));
+
 			}
 		});
 
@@ -183,11 +171,10 @@ public class ProfileGroups extends Composite {
 	}
 
 	public static void updateProfileData(final ListBox locat,
-			final ListBox salary,ListBox vacation) {
-		SimpleFront.basicService
-				.getProfileData(new SetupProfileData(locat, salary,vacation));
+			final ListBox salary, ListBox vacation) {
+		SimpleFront.basicService.getProfileData(new SetupProfileData(locat,
+				salary, vacation));
 	}
-	
 
 	// @UiField
 	// Button button;
@@ -209,10 +196,12 @@ public class ProfileGroups extends Composite {
 	// public String getText() {
 	// return button.getText();
 	// }
-	static Key<GUser> user;
+	static Ref<GUser> user;
+
 	@UiHandler("publicButton")
 	public void onClickPublic(ClickEvent c) {
-		Window.Location.assign("/c/profile/" + user.getName());
+
+		Window.Location.assign("/c/profile/" + user.getKey().getName());
 	}
 
 }

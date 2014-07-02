@@ -1,15 +1,14 @@
 package com.caines.cultural.shared.datamodel;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.persistence.Id;
-
-import com.caines.cultural.server.datautil.TagUtil;
+import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
 import com.google.gwt.i18n.client.NumberFormat;
-import com.googlecode.objectify.Key;
-
+import com.google.gwt.user.client.rpc.GwtTransient;
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
+@Entity
 public class UserProfile implements Serializable {
 	/**
 	 * 
@@ -24,13 +23,14 @@ public class UserProfile implements Serializable {
 	public Long id;
 
 	public UserProfile(GUser gUser) {
-		user = gUser.getKey();
+		user = gUser.getRef();
 		name = gUser.displayName;
 	}
-
-	public Key<GUser> user;
+	@GwtTransient
+	public Ref<GUser> user;
 	public int salary;
-	public Key<Location> location;
+	@GwtTransient
+	public Ref<Location> location;
 	public String name;
 	public int vacation;
 
@@ -48,13 +48,11 @@ public class UserProfile implements Serializable {
 
 	}
 
-	public Key<UserProfile> getKey() {
-		return new Key(UserProfile.class, id);
+	public Ref<UserProfile> getRef() {
+		return Ref.create(this);
 	}
 
-	public static Key<UserProfile> getKey(String id) {
-		return new Key(UserProfile.class, id);
-	}
+	
 
 	@Override
 	public String toString() {
@@ -62,4 +60,7 @@ public class UserProfile implements Serializable {
 				+ ", name=" + name + "]";
 	}
 
+	public SharedUserProfile getShared(){
+		return new SharedUserProfile(location.getKey().getId(), salary, vacation);
+	}
 }

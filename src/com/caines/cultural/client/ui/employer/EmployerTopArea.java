@@ -11,31 +11,22 @@ import com.caines.cultural.client.ui.ProfileGroups;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
+import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.LIElement;
 import com.google.gwt.dom.client.Style.Cursor;
-import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
-import com.google.gwt.uibinder.client.UiConstructor;
 import com.google.gwt.uibinder.client.UiField;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FocusPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.googlecode.objectify.Key;
 
 public class EmployerTopArea extends Composite {
 
@@ -50,10 +41,10 @@ public class EmployerTopArea extends Composite {
 
 		submit.getElement().setClassName("btn btn-primary");
 		SimpleFront.basicService
-				.getUserProfile(new AsyncCallback<UserProfile>() {
+				.getUserProfile(new AsyncCallback<SharedUserProfile>() {
 
 					@Override
-					public void onSuccess(UserProfile result) {
+					public void onSuccess(SharedUserProfile result) {
 						ProfileGroups.updateProfileData(location, null,null);
 						updateList();
 
@@ -140,7 +131,7 @@ public class EmployerTopArea extends Composite {
 
 								@Override
 								public void onClick(ClickEvent event) {
-									Label l = (Label) event.getSource();
+									//Label l = (Label) event.getSource();
 									new PopupGroupList(up).center();
 								}
 							};

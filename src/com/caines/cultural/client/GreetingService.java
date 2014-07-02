@@ -1,6 +1,5 @@
 package com.caines.cultural.client;
 
-import java.util.Collection;
 import java.util.List;
 
 import com.caines.cultural.shared.Tuple;
@@ -8,12 +7,11 @@ import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
-import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
-import com.caines.cultural.shared.datamodel.UserProfile;
+import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Ref;
 
 /**
  * The client-side stub for the RPC service.
@@ -40,11 +38,11 @@ public interface GreetingService extends RemoteService {
 
 
 
-	Question getQuestionToEdit(Long questionKey);
+	Question getQuestionToEdit(Long questionRef);
 
 
 
-	void updateQuestion(Long questionKey, String value);
+	void updateQuestion(Long questionRef, String value);
 
 
 	List<UserGroup> getUserGroupList();
@@ -56,31 +54,34 @@ public interface GreetingService extends RemoteService {
 	List<Question> getQuestionList();
 
 
-	void disableQuestion(Long questionKey);
+	void disableQuestion(Long questionRef);
 
 
 	
-	UserProfile getUserProfile();
+	SharedUserProfile getUserProfile();
 
 
 	
 
-	void setLocation(long locationKey);
 
 
-	Tuple<UserProfile,List<Location>> getProfileData();
+	Tuple<SharedUserProfile, List<Location>> getProfileData();
 
 
-	void sendProfile(int salary, Key<Location> location);
 
-
-	List<UserGroup> getUserGroupList(Key<GUser> key);
+	List<UserGroup> getUserGroupList(Ref<GUser> Ref);
 
 
 	Tuple<String, Boolean> getLogInOutString();
 
 
 	String editGroup(String groupName);
+
+
+	void sendProfile(int salary, long lVal);
+
+
+	void setLocation(long location);
 
 
 

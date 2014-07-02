@@ -1,9 +1,7 @@
 package com.caines.cultural.client.suggestion;
 
-import com.caines.cultural.shared.datamodel.Group;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle.Response;
 
 public abstract class ItemSuggestOracle extends SuggestOracle {
 
@@ -15,7 +13,7 @@ public abstract class ItemSuggestOracle extends SuggestOracle {
 
 	}
 
-	public class ItemSuggestCallback implements AsyncCallback {
+	public class ItemSuggestCallback implements AsyncCallback<SuggestOracle.Response> {
 
 		private SuggestOracle.Request req;
 		private SuggestOracle.Callback callback;
@@ -30,12 +28,13 @@ public abstract class ItemSuggestOracle extends SuggestOracle {
 			callback.onSuggestionsReady(req, new SuggestOracle.Response());
 		}
 
-		public void onSuccess(Object retValue) {
-			SuggestOracle.Response retValue2 = (SuggestOracle.Response) retValue;
-
-			checkExists(retValue2);
-			callback.onSuggestionsReady(req, retValue2);
+		@Override
+		public void onSuccess(Response result) {
+			
+			checkExists(result);
+			callback.onSuggestionsReady(req, result);
 		}
+
 
 		
 	}

@@ -7,24 +7,11 @@ import java.util.List;
 
 
 
+import com.googlecode.objectify.Ref;
+import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 
-
-
-
-
-
-
-
-
-
-
-
-import javax.persistence.Id;
-
-import com.caines.cultural.server.datautil.TagUtil;
-import com.googlecode.objectify.Key;
-
-
+@Entity
 public class Question implements Serializable{
 	/**
 	 * 
@@ -39,7 +26,7 @@ public class Question implements Serializable{
 	public Long id;
 	
 	public Question(String question, String answer1, String answer2,
-			List<Key<Tag>> tag) {
+			List<Ref<Tag>> tag) {
 		super();
 		this.question = question;
 		this.answer1 = answer1;
@@ -51,15 +38,15 @@ public class Question implements Serializable{
 	public String answer1;
 	public String answer2;
 	
-	public List<Key<Tag>> tags = new ArrayList();
+	public List<Ref<Tag>> tags = new ArrayList<>();
 	public boolean disabled;
 	
-	public Key<Question> getKey(){
-		return new Key(Question.class,id);
+	public Ref<Question> getRef(){
+		return Ref.create(this);
 	}
 	
-	public static Key<Question> getKey(Long id){
-		return new Key(Question.class,id);
+	public static Ref<Question> getRef(Long id){
+		return null;
 	}
 	
 	
