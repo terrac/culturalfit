@@ -7,6 +7,10 @@ import java.util.List;
 
 
 
+
+
+import com.google.common.annotations.GwtIncompatible;
+import com.google.gwt.user.client.rpc.GwtTransient;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -25,26 +29,27 @@ public class Question implements Serializable{
 	@Id
 	public Long id;
 	
-	public Question(String question, String answer1, String answer2,
-			List<Ref<Tag>> tag) {
+	public Question(String question, String answer1, String answer2) {
 		super();
 		this.question = question;
 		this.answer1 = answer1;
 		this.answer2 = answer2;
-		this.tags = tag;
 	}
 
 	public String question;
 	public String answer1;
 	public String answer2;
 	
+	@GwtTransient
 	public List<Ref<Tag>> tags = new ArrayList<>();
 	public boolean disabled;
 	
+	@GwtIncompatible("")
 	public Ref<Question> getRef(){
 		return Ref.create(this);
 	}
 	
+	@GwtIncompatible("")
 	public static Ref<Question> getRef(Long id){
 		return null;
 	}

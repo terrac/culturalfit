@@ -61,6 +61,10 @@ public class UserProfile implements Serializable {
 	}
 
 	public SharedUserProfile getShared(){
-		return new SharedUserProfile(location.getKey().getId(), salary, vacation);
+		long lId = 0;
+		if(location != null){
+			lId = location.getKey().getId();
+		}
+		return new SharedUserProfile(lId, salary, vacation);
 	}
 }

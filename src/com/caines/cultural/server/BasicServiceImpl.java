@@ -68,7 +68,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 					li.gUser.getRef());
 			g = new UserGroup(SDao.getGroupDao().get(gRef).name, up.location);
 			g.group = gRef;
-			g.user = li.gUser.getRef();
+			g.userProfile = up.getRef();
 			SDao.getUserGroupDao().put(g);
 		}
 
@@ -114,8 +114,8 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public List<Question> getQuestionList() {
 		LoginInfo li = LoginService.login(null, null);
-		return OService.ofy().load().type(Question.class)
-				.filterKey(li.gUser.currentGroup).list();
+		return new ArrayList<>(OService.ofy().load().type(Question.class)
+				.filterKey(li.gUser.currentGroup).list());
 	}
 
 	@Override
@@ -174,9 +174,11 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		if (PermissionsUtil.canEdit(li.gUser, g)) {
 			return null;
 		}
+		Question qu = new Question(question, answer1, answer2);
 		g.questions.add(SDao.getQuestionDao().put(
-				new Question(question, answer1, answer2, TagUtil
-						.getTagRefs(tagString))));
+				qu));
+		qu.tags = TagUtil
+				.getTagRefs(tagString);
 		SDao.getGroupDao().put(g);
 		return null;
 	}
@@ -191,7 +193,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<Group> getTopGroups() {
-		return SDao.getGroupDao().getQuery().list();
+		return new ArrayList<>(SDao.getGroupDao().getQuery().list());
 	}
 
 	@Override

@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.NotFoundException;
@@ -101,21 +103,16 @@ public class Dao<T> {
 	 * @return T matching Object
 	 */
 	public T getByProperty(String propName, Object propValue) {
-		Query<T> q = ofy().load().type(clazz);
-		q.filter(propName, propValue);
-		return q.first().now();
+		return ofy().load().type(clazz).filter(propName, propValue).first().now();
 	}
 
 	public List<T> listByProperty(String propName, Object propValue) {
-		Query<T> q = ofy().load().type(clazz);
-		q.filter(propName, propValue);
+		Query<T> q = ofy().load().type(clazz).filter(propName, propValue);
 		return asList(q.iterator());
 	}
 
 	public Query<T> getQByProperty(String propName, Object propValue) {
-		Query<T> q = ofy().load().type(clazz);
-		q.filter(propName, propValue);
-		return q;
+		return ofy().load().type(clazz).filter(propName, propValue);
 	}
 
 	private List<T> asList(QueryResultIterator<T> queryResultIterator) {
@@ -135,4 +132,22 @@ public class Dao<T> {
 		return query.filter(field + " >=", search).filter(field + " <=", search + "\ufffd");
 	}
 
+	public static class Func<T> implements Function<Ref<T>, T> {
+        public static Func<Object> INSTANCE = new Func<Object>();
+
+        @Override
+        public T apply(Ref<T> ref) {
+            return deref(ref);
+        }
+    }
+
+    public static <T> T deref(Ref<T> ref) {
+        return ref == null ? null : ref.get();
+    }
+
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public static <T> List<T> deref(List<Ref<T>> reflist) {
+        return Lists.transform(reflist, (Func)Func.INSTANCE);
+    }
+    
 }

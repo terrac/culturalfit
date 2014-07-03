@@ -20,6 +20,7 @@ import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
+import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.gson.JsonArray;
@@ -40,10 +41,10 @@ public class AdminServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// SDao.getUserProfileDao().getQuery().filter("zipCode >",
 		// 0).filter("zipCode <",5);
-		LoginInfo li = LoginService.login(null, null);
 
 		boolean setAdmin = Boolean.parseBoolean(req.getParameter("uurba"));
 		if (setAdmin) {
+			LoginInfo li = LoginService.login(null, null);
 			li.gUser.admin = true;
 			SDao.getGUserDao().put(li.gUser);
 			return;
@@ -51,6 +52,8 @@ public class AdminServlet extends HttpServlet {
 
 		boolean setGroups = Boolean.parseBoolean(req.getParameter("setGroups"));
 		if (setGroups) {
+			LoginInfo li = LoginService.login(null, null);
+
 			for (Group g : SDao.getGroupDao().getQuery().list()) {
 				g.creator = li.gUser.getRef();
 				SDao.getGroupDao().put(g);
@@ -72,6 +75,7 @@ public class AdminServlet extends HttpServlet {
 			SDao.getUserProfileDao().deleteAll(
 					SDao.getUserProfileDao().getQuery().list());
 		}
+		LoginInfo li = LoginService.login(null, null);
 
 		String[] loc = new String[] { "Atlanta", "Seattle", "Philidelphia",
 				"Chicago", "Los Angeles", "Dallas", "Boston", "Silicon Valley",
@@ -143,7 +147,8 @@ public class AdminServlet extends HttpServlet {
 				Question q = new Question(question.get("question")
 						.getAsString(), question.get("rightAnswer")
 						.getAsString(), question.get("wrongAnswer")
-						.getAsString(), TagUtil.getTagRefs(""));
+						.getAsString());
+				q.tags =  TagUtil.getTagRefs("");
 				g.questions.add(SDao.getQuestionDao().put(q));
 			}
 			SDao.getGroupDao().put(g);
@@ -164,11 +169,17 @@ public class AdminServlet extends HttpServlet {
 			Ref<GUser> gRef = SDao.getGUserDao().put(gu);
 			int count = 4 + r.nextInt(3);
 			for (int b = 0; b < count; b++) {
+				UserProfile up = new UserProfile(gu);
+				up.location = l.getRef();
+				up.salary = salaryA[r.nextInt(salaryA.length)];
+				upList.add(up);
+				SDao.getUserProfileDao().put(up);
+	
 				for (Group g : listGroup) {
 					//+ "/" + l.name
 					UserGroup ug = new UserGroup(g.name +l.name,
 							l.getRef());
-					ug.user = gRef;
+					ug.userProfile = up.getRef();
 					ug.group = g.getRef();
 					ug.total = (int) (r.nextInt(g.questions.size())) + 1;
 					if (ug.total > 0) {
@@ -177,10 +188,6 @@ public class AdminServlet extends HttpServlet {
 					}
 					ugList.add(ug);
 				}
-				UserProfile up = new UserProfile(gu);
-				up.location = l.getRef();
-				up.salary = salaryA[r.nextInt(salaryA.length)];
-				upList.add(up);
 			}
 
 		}
@@ -193,8 +200,9 @@ public class AdminServlet extends HttpServlet {
 
 	public void addQuestion(Group g, String question, String answer1,
 			String answer2, String tags) {
-		Question q = new Question(question, answer1, answer2,
-				TagUtil.getTagRefs(tags));
+		List<Ref<Tag>> tagRefs = TagUtil.getTagRefs(tags);
+		Question q = new Question(question, answer1, answer2);
+		q.tags = tagRefs;
 		g.questions.add(SDao.getQuestionDao().put(q));
 	}
 }
