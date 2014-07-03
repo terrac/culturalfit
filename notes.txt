@@ -1,3 +1,14 @@
+1 test adding questions to groups as a normal user and then getting them approved
+
+1 put a few people on each area
+2 test group create
+  a create a set admin option on the servlet
+  b create a set all groups to this user on servlet
+  c
+
+1 screen out locations when group has none
+  a
+
 1 workflow
   a start on next question
   #b remove timer
