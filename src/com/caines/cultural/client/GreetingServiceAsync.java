@@ -27,7 +27,7 @@ public interface GreetingServiceAsync {
 
 	void getTopGroups(AsyncCallback<List<Group>> callback);
 
-	void setCurrentGroup(String text, AsyncCallback<Void> callback);
+	void setCurrentGroup(String text, AsyncCallback<Group> asyncCallback);
 
 	void getCurrentGroup(AsyncCallback<Group> callback);
 
@@ -36,7 +36,6 @@ public interface GreetingServiceAsync {
 	void updateQuestion(Long questionRef, String value,
 			AsyncCallback<Void> asyncCallback);
 
-	void getUserGroupList(AsyncCallback<List<UserGroup>> callback);
 
 	void getQuestionList(AsyncCallback<List<Question>> callback);
 
@@ -51,11 +50,20 @@ public interface GreetingServiceAsync {
 	void getProfileData(
 			AsyncCallback<Tuple<SharedUserProfile, List<Location>>> callback);
 
-	void getUserGroupList(Ref<GUser> Ref,
-			AsyncCallback<List<UserGroup>> callback);
 
-	void getLogInOutString(AsyncCallback<Tuple<String, Boolean>> callback);
+	void getLogInOutString(
+			AsyncCallback<Tuple<Group, Tuple<String, Boolean>>> asyncCallback);
 	
 	void editGroup(String groupName, AsyncCallback<String> callback);
+
+	void getUserGroupList(long id,
+			AsyncCallback<List<UserGroup>> callback);
+
+	void getUserGroupList(AsyncCallback<List<UserGroup>> callback);
+
+	void getTemporaryQuestions(AsyncCallback<List<Question>> callback);
+
+	void addPermanentQuestion(long id, boolean shouldAdd,
+			AsyncCallback<Void> callback);
 
 }

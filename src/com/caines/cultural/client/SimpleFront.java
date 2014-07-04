@@ -8,6 +8,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -32,10 +33,10 @@ public class SimpleFront implements EntryPoint {
 		@Override
 		public void onClick(ClickEvent event) {
 			basicService.setCurrentGroup(sb.getText(),
-					new AsyncCallback<Void>() {
+					new AsyncCallback<Group>() {
 
 						@Override
-						public void onSuccess(Void result) {
+						public void onSuccess(Group result) {
 							SetGroup.this.onSuccess();
 						}
 
@@ -74,43 +75,26 @@ public class SimpleFront implements EntryPoint {
 		HorizontalPanel hp = new HorizontalPanel();
 		final Anchor logIn = new Anchor("Log In");
 		logIn.getElement().setClassName("btn");
-		employerSwitch.getElement().setClassName("btn");
 		hp.add(logIn);
-		hp.add(employerSwitch);
+		
+//		employerSwitch.getElement().setClassName("btn");		
+//		hp.add(employerSwitch);
 		RootPanel.get("employerSwitch").add(hp);
 
-		employerSwitch.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				if (!employer) {
-					moveToEmployer();
-				} else {
-					moveToJobSeeker();
-
-				}
-				employer = !employer;
-			}
-		});
-		SimpleFront.basicService.getCurrentGroup(new AsyncCallback<Group>() {
-
-			@Override
-			public void onSuccess(Group result) {
-				if (result == null) {
-					logIn.setText("Log In");
-					return;
-				}
-				logIn.setText("Log Out");
-
-				TopArea.setGroupName(result.name);
-			}
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+//		employerSwitch.addClickHandler(new ClickHandler() {
+//
+//			@Override
+//			public void onClick(ClickEvent event) {
+//				if (!employer) {
+//					moveToEmployer();
+//				} else {
+//					moveToJobSeeker();
+//
+//				}
+//				employer = !employer;
+//			}
+//		});
+		//SimpleFront.basicService.getCurrentGroup(new SetupTopArea(logIn));
 		TopArea ta = new TopArea();
 		if(ta.setup()){
 			RootPanel.get("top").add(ta);
@@ -118,23 +102,26 @@ public class SimpleFront implements EntryPoint {
 		onMyButtonClick();
 
 		SimpleFront.basicService
-				.getLogInOutString(new AsyncCallback<Tuple<String, Boolean>>() {
+				.getLogInOutString(new AsyncCallback<Tuple<Group,Tuple<String, Boolean>>>() {
 
 					@Override
-					public void onSuccess(Tuple<String, Boolean> result) {
-						if (result.b) {
+					public void onFailure(Throwable caught) {
+						caught.printStackTrace();
+					}
+
+					@Override
+					public void onSuccess(
+							Tuple<Group, Tuple<String, Boolean>> result) {
+						if (result.b.b) {
 							logIn.setText("Log In");
 						} else {
 							logIn.setText("Log Out");
 						}
-						logIn.setHref(result.a);
+						logIn.setHref(result.b.a);
+						TopArea.setGroupName(result.a.name);
+						TopArea.setGroup(result.a);
 					}
 
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
 				});
 //		String checkWelcome = Cookies.getCookie("welcome");
 //		if (checkWelcome == null) {
@@ -153,7 +140,9 @@ public class SimpleFront implements EntryPoint {
 	public void moveToJobSeeker() {
 		employerSwitch.setText("Switch to Employer");
 		RootPanel.get("top").clear();
-		RootPanel.get("top").add(new TopArea());
+		TopArea ta = new TopArea();
+		ta.setup();
+		RootPanel.get("top").add(ta);
 	}
 
 	public static native void onMyButtonClick() /*-{

@@ -7,52 +7,48 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<div class="container">
-			<div class="well well-lg">
-				<div class="row">
-					<div class="col-md-2">
-						<div class="control-group">
-							<label for="textinput" class="control-label">Set your desired salary</label>
-							<div class="controls">
-								<g:ListBox ui:field="salary">
-								</g:ListBox>
-							</div>
+		<div class="well well-lg">
+			<div class="row">
+				<div class="col-md-2">
+					<div class="control-group">
+						<label for="textinput" class="control-label">Set your desired salary</label>
+						<div class="controls">
+							<g:ListBox ui:field="salary">
+							</g:ListBox>
 						</div>
-					</div>
-					<div class="col-md-2">
-						<div class="control-group">
-							<label for="textinput" class="control-label">Pick a location</label>
-							<div class="controls">
-								<g:ListBox ui:field="location">
-								</g:ListBox>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-md-2">
-						<div class="control-group">
-							<label for="textinput" class="control-label">Desired vacation</label>
-							<div class="controls">
-								<g:ListBox ui:field="vacation">
-								</g:ListBox>
-							</div>
-						</div>
-					</div>
-					
-					<div class="col-2">
-						<g:Button ui:field="update" text="Update"></g:Button>
 					</div>
 				</div>
+				<div class="col-md-2">
+					<div class="control-group">
+						<label for="textinput" class="control-label">Pick a location</label>
+						<div class="controls">
+							<g:ListBox ui:field="location">
+							</g:ListBox>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-md-2">
+					<div class="control-group">
+						<label for="textinput" class="control-label">Desired vacation</label>
+						<div class="controls">
+							<g:ListBox ui:field="vacation">
+							</g:ListBox>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-2">
+					<g:Button ui:field="update" text="Update"></g:Button>
+				</div>
 			</div>
-
-
-
 		</div>
-		<div class="container">
+
+
+
 
 			<ul class="list-group" ui:field="listGroups">
 			</ul>
-		</div>
 		<div class="container">
 			<g:Button ui:field="publicButton" text="Public Profile"></g:Button>
 		</div>

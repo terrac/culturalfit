@@ -5,6 +5,7 @@ import java.util.List;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
+import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -17,13 +18,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class PopupGroupList extends PopupPanel {
 
-	public PopupGroupList(final UserProfile up) {		
+	public PopupGroupList(final SharedUserProfile up) {		
 		super(true);
 		final VerticalPanel vp = new VerticalPanel();
 		setWidget(vp);
 		
 		vp.addStyleName("list-group");
-		SimpleFront.basicService.getUserGroupList(up.user,new AsyncCallback<List<UserGroup>>() {
+		SimpleFront.basicService.getUserGroupList(up.id,new AsyncCallback<List<UserGroup>>() {
 			
 			@Override
 			public void onSuccess(List<UserGroup> result) {

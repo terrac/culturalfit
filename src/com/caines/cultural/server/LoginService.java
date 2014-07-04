@@ -53,6 +53,7 @@ public class LoginService {
 			per = SDao.getGUserDao().getRN(user.getUserId());
 			if (per == null) {
 				per = new GUser(user.getUserId(),user.getNickname());
+				
 				SDao.getGUserDao().put(per);
 			}
 			loginInfo.gUser = per;
@@ -61,7 +62,7 @@ public class LoginService {
 				writer.println(SideBar.getServletRep("Sign Out",loginInfo.logoutUrl,gRef));
 			}
 			if(per.currentGroup == null){
-				Group welcome = SDao.getGroupDao().getByProperty("name", "Welcome");
+				Group welcome = SDao.getGroupDao().getByProperty("lowerName", "welcome");
 				if(welcome != null){
 					per.currentGroup=welcome.getRef();
 					SDao.getGUserDao().put(per);

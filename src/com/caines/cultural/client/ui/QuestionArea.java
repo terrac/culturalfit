@@ -5,6 +5,7 @@ import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.ViewGroups;
 import com.caines.cultural.shared.datamodel.Question;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.uibinder.client.UiBinder;
@@ -12,6 +13,7 @@ import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -80,7 +82,8 @@ public class QuestionArea extends Composite {
 	}
 
 	public void setQuestion(Question result) {
-		question.setText(result.question);
+		question.setInnerText(result.question);
+		
 		if (Math.random() > .5) {
 			answer1.setText(result.answer1);
 			answer2.setText(result.answer2);
@@ -88,17 +91,19 @@ public class QuestionArea extends Composite {
 			answer1.setText(result.answer2);
 			answer2.setText(result.answer1);
 		}
-		startClock();
-		if(TopArea.singleton.groupName.getText().equals("Welcome")){
+		if(TopArea.group.seconds != 0){
+			startClock();
+		} else {
 			hideClock();
 		}
+		
 		// timer.scheduleRepeating(1000);
 		// timer.count= 60;
 
 	}
 
 	@UiField
-	Label question;
+	PreElement question;
 
 	@UiField
 	Button answer1;
@@ -107,7 +112,7 @@ public class QuestionArea extends Composite {
 	Button answer2;
 
 	public void questionsFinished() {
-		question.setText("No More Questions For this group");
+		question.setInnerText("No More Questions For this group");
 		// suggest another related group
 		answer1.setVisible(false);
 		answer2.setVisible(false);

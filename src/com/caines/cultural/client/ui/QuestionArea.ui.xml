@@ -5,7 +5,7 @@
 	<g:HTMLPanel>
 		<div class="container">
 			<h3>
-				<g:Label ui:field="question" />
+				<pre ui:field="question"></pre>
 			</h3>
 
 			<g:Button ui:field="answer1" height="15em" width="35em" />

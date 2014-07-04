@@ -9,11 +9,15 @@ import java.util.List;
 
 
 
+
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.GwtTransient;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 
 @Entity
 public class Question implements Serializable{
@@ -43,6 +47,9 @@ public class Question implements Serializable{
 	@GwtTransient
 	public List<Ref<Tag>> tags = new ArrayList<>();
 	public boolean disabled;
+	@GwtTransient
+	@Index
+	public Ref<Group> group;
 	
 	@GwtIncompatible("")
 	public Ref<Question> getRef(){
@@ -51,7 +58,7 @@ public class Question implements Serializable{
 	
 	@GwtIncompatible("")
 	public static Ref<Question> getRef(Long id){
-		return null;
+		return Ref.create(Key.create(Question.class, id));
 	}
 	
 	

@@ -3,11 +3,14 @@ package com.caines.cultural.shared.datamodel;
 import java.io.Serializable;
 
 import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.user.client.rpc.GwtTransient;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Index;
 @Entity
 public class UserProfile implements Serializable {
 	/**
@@ -27,26 +30,17 @@ public class UserProfile implements Serializable {
 		name = gUser.displayName;
 	}
 	@GwtTransient
+	@Index
 	public Ref<GUser> user;
+	
 	public int salary;
 	@GwtTransient
+	@Index
 	public Ref<Location> location;
 	public String name;
 	public int vacation;
 
-	public String getSalaryDisplay() {
 
-		return NumberFormat.getCurrencyFormat().format(salary);
-
-	}
-
-	public String getVacationDisplay() {
-		if(vacation == 0){
-			return "";
-		}
-		return "Vacation:" +vacation+" Weeks";
-
-	}
 
 	public Ref<UserProfile> getRef() {
 		return Ref.create(this);
@@ -65,6 +59,12 @@ public class UserProfile implements Serializable {
 		if(location != null){
 			lId = location.getKey().getId();
 		}
-		return new SharedUserProfile(lId, salary, vacation);
+		return new SharedUserProfile(lId, salary, vacation,id,user.getKey().getName());
+	}
+
+	
+	@GwtIncompatible("")
+	public static Key<UserProfile> getKey(long id) {
+		return Key.create(UserProfile.class,id);
 	}
 }

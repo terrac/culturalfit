@@ -22,6 +22,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.CellPanel;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -105,7 +106,7 @@ public class EmployerTopArea extends Composite {
 				location.getValue(location.getSelectedIndex()),
 				groupSelect.suggestBox.getText()
 				,
-				new AsyncCallback<Tuple<List<UserProfile>, List<UserGroup>>>() {
+				new AsyncCallback<Tuple<List<SharedUserProfile>, List<UserGroup>>>() {
 
 					@Override
 					public void onFailure(Throwable caught) {
@@ -115,7 +116,7 @@ public class EmployerTopArea extends Composite {
 
 					@Override
 					public void onSuccess(
-							Tuple<List<UserProfile>, List<UserGroup>> result) {
+							Tuple<List<SharedUserProfile>, List<UserGroup>> result) {
 						// list-group
 						listGroups.clear();
 						listGroups.addStyleName("list-group");
@@ -124,7 +125,7 @@ public class EmployerTopArea extends Composite {
 									.correct
 									+ " Correct Answers)  Salary:"
 									+ result.a.get(a).getSalaryDisplay()+" "+result.a.get(a).getVacationDisplay();
-							final UserProfile up = result.a.get(a);
+							final SharedUserProfile up = result.a.get(a);
 
 														//label.addStyleName();
 							ClickHandler handler = new ClickHandler() {
@@ -135,16 +136,26 @@ public class EmployerTopArea extends Composite {
 									new PopupGroupList(up).center();
 								}
 							};
-							Label link = new Label();
-							link.getElement().getStyle().setCursor(Cursor.POINTER); 
-							link.getElement().setInnerHTML("<img src='/assets/person.png'>"+text);
-							link.getElement().setClassName("list-group-item list-width");
+							String html = "<img src='/assets/person.png'>"+text;
+							
+							Label link = addListItem(html,listGroups);
 							link.addClickHandler(handler);
-							listGroups.add(link);
+							
 						}
 
 					}
 				});
+	}
+
+	public static Label addListItem(String html,CellPanel listGroups) {
+		String className = "list-group-item list-width";
+		
+		Label link = new Label();
+		link.getElement().getStyle().setCursor(Cursor.POINTER); 
+		link.getElement().setInnerHTML(html);
+		link.getElement().setClassName(className);
+		listGroups.add(link);
+		return link;
 	}
 
 }

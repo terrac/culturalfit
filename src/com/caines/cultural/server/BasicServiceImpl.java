@@ -14,6 +14,7 @@ import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
+import com.caines.cultural.shared.datamodel.TemporaryQuestion;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.UserQuestion;
@@ -21,6 +22,7 @@ import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 
 /**
@@ -59,13 +61,16 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public UserGroup setupProfileForGroup(Ref<Group> gRef) {
+		if (gRef == null) {
+			return null;
+		}
 		LoginInfo li = LoginService.login(null, null);
-		UserGroup g = SDao.getUserGroupDao()
-				.getQByProperty("user", li.gUser.getRef())
+
+		UserProfile up = SDao.getUserProfileDao().getByProperty("user",
+				li.gUser.getRef());
+		UserGroup g = SDao.getUserGroupDao().getQByProperty("userProfile", up)
 				.filter("group", gRef).first().now();
 		if (g == null) {
-			UserProfile up = SDao.getUserProfileDao().getByProperty("user",
-					li.gUser.getRef());
 			g = new UserGroup(SDao.getGroupDao().get(gRef).name, up.location);
 			g.group = gRef;
 			g.userProfile = up.getRef();
@@ -97,17 +102,20 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public List<UserGroup> getUserGroupList() {
 		LoginInfo li = LoginService.login(null, null);
-
+		if (li.gUser.currentGroup == null) {
+			return null;
+		}
 		setupProfileForGroup(li.gUser.currentGroup);
 
-		List<UserGroup> userGroupList = getUserGroupList(li.gUser.getRef());
+		List<UserGroup> userGroupList = getUserGroupList(SDao
+				.getUserProfileDao().getByProperty("user", li.gUser).id);
 		return userGroupList;
 	}
 
 	@Override
-	public List<UserGroup> getUserGroupList(Ref<GUser> Ref) {
+	public List<UserGroup> getUserGroupList(long id) {
 		List<UserGroup> gList = SDao.getUserGroupDao()
-				.getQByProperty("user", Ref).list();
+				.getQByProperty("userProfile", UserProfile.getKey(id)).list();
 		return new ArrayList<>(gList);
 	}
 
@@ -115,7 +123,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	public List<Question> getQuestionList() {
 		LoginInfo li = LoginService.login(null, null);
 		return new ArrayList<>(OService.ofy().load().type(Question.class)
-				.filterKey(li.gUser.currentGroup).list());
+				.filter("group", li.gUser.currentGroup).list());
 	}
 
 	@Override
@@ -171,14 +179,19 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			String tagString) {
 		LoginInfo li = LoginService.login(null, null);
 		Group g = SDao.getGroupDao().get(li.gUser.currentGroup);
-		if (PermissionsUtil.canEdit(li.gUser, g)) {
+
+		Question qu = new Question(question, answer1, answer2);
+		if (!PermissionsUtil.canEdit(li.gUser, g)) {
+			TemporaryQuestion tq = new TemporaryQuestion();
+			tq.group = g.getRef();
+			tq.question = SDao.getQuestionDao().put(qu);
+			SDao.getTemporaryQuestionDao().put(tq);
 			return null;
 		}
-		Question qu = new Question(question, answer1, answer2);
-		g.questions.add(SDao.getQuestionDao().put(
-				qu));
-		qu.tags = TagUtil
-				.getTagRefs(tagString);
+
+		qu.group = g.getRef();
+		SDao.getQuestionDao().put(qu);
+		qu.tags = TagUtil.getTagRefs(tagString);
 		SDao.getGroupDao().put(g);
 		return null;
 	}
@@ -197,11 +210,13 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public void setCurrentGroup(String text) {
+	public Group setCurrentGroup(String text) {
 		LoginInfo li = LoginService.login(null, null);
-		Group g = SDao.getGroupDao().getByProperty("name", text);
+		Group g = SDao.getGroupDao().getByProperty("lowerName",
+				text.toLowerCase());
 		li.gUser.currentGroup = g.getRef();
 		SDao.getGUserDao().put(li.gUser);
+		return g;
 	}
 
 	@Override
@@ -267,7 +282,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 		up.location = Location.getRef(locationRef);
 		List<UserGroup> ugList = SDao.getUserGroupDao()
-				.getQByProperty("user", up.user).list();
+				.getQByProperty("userProfile", up).list();
 		for (UserGroup ug : ugList) {
 			ug.locationMapping = up.location;
 		}
@@ -277,28 +292,33 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Tuple<SharedUserProfile, List<Location>> getProfileData() {
-		
-		return new Tuple<SharedUserProfile, List<Location>>(getUserProfile(), new ArrayList<Location>(SDao
-				.getLocationDao().getQuery().order("order").list()));
+
+		return new Tuple<SharedUserProfile, List<Location>>(getUserProfile(),
+				new ArrayList<Location>(SDao.getLocationDao().getQuery()
+						.order("order").list()));
 	}
 
 	@Override
-	public Tuple<String, Boolean> getLogInOutString() {
+	public Tuple<Group, Tuple<String, Boolean>> getLogInOutString() {
 		UserService userService = UserServiceFactory.getUserService();
 		String path = "/";
+		Group group = getCurrentGroup();
 		if (!userService.isUserLoggedIn()) {
-			return new Tuple<String, Boolean>(userService.createLoginURL(path),
-					true);
+			return new Tuple<Group, Tuple<String, Boolean>>(group,
+					new Tuple<String, Boolean>(
+							userService.createLoginURL(path), true));
 		} else {
-			return new Tuple<String, Boolean>(
-					userService.createLogoutURL(path), false);
+			return new Tuple<Group, Tuple<String, Boolean>>(group,
+					new Tuple<String, Boolean>(
+							userService.createLogoutURL(path), false));
 		}
 	}
 
 	@Override
 	public String editGroup(String groupName) {
 		LoginInfo li = LoginService.login(null, null);
-		Group g = SDao.getGroupDao().getByProperty("name", groupName);
+		Group g = SDao.getGroupDao().getByProperty("lowerName",
+				groupName.toLowerCase());
 
 		if (g == null) {
 			addGroup(groupName);
@@ -308,5 +328,38 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			return "owner";
 		}
 		return "toEdit";
+	}
+
+	@Override
+	public List<Question> getTemporaryQuestions() {
+		LoginInfo li = LoginService.login(null, null);
+		
+		List<Question> ql = new ArrayList<Question>();
+		if (!PermissionsUtil.canEditCurrentGroup(li.gUser)) {
+			return ql;
+		}
+		for (TemporaryQuestion tq : SDao.getTemporaryQuestionDao()
+				.listByProperty("group", li.gUser.currentGroup)) {
+			ql.add(tq.question.get());
+		}
+		return ql;
+	}
+
+	@Override
+	public void addPermanentQuestion(long id, boolean shouldAdd) {
+		LoginInfo li = LoginService.login(null, null);
+		if (!PermissionsUtil.canEditCurrentGroup(li.gUser)) {
+			return;
+		}
+		TemporaryQuestion tq = SDao.getTemporaryQuestionDao()
+				.getQByProperty("question", Question.getRef(id)).first().now();
+		if (shouldAdd) {
+			Question q = tq.question.get();
+			q.group = tq.group;
+
+			SDao.getQuestionDao().put(q);
+
+		}
+		SDao.getTemporaryQuestionDao().delete(tq);
 	}
 }

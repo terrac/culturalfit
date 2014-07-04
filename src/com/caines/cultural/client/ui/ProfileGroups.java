@@ -77,7 +77,7 @@ public class ProfileGroups extends Composite {
 					locat.setSelectedIndex(a);
 				}
 			}
-
+			userId = uP.userid;
 		}
 
 		@Override
@@ -148,6 +148,9 @@ public class ProfileGroups extends Composite {
 
 					@Override
 					public void onSuccess(List<UserGroup> result) {
+						if(result == null){
+							return;
+						}
 						for (UserGroup ug : result) {
 
 							LIElement liElement = Document.get()
@@ -158,6 +161,7 @@ public class ProfileGroups extends Composite {
 									+ ug.total + "</span></span>");
 							liElement
 									.addClassName("list-group-item list-width");
+							
 							listGroups.appendChild(liElement);
 						}
 					}
@@ -196,12 +200,12 @@ public class ProfileGroups extends Composite {
 	// public String getText() {
 	// return button.getText();
 	// }
-	static Ref<GUser> user;
+	static String userId;
 
 	@UiHandler("publicButton")
 	public void onClickPublic(ClickEvent c) {
 
-		Window.Location.assign("/c/profile/" + user.getKey().getName());
+		Window.Location.assign("/c/profile/" + userId);
 	}
 
 }

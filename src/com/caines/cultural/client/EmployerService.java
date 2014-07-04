@@ -5,6 +5,7 @@ import java.util.List;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
+import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -14,7 +15,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("employer")
 public interface EmployerService extends RemoteService {
 
-Tuple<List<UserProfile>, List<UserGroup>> getBasicQueryWithFilters(
-			String location, String groupName);
+Tuple<List<SharedUserProfile>, List<UserGroup>> getBasicQueryWithFilters(
+		String location, String groupName);
 
 }

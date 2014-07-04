@@ -14,4 +14,8 @@ public class PermissionsUtil {
 		return user.getRef().equals(g.creator);
 		
 	}
+
+	public static boolean canEditCurrentGroup(GUser gUser) {
+		return canEdit(gUser, gUser.currentGroup.get());
+	}
 }

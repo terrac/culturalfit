@@ -5,6 +5,11 @@ import java.io.Serializable;
 
 
 
+
+
+
+import com.google.common.annotations.GwtIncompatible;
+import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -35,10 +40,15 @@ public class GUser implements Serializable{
 	}
 	
 	public boolean isAdmin() {
-		return admin;
+		return "test@example.com".equals(displayName);
+		//return admin;
 	}
 	
 	public Ref<GUser> getRef(){
 		return Ref.create(this);
+	}
+	@GwtIncompatible("")
+	public static Key<GUser> getKey(String id2) {
+		return Key.create(GUser.class, id2);
 	}
 }

@@ -30,7 +30,7 @@ public interface GreetingService extends RemoteService {
 
 	List<Group> getTopGroups();
 
-	void setCurrentGroup(String text);
+	Group setCurrentGroup(String text);
 
 
 	Group getCurrentGroup();
@@ -43,9 +43,6 @@ public interface GreetingService extends RemoteService {
 
 
 	void updateQuestion(Long questionRef, String value);
-
-
-	List<UserGroup> getUserGroupList();
 
 
 	void answerQuestion(Long id, String answer);
@@ -69,10 +66,9 @@ public interface GreetingService extends RemoteService {
 
 
 
-	List<UserGroup> getUserGroupList(Ref<GUser> Ref);
 
 
-	Tuple<String, Boolean> getLogInOutString();
+	Tuple<Group, Tuple<String, Boolean>> getLogInOutString();
 
 
 	String editGroup(String groupName);
@@ -82,6 +78,19 @@ public interface GreetingService extends RemoteService {
 
 
 	void setLocation(long location);
+
+
+	List<UserGroup> getUserGroupList(long id);
+
+
+	List<UserGroup> getUserGroupList();
+
+
+	List<Question> getTemporaryQuestions();
+
+
+
+	void addPermanentQuestion(long id, boolean shouldAdd);
 
 
 

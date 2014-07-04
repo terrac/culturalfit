@@ -61,8 +61,8 @@ public class AdminServlet extends HttpServlet {
 			return;
 		}
 
-		boolean flag = Boolean.parseBoolean(req.getParameter("dontdelete"));
-		if (!flag) {
+		boolean flag = Boolean.parseBoolean(req.getParameter("delete"));
+		if (flag) {
 			SDao.getUserQuestionDao().deleteAll(
 					SDao.getUserQuestionDao().getQuery().list());
 			SDao.getQuestionDao().deleteAll(
@@ -74,6 +74,10 @@ public class AdminServlet extends HttpServlet {
 			SDao.getGUserDao().deleteAll(SDao.getGUserDao().getQuery().list());
 			SDao.getUserProfileDao().deleteAll(
 					SDao.getUserProfileDao().getQuery().list());
+			SDao.getLocationDao()
+			.deleteAll(SDao.getLocationDao().getQuery().list());
+
+			return;
 		}
 		LoginInfo li = LoginService.login(null, null);
 
@@ -102,8 +106,6 @@ public class AdminServlet extends HttpServlet {
 //			order++;
 //		    lList.add(new Location(l, order));
 //		}
-		SDao.getLocationDao()
-				.deleteAll(SDao.getLocationDao().getQuery().list());
 		SDao.getLocationDao().putAll(lList);
 
 		// URL oracle = new URL("http://127.0.0.1:8888/zips.csv");
@@ -131,12 +133,14 @@ public class AdminServlet extends HttpServlet {
 
 		JsonParser jp = new JsonParser();
 		String json = IOUtils.toString(new URL(
-				"http://cultural-fit.appspot.com/questions.txt"));
+				"http://localhost:8888/questions.txt"));
+		//http://cultural-fit.appspot.com/questions.txt
 		// System.out.println(json);
 		JsonElement je = jp.parse(json);
 		for (Entry<String, JsonElement> b : je.getAsJsonObject().entrySet()) {
 			Group g = new Group(b.getKey(), li.gUser);
 
+			SDao.getGroupDao().put(g);
 			JsonArray ja = b.getValue().getAsJsonArray();
 			for (int a = 0; a < ja.size(); a++) {
 				JsonObject question = ja.get(a).getAsJsonObject();
@@ -149,9 +153,9 @@ public class AdminServlet extends HttpServlet {
 						.getAsString(), question.get("wrongAnswer")
 						.getAsString());
 				q.tags =  TagUtil.getTagRefs("");
-				g.questions.add(SDao.getQuestionDao().put(q));
+				q.group = g.getRef();
+				SDao.getQuestionDao().put(q);
 			}
-			SDao.getGroupDao().put(g);
 		}
 		resp.getWriter().write("finished basics");
 		List<Group> listGroup = SDao.getGroupDao().getQuery().list();
@@ -164,11 +168,12 @@ public class AdminServlet extends HttpServlet {
 		List<UserProfile> upList = new ArrayList<UserProfile>();
 		int a = 0;
 		for (Location l : listLocation) {
-			a++;
-			GUser gu = new GUser("fake-" + a, "fake-" + a);
-			Ref<GUser> gRef = SDao.getGUserDao().put(gu);
 			int count = 4 + r.nextInt(3);
 			for (int b = 0; b < count; b++) {
+				a++;
+				GUser gu = new GUser("fake-" + a, "fake-" + a);
+				Ref<GUser> gRef = SDao.getGUserDao().put(gu);
+				
 				UserProfile up = new UserProfile(gu);
 				up.location = l.getRef();
 				up.salary = salaryA[r.nextInt(salaryA.length)];
@@ -177,11 +182,11 @@ public class AdminServlet extends HttpServlet {
 	
 				for (Group g : listGroup) {
 					//+ "/" + l.name
-					UserGroup ug = new UserGroup(g.name +l.name,
+					UserGroup ug = new UserGroup(g.name,
 							l.getRef());
 					ug.userProfile = up.getRef();
 					ug.group = g.getRef();
-					ug.total = (int) (r.nextInt(g.questions.size())) + 1;
+					ug.total = (int) (r.nextInt(5)) + 1;
 					if (ug.total > 0) {
 						ug.correct = r.nextInt(ug.total) + 1;
 						ug.correctPercent = (double) ug.correct / ug.total;
@@ -203,6 +208,7 @@ public class AdminServlet extends HttpServlet {
 		List<Ref<Tag>> tagRefs = TagUtil.getTagRefs(tags);
 		Question q = new Question(question, answer1, answer2);
 		q.tags = tagRefs;
-		g.questions.add(SDao.getQuestionDao().put(q));
+		q.group = g.getRef();
+		SDao.getQuestionDao().put(q);
 	}
 }

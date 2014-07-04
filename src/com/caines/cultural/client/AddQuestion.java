@@ -55,7 +55,7 @@ public class AddQuestion {
 
 							@Override
 							public void onSuccess(String result) {
-								Window.alert("Submitted");
+								Window.alert("Sent");
 								tq.setText("");
 								ta.setText("");
 								ta2.setText("");

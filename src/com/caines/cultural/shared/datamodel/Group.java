@@ -24,6 +24,10 @@ import java.util.List;
 
 
 
+
+
+import com.google.common.annotations.GwtIncompatible;
+import com.google.gwt.user.client.rpc.GwtTransient;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -43,6 +47,7 @@ public class Group implements Serializable{
 	@Id
 	public Long id;
 	
+	@GwtIncompatible("")
 	public Group(String groupname,GUser gUser) {
 		if(gUser != null){
 			creator = gUser.getRef();	
@@ -51,11 +56,11 @@ public class Group implements Serializable{
 		name = groupname;
 		lowerName = name.toLowerCase();
 	}
+	@GwtTransient
 	public Ref<GUser> creator;
 	public String name;
 	@Index
 	public String lowerName;
-	public List<Ref<Question>> questions = new ArrayList<>();
 	public int seconds = 60 ;
 	
 
@@ -64,6 +69,7 @@ public class Group implements Serializable{
 		return "Group [id=" + id + ", name=" + name + "]";
 	}
 
+	@GwtIncompatible("")
 	public Ref<Group> getRef(){
 		return Ref.create(this);
 	}

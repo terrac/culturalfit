@@ -32,8 +32,8 @@ public class UserGroup implements Serializable{
 		locationMapping = location;
 	}
 	public String name;
-	@GwtTransient
-	public List<Ref<Question>> questions = new ArrayList<>();
+//	@GwtTransient
+//	public List<Ref<Question>> questions = new ArrayList<>();
 	public int total;
 	@Index
 	public int correct;

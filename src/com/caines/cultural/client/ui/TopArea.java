@@ -61,8 +61,10 @@ public class TopArea extends Composite {
 	Anchor nextQuestion;
 	@UiField
 	public static VerticalPanel content;
-
+	
+	public static String groupNameS;
 	public static void setGroupName(String name) {
+		groupNameS = name;
 		String text = "CulturalFit/" + name.replace(' ', '-');
 		singleton.groupName.setText(text);
 	}
@@ -176,6 +178,10 @@ public class TopArea extends Composite {
 			// TODO Auto-generated method stub
 
 		}
+	}
+	static Group group;
+	public static void setGroup(Group a) {
+		group = a;
 	}
 
 }
