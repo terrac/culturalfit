@@ -1,3 +1,75 @@
+1 change "switch" to, "back"
+
+1 If there are no more questions, then add a "move to profile button" 
+ and some "move to next" buttons
+ initially just call the method to set up the next stuff
+2 test questions group
+3 100 basic python, basic android, basic cloud computing, basic dart
+html, basic css, basic javascript, basic java, basic sqlh 
+4 add reanswer button 
+
+NextGroup (group,nextGroup)
+ suggestbox + addnext, adds to a list that you can delete
+ 
+#1 don't load next question area until initial question, otherwise straight to profile
+#  a make sure that the welcome doesn't have a timer
+1 test question group, which lets you get comfortable
+  a groups have a "next" set of options that they can select
+  b they can do that in the group editor ( a suggest box that lets you add "Next" to a list of 5) 
+1 more questions, sub groups ie programming/java/etc  
+  
+  
+  
+  
+  
+  
+1 Beta test options
+  a unlimited reanswers (with a note that in the final version this will be restricted)
+  (after people start answering, worry about recruiters)
+  
+  
+
+1 a "What is" which explains all of the decisions, linked off the welcome page
+
+1 once a month you can reanswer all the quesions by hitting a "reanswer" button (disabled with a note normally)
+
+1 will need to order by newness of latest question answered too
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 new questions submitted.  If add
+
 1 test adding questions to groups as a normal user and then getting them approved
 
 1 put a few people on each area
