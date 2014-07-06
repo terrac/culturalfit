@@ -8,7 +8,7 @@
 	</ui:style>
 	<g:HTMLPanel>
 	    
-		<div class="container">
+		<div class="container" style="display:table">
 			<div class="masthead">
 				<h3 class="text-muted">
 					<g:Label ui:field="groupName" text="CulturalFit"></g:Label>
@@ -26,7 +26,7 @@
 				</ul>
 			</div>
 
-			<g:VerticalPanel ui:field="content"></g:VerticalPanel>
+			<g:VerticalPanel width="inherit" ui:field="content"></g:VerticalPanel>
 		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 

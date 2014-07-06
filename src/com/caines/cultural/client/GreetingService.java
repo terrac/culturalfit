@@ -48,7 +48,6 @@ public interface GreetingService extends RemoteService {
 	void answerQuestion(Long id, String answer);
 
 
-	List<Question> getQuestionList();
 
 
 	void disableQuestion(Long questionRef);
@@ -91,6 +90,12 @@ public interface GreetingService extends RemoteService {
 
 
 	void addPermanentQuestion(long id, boolean shouldAdd);
+
+
+	List<Question> getQuestionList(Ref<Group> group);
+
+
+	List<Question> getQuestionList();
 
 
 

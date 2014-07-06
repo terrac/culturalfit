@@ -11,7 +11,6 @@ import java.util.List;
 
 
 
-
 import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.GwtTransient;
 import com.googlecode.objectify.Key;
@@ -19,50 +18,42 @@ import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class Question implements Serializable{
+public class NextGroup implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public Question() {
+	public NextGroup() {
 	
 	}
 	
 	@Id
 	public Long id;
 	
-	public Question(String question, String answer1, String answer2) {
-		super();
-		this.question = question;
-		this.answer1 = answer1;
-		this.answer2 = answer2;
-	}
-
-	public String question;
-	public String answer1;
-	public String answer2;
-	
 	@GwtTransient
-	public List<Ref<Tag>> tags = new ArrayList<>();
-	@Index
-	public boolean disabled;
-
-	@GwtTransient
-	@Index
 	public Ref<Group> group;
 	
+	public NextGroup(Ref<Group> group, Ref<GUser> user) {
+		super();
+		this.group = group;
+		this.user = user;
+	}
+
+	@GwtTransient
+	@Index
+	public Ref<GUser> user;
+	
 	@GwtIncompatible("")
-	public Ref<Question> getRef(){
+	public Ref<NextGroup> getRef(){
 		return Ref.create(this);
 	}
 	
 	@GwtIncompatible("")
-	public static Ref<Question> getRef(Long id){
-		return Ref.create(Key.create(Question.class, id));
+	public static Ref<NextGroup> getRef(Long id){
+		return Ref.create(Key.create(NextGroup.class, id));
 	}
 	
 	

@@ -64,8 +64,6 @@ public class QuestionArea extends Composite {
 
 							@Override
 							public void onSuccess(Void result) {
-								// TODO Auto-generated method stub
-
 							}
 
 							@Override
@@ -75,6 +73,7 @@ public class QuestionArea extends Composite {
 							}
 						});
 				SimpleFront.basicService.getNextQuestion(asyncCallback);
+				
 			}
 		};
 		answer1.addClickHandler(ch);

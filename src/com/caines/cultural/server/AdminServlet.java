@@ -61,6 +61,8 @@ public class AdminServlet extends HttpServlet {
 			return;
 		}
 
+		boolean fakeUsers = Boolean.parseBoolean(req.getParameter("fakeUsers"));
+
 		boolean flag = Boolean.parseBoolean(req.getParameter("delete"));
 		if (flag) {
 			SDao.getUserQuestionDao().deleteAll(
@@ -76,7 +78,8 @@ public class AdminServlet extends HttpServlet {
 					SDao.getUserProfileDao().getQuery().list());
 			SDao.getLocationDao()
 			.deleteAll(SDao.getLocationDao().getQuery().list());
-
+			SDao.getNextGroupDao().deleteAll(SDao.getNextGroupDao().getQuery().list());
+			SDao.getTemporaryQuestionDao().deleteAll(SDao.getTemporaryQuestionDao().getQuery().list());
 			return;
 		}
 		LoginInfo li = LoginService.login(null, null);
@@ -139,7 +142,7 @@ public class AdminServlet extends HttpServlet {
 		JsonElement je = jp.parse(json);
 		for (Entry<String, JsonElement> b : je.getAsJsonObject().entrySet()) {
 			Group g = new Group(b.getKey(), li.gUser);
-
+			g.chopName();
 			SDao.getGroupDao().put(g);
 			JsonArray ja = b.getValue().getAsJsonArray();
 			for (int a = 0; a < ja.size(); a++) {
@@ -158,6 +161,9 @@ public class AdminServlet extends HttpServlet {
 			}
 		}
 		resp.getWriter().write("finished basics");
+		if(!fakeUsers){
+			return;
+		}
 		List<Group> listGroup = SDao.getGroupDao().getQuery().list();
 		List<Location> listLocation = SDao.getLocationDao().getQuery().list();
 		int[] salaryA = new int[] { 70000, 80000, 90000, 100000, 110000,

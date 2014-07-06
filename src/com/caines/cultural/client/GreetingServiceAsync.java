@@ -37,7 +37,8 @@ public interface GreetingServiceAsync {
 			AsyncCallback<Void> asyncCallback);
 
 
-	void getQuestionList(AsyncCallback<List<Question>> callback);
+	void getQuestionList(Ref<Group> group,
+			AsyncCallback<List<Question>> callback);
 
 	void disableQuestion(Long questionRef, AsyncCallback<Void> callback);
 
@@ -65,5 +66,7 @@ public interface GreetingServiceAsync {
 
 	void addPermanentQuestion(long id, boolean shouldAdd,
 			AsyncCallback<Void> callback);
+
+	void getQuestionList(AsyncCallback<List<Question>> asyncCallback);
 
 }

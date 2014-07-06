@@ -2,7 +2,9 @@ package com.caines.cultural.server;
 
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
+import com.caines.cultural.shared.datamodel.GroupNameChopped;
 import com.caines.cultural.shared.datamodel.Location;
+import com.caines.cultural.shared.datamodel.NextGroup;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
 import com.caines.cultural.shared.datamodel.TemporaryQuestion;
@@ -27,6 +29,9 @@ public class OService {
 		factory().register(ZipCode.class);
 		factory().register(Location.class);
 		factory().register(TemporaryQuestion.class);
+		factory().register(GroupNameChopped.class);
+		factory().register(NextGroup.class);
+		
 		
 	}
     public static Objectify ofy() {

@@ -7,7 +7,7 @@
 		}
 	</ui:style>
 	<g:HTMLPanel>
-		<div class="well well-lg">
+		<div class="well ">
 			<div class="row">
 				<div class="col-md-2">
 					<div class="control-group">
@@ -45,12 +45,10 @@
 		</div>
 
 
+		<g:Button ui:field="publicButton" text="Public Profile"></g:Button>
 
+		<ul class="list-group" ui:field="listGroups">
+		</ul>
 
-			<ul class="list-group" ui:field="listGroups">
-			</ul>
-		<div class="container">
-			<g:Button ui:field="publicButton" text="Public Profile"></g:Button>
-		</div>
 	</g:HTMLPanel>
 </ui:UiBinder> 

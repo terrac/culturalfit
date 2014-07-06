@@ -81,6 +81,9 @@ public class GroupSelect extends Composite {
 		final ItemSuggestOracle oracle = new ItemSuggestOracle() {
 			@Override
 			public void requestSuggestions(Request request, Callback callback) {
+//				if(request.getQuery().length() < 3){
+//					return;
+//				}
 				SuggestService.Util.getInstance().getGroup(request,
 						new ItemSuggestCallback(request, callback));
 			}
@@ -139,8 +142,8 @@ public class GroupSelect extends Composite {
 			editGroup.setVisible(false);
 
 		} else {
-			String[] buttons = new String[] { "Java Beginner Questions",
-					"Java Advanced Questions" };
+			String[] buttons = new String[] { "programming",
+					"hobbies" };
 			for (String a : buttons) {
 				Button b = new Button(a);
 				TopArea.content.add(b);
@@ -155,7 +158,6 @@ public class GroupSelect extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-
 				TopArea.setGroupName(suggestBox.getText());
 				SimpleFront.basicService.setCurrentGroup(suggestBox.getText(),setSuggestBox);
 			}

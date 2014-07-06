@@ -36,11 +36,22 @@ public class UserQuestion implements Serializable{
 	@Index
 	public boolean processed;
 	public boolean correct;
-	public String answer;
 	@Index
 	public Ref<GUser> user;
 	@Index
 	public Ref<Group> group;
+
+	@Index
+	public boolean answered;
+
+	@Override
+	public String toString() {
+		return "UserQuestion [id=" + id + ", question=" + question.get().question
+				+ ", visited=" + visited + ", timeVisited=" + timeVisited
+				+ ", processed=" + processed + ", correct=" + correct
+				+ ", user=" + user + ", group=" + group.get().name + ", answered="
+				+ answered + "]";
+	}
 	
 	
 	
