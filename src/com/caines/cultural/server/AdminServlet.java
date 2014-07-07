@@ -135,8 +135,8 @@ public class AdminServlet extends HttpServlet {
 
 		JsonParser jp = new JsonParser();
 		String json = IOUtils.toString(new URL(
-				"http://localhost:8888/questions.txt"));
-		//"http://cultural-fit.appspot.com/questions.txt" ));
+		//		"http://localhost:8888/questions.txt"));
+		"http://cultural-fit.appspot.com/questions.txt" ));
 		
 		SDao.getLocationDao().putAll(lList);
 

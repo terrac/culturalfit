@@ -258,8 +258,8 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		li.gUser.currentGroup = g.getRef();
 		
 		//has to be a better way
-		SDao.getUserQuestionDao().deleteAll(SDao.getUserQuestionDao().getQByProperty("visited", false));
-		
+		SDao.getUserQuestionDao().deleteAll(SDao.getUserQuestionDao().getQByProperty("user", li.gUser).filter("visited", false).list());
+		SDao.getNextGroupDao().deleteAll(SDao.getNextGroupDao().getQByProperty("user", li.gUser).list());
 		SDao.getGUserDao().put(li.gUser);
 		return g;
 	}
