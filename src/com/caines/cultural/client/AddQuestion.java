@@ -17,13 +17,9 @@ public class AddQuestion {
 		vp.clear();
 		
 
-		final TextArea ta = new TextArea();
-		final TextArea ta1 = new TextArea();
-		final TextArea ta2 = new TextArea();
-
 		HorizontalPanel hp = new HorizontalPanel();
 		hp.add(new Label("Question:"));
-		hp.add(ta);
+		hp.add(tq);
 
 		vp.add(hp);
 		hp = new HorizontalPanel();
@@ -49,7 +45,7 @@ public class AddQuestion {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				SimpleFront.basicService.addQuestion(ta.getText(),
+				SimpleFront.basicService.addQuestion(tq.getText(),
 						ta1.getText(), ta2.getText(), ts.getValue(),
 						new AsyncCallback<String>() {
 
@@ -57,7 +53,7 @@ public class AddQuestion {
 							public void onSuccess(String result) {
 								Window.alert("Sent");
 								tq.setText("");
-								ta.setText("");
+								ta1.setText("");
 								ta2.setText("");
 							}
 
@@ -70,77 +66,9 @@ public class AddQuestion {
 			}
 		});
 	}
+	final TextArea tq = new TextArea();
+	final TextArea ta1 = new TextArea();
+	final TextArea ta2 = new TextArea();
 
-	Label tq = new Label();
-	Label ta1 = new Label();
-	Label ta2 = new Label();
 
-	public void editQuestion(final VerticalPanel vp,final Long questionRef) {
-		HorizontalPanel hp = new HorizontalPanel();
-		hp.add(new Label("Groupname:"));
-		hp.add(new Label(""));
-		vp.add(hp);
-
-		SimpleFront.basicService.getQuestionToEdit(questionRef,
-				new AsyncCallback<Question>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-
-					}
-
-					@Override
-					public void onSuccess(Question result) {
-						tq.setText(result.question);
-						ta1.setText(result.answer1);
-						ta2.setText(result.answer2);
-					}
-
-				});
-		hp = new HorizontalPanel();
-		hp.add(new Label("Question:"));
-		hp.add(tq);
-
-		vp.add(hp);
-		hp = new HorizontalPanel();
-		hp.add(new Label("Correct Answer:"));
-		hp.add(ta1);
-
-		vp.add(hp);
-		hp = new HorizontalPanel();
-		hp.add(new Label("Incorrect answer:"));
-		hp.add(ta2);
-		vp.add(hp);
-
-		hp = new HorizontalPanel();
-		hp.add(new Label("Tags:"));
-		final SuggestBox ts = new SuggestBox(new TagSelect());
-
-		hp.add(ts);
-		vp.add(hp);
-
-		SubmitButton sb1 = new SubmitButton("Add Question");
-		vp.add(sb1);
-		sb1.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(ClickEvent event) {
-				SimpleFront.basicService.updateQuestion(questionRef,ts.getValue(),new AsyncCallback<Void>() {
-
-					@Override
-					public void onFailure(Throwable caught) {
-						// TODO Auto-generated method stub
-						
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-			}
-		});
-	}
 }

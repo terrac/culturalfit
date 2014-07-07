@@ -98,13 +98,14 @@ public class Group implements Serializable{
 
 	@GwtIncompatible("")
 	public Ref<Group> getRandomUnansweredSibling(GUser gUser) {
-	
-		if(parent == null){
-			return null;
+		Ref<Group> p = parent;
+		//if it is a parent it gets a random child		
+		if(p == null){
+			p = this.getRef();
 		}
 		List<NextGroup> ng=SDao.getNextGroupDao().listByProperty("user", gUser);
 		if(ng.size() == 0){
-			for(Group g : SDao.getGroupDao().listByProperty("parent", parent)){
+			for(Group g : SDao.getGroupDao().listByProperty("parent", p)){
 				if(g.getRef().equals(this.getRef())){
 					continue;
 				}
@@ -112,6 +113,9 @@ public class Group implements Serializable{
 			}
 			ng=SDao.getNextGroupDao().listByProperty("user", gUser);
 			
+		}
+		if(ng.size() == 0){
+			return null;
 		}
 		NextGroup n =ng.get(new Random().nextInt(ng.size()));
 		SDao.getNextGroupDao().delete(n);

@@ -70,7 +70,7 @@ public interface GreetingService extends RemoteService {
 	Tuple<Group, Tuple<String, Boolean>> getLogInOutString();
 
 
-	String editGroup(String groupName);
+	Tuple<Group, String> editGroup(String groupName);
 
 
 	void sendProfile(int salary, long lVal);

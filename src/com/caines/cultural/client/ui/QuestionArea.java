@@ -14,6 +14,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -48,7 +49,7 @@ public class QuestionArea extends Composite {
 	//
 	//
 	// ClockTimer timer;
-
+	int count = 0;
 	public QuestionArea(final AsyncCallback<Question> asyncCallback) {
 		initWidget(uiBinder.createAndBindUi(this));
 		answer1.getElement().addClassName("btn");
@@ -57,6 +58,10 @@ public class QuestionArea extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				if(count >= 5){
+					TopArea.singleton.setupProfile();
+					return;
+				}
 				Button l = (Button) event.getSource();
 				String answer = l.getText();
 				SimpleFront.basicService.answerQuestion(NextQuestion.qRef,
@@ -64,6 +69,7 @@ public class QuestionArea extends Composite {
 
 							@Override
 							public void onSuccess(Void result) {
+								
 							}
 
 							@Override
@@ -78,9 +84,17 @@ public class QuestionArea extends Composite {
 		};
 		answer1.addClickHandler(ch);
 		answer2.addClickHandler(ch);
+		for(int a = 0; a < 5; a++){
+			buttonPanel.getWidget(a).getElement().setClassName("btn");
+		}
+		
 	}
 
 	public void setQuestion(Question result) {
+		count++;
+		for(int a = 0; a < count; a++){
+			buttonPanel.getWidget(a).getElement().setClassName("btn btn-info");
+		}
 		question.setInnerText(result.question);
 		
 		if (Math.random() > .5) {
@@ -109,6 +123,9 @@ public class QuestionArea extends Composite {
 
 	@UiField
 	Button answer2;
+
+	@UiField
+	HorizontalPanel buttonPanel;
 
 	public void questionsFinished() {
 		question.setInnerText("No More Questions For this group");

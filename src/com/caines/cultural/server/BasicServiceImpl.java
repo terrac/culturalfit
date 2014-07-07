@@ -55,9 +55,6 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			if (flag) {
 				continue;
 			}
-			System.out.println(q.question);
-			System.out.println(gRef.get().name);
-			System.out.println();
 			UserQuestion userQuestion = new UserQuestion(q.getRef(), gRef);//gRef.get()
 			userQuestion.user = li.gUser.getRef();
 			uqList.add(userQuestion);
@@ -128,7 +125,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public List<UserGroup> getUserGroupList(long id) {
 		List<UserGroup> gList = SDao.getUserGroupDao()
-				.getQByProperty("userProfile", UserProfile.getKey(id)).list();
+				.getQByProperty("userProfile", UserProfile.getKey(id)).order("-correct").list();
 		return new ArrayList<>(gList);
 	}
 
@@ -154,9 +151,6 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		Ref<GUser> ref = li.gUser.getRef();
 		
 		
-		if(Math.random() > .9){			
-			setupQuestions(group.getRandomUnansweredSibling(li.gUser));
-		}
 		
 		UserQuestion uq = getNextQuestion(ref);
 
@@ -166,7 +160,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		
 		if (uq == null) {
 			
-			setupQuestions(li.gUser.currentGroup);
+			setupQuestions(group.getRef());
 			uq = getNextQuestion(ref);
 			if (uq == null) {
 				setupQuestions(group.getRandomUnansweredSibling(li.gUser));
@@ -253,7 +247,19 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		LoginInfo li = LoginService.login(null, null);
 		Group g = SDao.getGroupDao().getByProperty("lowerName",
 				text.toLowerCase());
+		if(g == null){
+			return null;
+		}
+		
+		if(g.getRef().equals(li.gUser.currentGroup)){
+			return g;
+		}
+		
 		li.gUser.currentGroup = g.getRef();
+		
+		//has to be a better way
+		SDao.getUserQuestionDao().deleteAll(SDao.getUserQuestionDao().getQByProperty("visited", false));
+		
 		SDao.getGUserDao().put(li.gUser);
 		return g;
 	}
@@ -359,19 +365,20 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public String editGroup(String groupName) {
+	public Tuple<Group,String> editGroup(String groupName) {
 		LoginInfo li = LoginService.login(null, null);
+		setCurrentGroup(groupName);
 		Group g = SDao.getGroupDao().getByProperty("lowerName",
 				groupName.toLowerCase());
 
 		if (g == null) {
 			addGroup(groupName);
-			return "Created";
+			return new Tuple<Group,String>(g,"Created");
 		}
 		if (PermissionsUtil.canEdit(li.gUser, g)) {
-			return "owner";
+			return new Tuple<Group,String>(g,"owner");
 		}
-		return "toEdit";
+		return new Tuple<Group,String>(g,"toEdit");
 	}
 
 	@Override

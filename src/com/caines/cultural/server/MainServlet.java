@@ -16,11 +16,15 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String[] u= req.getPathInfo().split("/");
-		if(u.length > 2){
+		if(u.length > 1){
 			if(u[1].equals("profile")){
 				req.getRequestDispatcher("/d/profile.jsp").forward(req, resp);;
 				return;
 			}
+			if("seeker".equals(u[1])&& u.length >2){
+				new BasicServiceImpl().setCurrentGroup(u[2]);
+			}
+
 		}
 		resp.getWriter().write(page);
 		//make gwt pull the url and redirect things

@@ -10,7 +10,14 @@
 
 			<g:Button ui:field="answer1" height="15em" width="35em" />
 			<g:Button ui:field="answer2" height="15em" width="35em" />
-
+			<g:HorizontalPanel ui:field="buttonPanel">
+				<g:Button height="4em" width="13.4em" />
+				<g:Button height="4em" width="13.4em" />
+				<g:Button height="4em" width="13.4em" />
+				<g:Button height="4em" width="13.4em" />
+				<g:Button height="4em" width="13.4em" />
+				
+			</g:HorizontalPanel>
 		</div>
 		<div id="clock" class="time-container">
 			<div class="minutes-seconds seconds">

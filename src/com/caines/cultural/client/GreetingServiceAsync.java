@@ -55,7 +55,7 @@ public interface GreetingServiceAsync {
 	void getLogInOutString(
 			AsyncCallback<Tuple<Group, Tuple<String, Boolean>>> asyncCallback);
 	
-	void editGroup(String groupName, AsyncCallback<String> callback);
+	void editGroup(String groupName, AsyncCallback<Tuple<Group,String>> callback);
 
 	void getUserGroupList(long id,
 			AsyncCallback<List<UserGroup>> callback);

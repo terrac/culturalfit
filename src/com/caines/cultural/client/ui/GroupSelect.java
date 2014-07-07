@@ -4,6 +4,7 @@ import com.caines.cultural.client.GroupEdit;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.suggestion.ItemSuggestOracle;
 import com.caines.cultural.client.suggestion.SuggestService;
+import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.Group;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.DivElement;
@@ -69,7 +70,6 @@ public class GroupSelect extends Composite {
 
 	boolean suggestHasValidGroup = true;
 	@UiField(provided = true)
-	// MAKE SURE YOU HAVE THIS LINE
 	public SuggestBox suggestBox;
 
 	public GroupSelect(VerticalPanel vp) {
@@ -114,14 +114,17 @@ public class GroupSelect extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				SimpleFront.basicService.editGroup(suggestBox.getValue(),
-						new AsyncCallback<String>() {
+						new AsyncCallback<Tuple<Group,String>>() {
 
 							@Override
-							public void onSuccess(String result) {
+							public void onSuccess(Tuple<Group,String> result) {
+								TopArea.setGroupName(suggestBox.getValue());
+								TopArea.setGroup(result.a);
+								//TopArea.setGroup(a);
 								if ("Created".equals(result)) {
 									Window.alert("Created");
 								} else {
-									boolean owner = "owner".equals(result);
+									boolean owner = "owner".equals(result.b);
 									new GroupEdit().editGroup(TopArea.content,
 											owner);
 								}

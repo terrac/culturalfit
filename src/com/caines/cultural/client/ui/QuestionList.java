@@ -116,6 +116,15 @@ public class QuestionList extends Composite {
 		
 		table.addColumn(nameColumn, "Question");
 
+		TextColumn<Question> rightColumn = new TextColumn<Question>() {
+			@Override
+			public String getValue(Question object) {
+				return object.answer1;
+			}
+		};
+		
+		table.addColumn(rightColumn, "Right Answer");
+
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
 
 		// Add a text column to show the name.

@@ -15,6 +15,7 @@ import com.google.gwt.dom.client.LIElement;
 import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.NumberFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.uibinder.client.UiHandler;
@@ -119,7 +120,7 @@ public class ProfileGroups extends Composite {
 		initWidget(uiBinder.createAndBindUi(this));
 		salary.addItem("Not selected", "-1");
 		for (int a = 10; a < 250; a += 10) {
-			salary.addItem(a + ",000", "" + a * 1000);
+			salary.addItem(NumberFormat.getSimpleCurrencyFormat().overrideFractionDigits(0).format(a*1000), "" + a * 1000);
 		}
 
 		vacation.addItem("Not selected", "-1");
@@ -152,15 +153,15 @@ public class ProfileGroups extends Composite {
 							return;
 						}
 						for (UserGroup ug : result) {
-
+							String label = getColorLabel(ug);
 							LIElement liElement = Document.get()
 									.createLIElement();
 							liElement.setInnerHTML(ug.name
 									+ "<span class='badge'>" + ug.getPercent()
-									+ "%<span class='label'>Answered:"
+									+ "%<span class='label '>Answered:"
 									+ ug.total + "</span></span>");
 							liElement
-									.addClassName("list-group-item list-width");
+									.addClassName("list-group-item list-width list-group-item-"+label);
 							
 							listGroups.appendChild(liElement);
 						}
@@ -206,6 +207,20 @@ public class ProfileGroups extends Composite {
 	public void onClickPublic(ClickEvent c) {
 
 		Window.Location.assign("/c/profile/" + userId);
+	}
+
+	public static String getColorLabel(UserGroup ug) {
+		String label = "danger";
+		if(ug.getPercent() > 75){
+			label = "success";
+		}
+		else if(ug.getPercent() > 50){
+			label = "info";							
+		}
+		else if(ug.getPercent() > 25){
+			label = "warning";
+		}
+		return label;
 	}
 
 }

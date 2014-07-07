@@ -109,7 +109,6 @@ public class AdminServlet extends HttpServlet {
 //			order++;
 //		    lList.add(new Location(l, order));
 //		}
-		SDao.getLocationDao().putAll(lList);
 
 		// URL oracle = new URL("http://127.0.0.1:8888/zips.csv");
 		// BufferedReader in = new BufferedReader(
@@ -137,7 +136,10 @@ public class AdminServlet extends HttpServlet {
 		JsonParser jp = new JsonParser();
 		String json = IOUtils.toString(new URL(
 				"http://localhost:8888/questions.txt"));
-		//http://cultural-fit.appspot.com/questions.txt
+		//"http://cultural-fit.appspot.com/questions.txt" ));
+		
+		SDao.getLocationDao().putAll(lList);
+
 		// System.out.println(json);
 		JsonElement je = jp.parse(json);
 		for (Entry<String, JsonElement> b : je.getAsJsonObject().entrySet()) {
