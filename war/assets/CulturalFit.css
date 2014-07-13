@@ -160,8 +160,6 @@ ul li {
 	border-bottom: 2px solid #6f5499 !important;
 }
 
-
-
 .footer {
 	background-color: #f5f5f5;
 	bottom: 0;
@@ -170,3 +168,45 @@ ul li {
 	width: 100%;
 }
 
+.progressbar-text {
+	font-weight: bold;
+}
+
+.progressbar-remaining {
+	font-size: 12px;
+	font-style: italic;
+}
+
+.progressbar-outer {
+	width: 100%;
+	border: 1px solid black;
+}
+
+.progressbar-inner {
+	width: 100%;
+	border: 1px solid black;
+	margin: 1px;
+}
+
+.progressbar-bar {
+	width: 100%;
+	height: 15px;
+	margin: 1px;
+}
+
+
+.progressbar-fullbar {
+	background: blue;
+}
+
+.progressbar-blankbar {
+	background: #eee;
+}
+
+pre {
+    white-space: pre-wrap;       /* CSS 3 */
+    white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+    white-space: -pre-wrap;      /* Opera 4-6 */
+    white-space: -o-pre-wrap;    /* Opera 7 */
+    word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}

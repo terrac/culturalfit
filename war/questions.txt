@@ -1,12 +1,26 @@
 {
-	"Welcome": [
+    "Welcome": [
         {
             "question": "This website has a bunch of groups with questions.  Pick a group, answer some questions and then check out a profile to see your rating.",
             "rightAnswer": "This is the right answer",
             "wrongAnswer": "This is the wrong answer"
         }
     ],
-    "Java Beginner Questions": [
+    "programming-basic": [
+        {
+            "question": "In programming for is used to format code",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        }
+    ],
+    "programming": [
+        {
+            "question": "In programming code reuse is discouraged",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        }
+    ],
+    "programming-basic java": [
         {
             "question": "Which one of these is a java IDE",
             "rightAnswer": "Eclipse",
@@ -38,7 +52,7 @@
             "wrongAnswer": "Incorrect"
         }
     ],
-    "Java Advanced Questions": [
+    "programming-advanced java": [
         {
             "question": "If there are two places where you have compiled the same static string, can you use the == method across the two different variables?",
             "rightAnswer": "Yes",
@@ -50,7 +64,7 @@
             "wrongAnswer": "Correct"
         }
     ],
-    "HTML Basic Questions": [
+    "programming-basic html": [
         {
             "question": "The <table> tag should be used to represent layout",
             "rightAnswer": "Incorrect",
@@ -58,8 +72,8 @@
         },
         {
             "question": "CSS should be used to represent layout",
-            "rightAnswer": "Incorrect",
-            "wrongAnswer": "Correct"
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
         },
         {
             "question": "The h1 element should represent the heading of the page",
@@ -68,11 +82,6 @@
         },
         {
             "question": "The p element represents pronouns",
-            "rightAnswer": "Correct",
-            "wrongAnswer": "Incorrect"
-        },
-        {
-            "question": "The a element represents links",
             "rightAnswer": "Correct",
             "wrongAnswer": "Incorrect"
         },
@@ -108,46 +117,76 @@
         },
         {
             "question": "The ui element holds li elements",
-            "rightAnswer": "Incorrect",
-            "wrongAnswer": "Correct"
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
         },
         {
             "question": "The ui element holds a elements",
-            "rightAnswer": "Correct",
-            "wrongAnswer": "Incorrect"
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
         }
     ],
-    "HTML Advanced Questions": [
+    "programming-advanced html ": [
         {
             "question": "The a element is an anchor",
             "rightAnswer": "Correct",
             "wrongAnswer": "Incorrect"
         }
     ],
-    "Software Development Basic Questions": [
+    "programming software-engineering": [
         {
             "question": "Array indexing should start with",
             "rightAnswer": "0",
             "wrongAnswer": "1"
+        },
+        {
+            "question": "Open source products should generally be avoided",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
         }
     ],
-    "SQL Basic Questions": [
+    "programming-basic sql": [
         {
             "question": "Getting data is accomplished with the GET keyword",
             "rightAnswer": "Incorrect",
             "wrongAnswer": "Correct"
+        },
+        {
+            "question": "Getting data is accomplished with the SELECT keyword",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],    
+    "programming-basic php ": [
+        {
+            "question": "The tags <?= and ?> allow you to run php inside html",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "include() in php requires a file to continue the script",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "The code comparson 8 == 010 returns true",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "{} can be used to express complex variables in a string",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
         }
     ],
-    
-    "programming basic Questions": [
+    "programming php ": [
         {
-            "question": "In programming for is used to format code",
+            "question": "PHP has a philosophy of one clear way of doing things",
             "rightAnswer": "Incorrect",
             "wrongAnswer": "Correct"
         }
     ],
-    
-    "python basic questions": [
+    "programmng-basic python ": [
         {
             "question": "friends = new String['john', 'pat', 'gary', 'michael'] will set an array",
             "rightAnswer": "Incorrect",
@@ -158,7 +197,6 @@
             "rightAnswer": "Incorrect",
             "wrongAnswer": "Correct"
         },
-        
         {
             "question": "prices = {'apple': 0.40, 'banana': 0.50}\n Will define a dictionary",
             "rightAnswer": "Correct",
@@ -184,12 +222,8 @@
             "rightAnswer": "Correct",
             "wrongAnswer": "Incorrect"
         }
-        
-        
-
-    ]
-
-    "python intermediate questions": [
+    ],
+    "programming python ": [
         {
             "question": "print 'Hello World'[3]\n throws an error",
             "rightAnswer": "Incorrect",
@@ -199,11 +233,312 @@
             "question": "print 'Hello World'[-3]\n throws an error",
             "rightAnswer": "Incorrect",
             "wrongAnswer": "Correct"
-        },
+        }
+    ],
+    "programming aop": [
         {
-            "question": "print 'Hello World'[3]\n returns l",
+            "question": "AOP stands for Aspect Oriented Proscription",
             "rightAnswer": "Incorrect",
             "wrongAnswer": "Correct"
+        },
+        {
+            "question": "AOP is a way to make your code more type safe",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "AOP stands for Aspect Oriented Programming",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "programming soa": [
+        {
+            "question": "SOA stands for Standards Oriented Architecture",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "SOA stands for Service Oriented Architecture",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "SOA is incompatible with REST",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        }
+    ],
+    "programming mvc": [
+        {
+            "question": "MVC stands for Model View Controller",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "MVC stands for Maximum View Control",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "programming enterprise": [
+        {
+            "question": "PHP is often used in enterprise programming",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "Java is often used in enterprise programming",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "programming koans": [
+        {
+            "question": "A bad programmer blames their tools.  Unless that tool is coldfusion",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "programming perfectionist": [
+        {
+            "question": "Every change must be code reviewed",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Every change must be unit tested",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Every change must be logged in bug tracking",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Every file must have an @author tag",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The whitespace must follow all style conventions",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Every change should be simple enough to be understood by the worst developer on the team",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Every change must have comments",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The code freeze is a hard cutoff and must never be violated",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The team lead's directives must always be followed to the letter",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Each task should take exactly the amount of predicted hours or points",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Databases should be perfectly normalized",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Every commit must be commented",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Every exception must be checked",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "All SQL changes must be created by the SQL person",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "All UI changes must be created by the UI person",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "programming requirements": [
+        {
+            "question": "Good requirements are the most important concern",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "UI should be developed and shown before it is completely working",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "UI should be polished before shown",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "The database structure should be the first consideration",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "All requirements should be determined and written down",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Requirements should detail the exact implementation.  Including which files to change.",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "The advantage of quick iterations is that the customer can reject things they don't like sooner",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "programming refactoring": [
+        {
+            "question": "int a =(int) '1' + '2'; ",
+            "rightAnswer": "int a = 1 + 2",
+            "wrongAnswer": "int three =(int) '1' + '2' "
+        },
+        {
+            "question": "Classes should generally be broken down into smaller components",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Java IDEs have good refactoring tools due to static analysis",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Putting the code of several methods together is often a good refactoring",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "Abstraction is a key component of refactoring",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Cutting edge tools like coldfusion have modern refactoring tools",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "Refactoring often increases technical debt which must be paid later",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "if(this.value.length!=0){\n\n   //because the greater/smaller signs are being escaped  \n\n   if(this.value.length==1){alert('The year must have 4 digits.');this.focus();}\n\n   if(this.value.length==2){alert('The year must have 4 digits.');this.focus();}\n\n   if(this.value.length==3){alert('The year must have 4 digits.');this.focus();}\n\n}",
+            "rightAnswer": "This is utterly terrible",
+            "wrongAnswer": "This is well designed"
+        }
+    ],
+    "programming unit-tests": [
+        {
+            "question": "Unit tests should generally have a positive and a negative test",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Unit tests need a setup phase in order to work",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "Mocking frameworks are a way to not access things like the database",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "Good code coverage abstracts the code",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "100% code coverage should be expected at the average workplace",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "Unit tests help with self documenting code",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "programming linux": [
+        {
+            "question": "EMACs is a text editor",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "VI is known for how easy it is to pick up",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "man pages are documentation",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        },
+        {
+            "question": "grepping is a good way to find processes",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "dir is a way to list files",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        },
+        {
+            "question": "ls is a way to list files",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
+        }
+    ],
+    "hobbies": [
+        {
+            "question": "My only hobby is work",
+            "rightAnswer": "Incorrect",
+            "wrongAnswer": "Correct"
+        }
+    ],
+    "hobbies video games": [
+        {
+            "question": "Which final fantasy is the best",
+            "rightAnswer": "FF6",
+            "wrongAnswer": "FF7"
+        }
+    ],
+    "hobbies computer games": [
+        {
+            "question": "Starcraft 1 is better than Starcraft 2",
+            "rightAnswer": "Correct",
+            "wrongAnswer": "Incorrect"
         }
     ]
 }

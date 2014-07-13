@@ -10,10 +10,11 @@
     <script type=text/javascript language=javascript src=/assets/CulturalFit.js></script>
   </head>                                       
   <body>
+	<button onclick="myFunction()">Contact this person</button>
+	<a href="/welcome.html">Back to entrance</a>
   	<ul class="list-group">
 	  <%=JUtil.showList()%></li>
 	</ul>
-	<button onclick="myFunction()">Contact this person</button>
 
 	<script>
 	function myFunction() {
