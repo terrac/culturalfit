@@ -26,26 +26,28 @@ public class GroupSelect extends Composite {
 
 	private static GroupSelectUiBinder uiBinder = GWT
 			.create(GroupSelectUiBinder.class);
-	
+
 	AsyncCallback<Group> setSuggestBox = new AsyncCallback<Group>() {
-		
+
 		@Override
 		public void onSuccess(Group result) {
+			if (result == null) {
+				return;
+			}
 			TopArea.setGroup(result);
 			suggestBox.setText(result.name);
 		}
-		
+
 		@Override
 		public void onFailure(Throwable caught) {
-			
+
 		}
 	};
-	
+
 	private final class SetGroupOnClick implements ClickHandler {
 		@Override
 		public void onClick(ClickEvent event) {
 			final Button b = (Button) event.getSource();
-			TopArea.setGroupName(b.getText());
 			SimpleFront.basicService
 					.setCurrentGroup(b.getText(), setSuggestBox);
 		}
@@ -72,7 +74,7 @@ public class GroupSelect extends Composite {
 	@UiField(provided = true)
 	public SuggestBox suggestBox;
 
-	public GroupSelect(VerticalPanel vp) {
+	public GroupSelect() {
 		this(true);
 	}
 
@@ -81,9 +83,9 @@ public class GroupSelect extends Composite {
 		final ItemSuggestOracle oracle = new ItemSuggestOracle() {
 			@Override
 			public void requestSuggestions(Request request, Callback callback) {
-//				if(request.getQuery().length() < 3){
-//					return;
-//				}
+				// if(request.getQuery().length() < 3){
+				// return;
+				// }
 				SuggestService.Util.getInstance().getGroup(request,
 						new ItemSuggestCallback(request, callback));
 			}
@@ -114,25 +116,23 @@ public class GroupSelect extends Composite {
 			@Override
 			public void onClick(ClickEvent event) {
 				SimpleFront.basicService.editGroup(suggestBox.getValue(),
-						new AsyncCallback<Tuple<Group,String>>() {
+						new AsyncCallback<Tuple<Group, String>>() {
 
 							@Override
-							public void onSuccess(Tuple<Group,String> result) {
-								TopArea.setGroupName(suggestBox.getValue());
+							public void onSuccess(Tuple<Group, String> result) {
 								TopArea.setGroup(result.a);
-								//TopArea.setGroup(a);
+								// TopArea.setGroup(a);
 								if ("Created".equals(result)) {
 									Window.alert("Created");
 								} else {
 									boolean owner = "owner".equals(result.b);
-									new GroupEdit().editGroup(TopArea.content,
-											owner);
+									new GroupEdit().editGroup(owner);
 								}
 							}
 
 							@Override
 							public void onFailure(Throwable caught) {
-								
+
 							}
 						});
 			}
@@ -145,8 +145,7 @@ public class GroupSelect extends Composite {
 			editGroup.setVisible(false);
 
 		} else {
-			String[] buttons = new String[] { "programming",
-					"hobbies" };
+			String[] buttons = new String[] { "programming", "hobbies" };
 			for (String a : buttons) {
 				Button b = new Button(a);
 				TopArea.content.add(b);
@@ -161,8 +160,9 @@ public class GroupSelect extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				TopArea.setGroupName(suggestBox.getText());
-				SimpleFront.basicService.setCurrentGroup(suggestBox.getText(),setSuggestBox);
+
+				SimpleFront.basicService.setCurrentGroup(suggestBox.getText(),
+						setSuggestBox);
 			}
 		});
 	}

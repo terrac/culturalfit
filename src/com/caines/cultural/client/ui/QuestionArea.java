@@ -8,14 +8,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.HTMLPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 public class QuestionArea extends Composite {
@@ -50,15 +48,15 @@ public class QuestionArea extends Composite {
 	//
 	// ClockTimer timer;
 	int count = 0;
+
 	public QuestionArea(final AsyncCallback<Question> asyncCallback) {
 		initWidget(uiBinder.createAndBindUi(this));
-		answer1.getElement().addClassName("btn");
 		// timer=new ClockTimer(clock);
 		ClickHandler ch = new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if(count >= 5){
+				if (count >= 5) {
 					TopArea.singleton.setupProfile();
 					return;
 				}
@@ -69,7 +67,7 @@ public class QuestionArea extends Composite {
 
 							@Override
 							public void onSuccess(Void result) {
-								
+
 							}
 
 							@Override
@@ -79,40 +77,50 @@ public class QuestionArea extends Composite {
 							}
 						});
 				SimpleFront.basicService.getNextQuestion(asyncCallback);
-				
+
 			}
 		};
 		answer1.addClickHandler(ch);
 		answer2.addClickHandler(ch);
-		for(int a = 0; a < 5; a++){
-			buttonPanel.getWidget(a).getElement().setClassName("btn");
-		}
-		
+		progressBar.setProgress(20);
 	}
 
 	public void setQuestion(Question result) {
 		count++;
-		for(int a = 0; a < count; a++){
-			buttonPanel.getWidget(a).getElement().setClassName("btn btn-info");
-		}
+
+		progressBar.setProgress(count * 20);
+
 		question.setInnerText(result.question);
+
+		boolean rand = Math.random() > .5;
+		if (result.answer1.equals("Correct")
+				|| result.answer2.equals("Correct")) {
+			setupAnswer(answer2, "Incorrect");
+			setupAnswer(answer1, "Correct");
 		
-		if (Math.random() > .5) {
-			answer1.setText(result.answer1);
-			answer2.setText(result.answer2);
+		} else if (rand) {
+			setupAnswer(answer2, result.answer2);
+			setupAnswer(answer1, result.answer1);
 		} else {
-			answer1.setText(result.answer2);
-			answer2.setText(result.answer1);
+			setupAnswer(answer1, result.answer2);
+			setupAnswer(answer2, result.answer1);
 		}
-		if(TopArea.group.seconds != 0){
+		if (TopArea.group.seconds != 0) {
 			startClock();
 		} else {
 			hideClock();
 		}
-		
+
 		// timer.scheduleRepeating(1000);
 		// timer.count= 60;
 
+	}
+
+	public void setupAnswer(Button b, String answer2) {
+		b.getElement().setInnerHTML(
+				"<pre style='border:none;background-color:inherit'>"
+						+ SafeHtmlUtils.fromString(answer2).asString()
+						+ "</pre>");
 	}
 
 	@UiField
@@ -124,8 +132,8 @@ public class QuestionArea extends Composite {
 	@UiField
 	Button answer2;
 
-	@UiField
-	HorizontalPanel buttonPanel;
+	@UiField(provided = true)
+	ProgressBar progressBar = new ProgressBar(5);
 
 	public void questionsFinished() {
 		question.setInnerText("No More Questions For this group");

@@ -1,6 +1,7 @@
 package com.caines.cultural.client;
 
 import com.caines.cultural.client.ui.QuestionArea;
+import com.caines.cultural.client.ui.TopArea;
 import com.caines.cultural.shared.datamodel.Question;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -42,19 +43,16 @@ public class NextQuestion {
 		questionArea= new QuestionArea(questionCallback);
 	}
 	QuestionArea questionArea;
-	VerticalPanel content = new VerticalPanel();
 	public static Long qRef;
-	public void showNextQuestion(VerticalPanel vp) {
-		if(vp != null){
-			content = vp;
-		}
+	public void showNextQuestion() {
+		
 		SimpleFront.basicService.getNextQuestion(questionCallback);
 	}
 	public void initialSetup() {
-		content.clear();
-		content.add(q);
-		content.add(qPanel);
-		content.add(questionArea);
+		TopArea.content.clear();
+		TopArea.content.add(q);
+		TopArea.content.add(qPanel);
+		TopArea.content.add(questionArea);
 	}
 
 

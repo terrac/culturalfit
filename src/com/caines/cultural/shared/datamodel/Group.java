@@ -70,6 +70,7 @@ public class Group implements Serializable{
 	@GwtTransient
 	@Index
 	public Ref<Group> parent;
+	public boolean rightWrong;
 
 	@Override
 	public String toString() {

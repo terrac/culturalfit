@@ -4,6 +4,7 @@ package com.caines.cultural.shared.datamodel;
 import java.io.Serializable;
 import java.util.Date;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;

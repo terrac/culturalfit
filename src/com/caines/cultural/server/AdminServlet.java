@@ -42,6 +42,7 @@ public class AdminServlet extends HttpServlet {
 		// SDao.getUserProfileDao().getQuery().filter("zipCode >",
 		// 0).filter("zipCode <",5);
 
+		
 		boolean setAdmin = Boolean.parseBoolean(req.getParameter("uurba"));
 		if (setAdmin) {
 			LoginInfo li = LoginService.login(null, null);

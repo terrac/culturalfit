@@ -4,20 +4,11 @@
 
 	<g:HTMLPanel>
 		<div class="container">
-			<h3>
-				<pre ui:field="question"></pre>
-			</h3>
+			<pre ui:field="question" width="90%"></pre>
 
-			<g:Button ui:field="answer1" height="15em" width="35em" />
-			<g:Button ui:field="answer2" height="15em" width="35em" />
-			<g:HorizontalPanel ui:field="buttonPanel">
-				<g:Button height="4em" width="13.4em" />
-				<g:Button height="4em" width="13.4em" />
-				<g:Button height="4em" width="13.4em" />
-				<g:Button height="4em" width="13.4em" />
-				<g:Button height="4em" width="13.4em" />
-				
-			</g:HorizontalPanel>
+			<g:Button ui:field="answer1" height="35%" width="45%" />
+			<g:Button ui:field="answer2" height="35%" width="45%" />
+			<u:ProgressBar ui:field="progressBar"></u:ProgressBar>
 		</div>
 		<div id="clock" class="time-container">
 			<div class="minutes-seconds seconds">

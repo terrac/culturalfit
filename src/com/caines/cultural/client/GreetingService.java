@@ -26,7 +26,7 @@ public interface GreetingService extends RemoteService {
 			String tags);
 
 
-	void addGroup(String value);
+	Group addGroup(String value);
 
 	List<Group> getTopGroups();
 
@@ -96,6 +96,9 @@ public interface GreetingService extends RemoteService {
 
 
 	List<Question> getQuestionList();
+
+
+	Group addTry(long userGroupId);
 
 
 

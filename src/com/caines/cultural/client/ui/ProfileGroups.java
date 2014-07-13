@@ -5,13 +5,11 @@ import java.util.List;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.ui.callback.SuccessAlertCallback;
 import com.caines.cultural.shared.Tuple;
-import com.caines.cultural.shared.datamodel.GUser;
+import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.LIElement;
 import com.google.gwt.dom.client.UListElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -23,9 +21,10 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.googlecode.objectify.Ref;
 
 public class ProfileGroups extends Composite {
 
@@ -96,6 +95,9 @@ public class ProfileGroups extends Composite {
 	UListElement listGroups;
 
 	@UiField
+	FlexTable listG;
+
+	@UiField
 	ListBox salary;
 
 	@UiField
@@ -152,18 +154,60 @@ public class ProfileGroups extends Composite {
 						if(result == null){
 							return;
 						}
-						for (UserGroup ug : result) {
+						listG.getElement().setClassName("list-group");
+						listG.setWidth("50%");
+						int count = 0;
+						for (final UserGroup ug : result) {
 							String label = getColorLabel(ug);
-							LIElement liElement = Document.get()
-									.createLIElement();
-							liElement.setInnerHTML(ug.name
-									+ "<span class='badge'>" + ug.getPercent()
-									+ "%<span class='label '>Answered:"
-									+ ug.total + "</span></span>");
-							liElement
-									.addClassName("list-group-item list-width list-group-item-"+label);
+//							LIElement liElement = Document.get()
+//									.createLIElement();
+//							liElement.setInnerHTML();
+//							liElement
+//									.addClassName();
+//							//liElement.appendChild(new Button("Reanswer").getElement());
+//							AnchorElement a = Document.get().createAnchorElement();
+//							a.appendChild(liElement);
+//							a.setAttribute("href", "#");
 							
-							listGroups.appendChild(liElement);
+							Label an = new Label();
+							an.getElement().setInnerHTML(ug.name+" <span class=badge>"+ug.getPercent()+"%</span>");
+							an.getElement().setClassName("list-group-item list-group-item-"+label);
+							listG.setWidget(count, 0, an);
+							Label an2 = new Label("Answered:"+ug.total);
+							an2.getElement().setClassName("list-group-item");
+							listG.setWidget(count, 1, an2);
+							
+							Label an3 = new Label("Try:"+ug.tries);
+							an3.getElement().setClassName("list-group-item");
+							listG.setWidget(count, 2, an3);
+							
+							if(ug.getPercent() < 80){
+								Button button = new Button("Reanswer");
+								button.addClickHandler(new ClickHandler() {
+									
+									@Override
+									public void onClick(ClickEvent event) {
+										SimpleFront.basicService.addTry(ug.id, new AsyncCallback<Group>() {
+
+											@Override
+											public void onFailure(
+													Throwable caught) {
+												
+											}
+
+											@Override
+											public void onSuccess(Group result) {
+												TopArea.setGroup(result);
+												TopArea.singleton.nextQuestion();
+											}
+										});
+									}
+								});
+								button.getElement().setClassName("btn");
+								listG.setWidget(count, 3, button);
+								//hp.getWidget(1).getElement().getStyle().setPadding(5, Unit.EM);
+							}
+							count++;
 						}
 					}
 

@@ -23,7 +23,7 @@ public interface GreetingServiceAsync {
 
 	void answerQuestion(Long id, String answer, AsyncCallback<Void> callback);
 
-	void addGroup(String value, AsyncCallback<Void> callback);
+	void addGroup(String value, AsyncCallback<Group> callback);
 
 	void getTopGroups(AsyncCallback<List<Group>> callback);
 
@@ -68,5 +68,7 @@ public interface GreetingServiceAsync {
 			AsyncCallback<Void> callback);
 
 	void getQuestionList(AsyncCallback<List<Question>> asyncCallback);
+
+	void addTry(long userGroupId, AsyncCallback<Group> asyncCallback);
 
 }

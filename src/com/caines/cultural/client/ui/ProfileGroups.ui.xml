@@ -1,11 +1,7 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-		.important {
-		font-weight: bold;
-		}
-	</ui:style>
+	
 	<g:HTMLPanel>
 		<div class="well ">
 			<div class="row">
@@ -49,6 +45,8 @@
 
 		<ul class="list-group" ui:field="listGroups">
 		</ul>
-
+		
+		<g:FlexTable ui:field="listG">
+		</g:FlexTable>
 	</g:HTMLPanel>
 </ui:UiBinder> 

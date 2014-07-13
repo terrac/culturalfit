@@ -8,23 +8,23 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class GroupEdit {
-	public void editGroup(final VerticalPanel vp,boolean creator) {
-		vp.clear();
+	public void editGroup(boolean creator) {
+		TopArea.content.clear();
 		//add question link
 		Button b = new Button("Add Question");
 		b.addClickHandler(new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				new AddQuestion().addQuestion(vp);
+				new AddQuestion().addQuestion();
 			}
 		});
 		//edit question list
-		vp.add(b);
+		TopArea.content.add(b);
 		if(creator){
 			TopArea.content.add(new QuestionList());
 		} else {
-			new AddQuestion().addQuestion(vp);
+			new AddQuestion().addQuestion();
 		}
 		
 	}

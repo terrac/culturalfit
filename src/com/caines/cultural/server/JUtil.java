@@ -15,7 +15,7 @@ public class JUtil {
 			a +="<li class='list-group-item list-group-item-"+label+"'>"+ug.name
 					+ "<span class='badge'>" + ug.getPercent() 
 					+ "%<span class='label'>Answered:"
-					+ ug.total + "</span></span></li>";
+					+ ug.total + " Tries:"+ug.tries+"</span></span></li>";
 		}
 		return a;
 	}

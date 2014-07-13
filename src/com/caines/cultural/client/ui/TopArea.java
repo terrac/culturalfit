@@ -19,6 +19,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SuggestBox;
@@ -60,7 +61,7 @@ public class TopArea extends Composite {
 	@UiField
 	Anchor nextQuestion;
 	@UiField
-	public static VerticalPanel content;
+	public static FlowPanel content;
 	
 	public static String groupNameS;
 	public static void setGroupName(String name) {
@@ -87,8 +88,8 @@ public class TopArea extends Composite {
 		removeActive();
 		viewGroups.getElement().getParentElement().addClassName("active");
 		content.clear();
-		content.add(new GroupSelect(content));
-		new ViewGroups().groupArea(content);
+		content.add(new GroupSelect());
+		//new ViewGroups().groupArea();
 	}
 
 	@UiHandler("nextQuestion")
@@ -99,7 +100,7 @@ public class TopArea extends Composite {
 	public void nextQuestion() {
 		removeActive();
 		nextQuestion.getElement().getParentElement().addClassName("active");
-		new NextQuestion().showNextQuestion(content);
+		new NextQuestion().showNextQuestion();
 	}
 
 	public void removeActive() {
@@ -163,7 +164,7 @@ public class TopArea extends Composite {
 				b.addClickHandler(new SetGroup(b) {
 					@Override
 					public void onSuccess() {
-						new NextQuestion().showNextQuestion(TopArea.content);
+						new NextQuestion().showNextQuestion();
 					}
 				});
 				hp.add(b);
@@ -182,6 +183,8 @@ public class TopArea extends Composite {
 	static Group group;
 	public static void setGroup(Group a) {
 		group = a;
+		setGroupName(a.name);
+		
 	}
 
 }
