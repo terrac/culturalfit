@@ -56,10 +56,6 @@ public class QuestionArea extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (count >= 5) {
-					TopArea.singleton.setupProfile();
-					return;
-				}
 				Button l = (Button) event.getSource();
 				String answer = l.getText();
 				SimpleFront.basicService.answerQuestion(NextQuestion.qRef,
@@ -76,6 +72,11 @@ public class QuestionArea extends Composite {
 
 							}
 						});
+				if (count >= 5) {
+					TopArea.singleton.setupProfile();
+					return;
+				}
+
 				SimpleFront.basicService.getNextQuestion(asyncCallback);
 
 			}
@@ -97,7 +98,7 @@ public class QuestionArea extends Composite {
 				|| result.answer2.equals("Correct")) {
 			setupAnswer(answer2, "Incorrect");
 			setupAnswer(answer1, "Correct");
-		
+
 		} else if (rand) {
 			setupAnswer(answer2, result.answer2);
 			setupAnswer(answer1, result.answer1);

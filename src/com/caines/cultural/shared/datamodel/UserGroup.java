@@ -51,7 +51,8 @@ public class UserGroup implements Serializable{
 	@Index
 	public Ref<Location> locationMapping;
 	
-	public int tries;
+	public int tries= 1;
+	public int milliSecondsTaken;
 	
 	public int getPercent(){
 		if(total == 0){

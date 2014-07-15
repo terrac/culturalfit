@@ -40,8 +40,8 @@ public class GUser implements Serializable{
 	}
 	
 	public boolean isAdmin() {
-		return "test@example.com".equals(displayName);
-		//return admin;
+		//return "test@example.com".equals(displayName);
+		return admin;
 	}
 	
 	public Ref<GUser> getRef(){

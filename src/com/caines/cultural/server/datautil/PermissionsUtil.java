@@ -1,5 +1,7 @@
 package com.caines.cultural.server.datautil;
 
+import org.mortbay.log.Log;
+
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 

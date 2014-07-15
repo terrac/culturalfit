@@ -203,7 +203,10 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		
 		uq.correct = answer.equals(SDao.getQuestionDao().get(id).answer1);
 		SDao.getUserQuestionDao().put(uq);
-
+		
+		UserGroup ug=SDao.getUserGroupDao().getByProperty("group", uq.group);
+		ug.milliSecondsTaken += (int) (Calendar.getInstance().getTimeInMillis() -uq.timeVisited.getTime());
+		SDao.getUserGroupDao().put(ug);
 	}
 
 	@Override
@@ -428,6 +431,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		ug.correct = 0;
 		ug.correctPercent = 0;
 		ug.total = 0;
+		ug.milliSecondsTaken = 0;
 		List<UserQuestion> listToDelete = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getRef()).filter("group", ug.group).list();
 		SDao.getUserGroupDao().put(ug);

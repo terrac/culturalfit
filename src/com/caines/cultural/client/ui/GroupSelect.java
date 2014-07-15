@@ -145,7 +145,7 @@ public class GroupSelect extends Composite {
 			editGroup.setVisible(false);
 
 		} else {
-			String[] buttons = new String[] { "programming", "hobbies" };
+			String[] buttons = new String[] { "programming-basic","programming", "hobbies" };
 			for (String a : buttons) {
 				Button b = new Button(a);
 				TopArea.content.add(b);

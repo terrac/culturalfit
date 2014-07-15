@@ -22,6 +22,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -95,7 +97,7 @@ public class ProfileGroups extends Composite {
 	UListElement listGroups;
 
 	@UiField
-	FlexTable listG;
+	FlowPanel listG;
 
 	@UiField
 	ListBox salary;
@@ -172,15 +174,22 @@ public class ProfileGroups extends Composite {
 							Label an = new Label();
 							an.getElement().setInnerHTML(ug.name+" <span class=badge>"+ug.getPercent()+"%</span>");
 							an.getElement().setClassName("list-group-item list-group-item-"+label);
-							listG.setWidget(count, 0, an);
+							listG.add(an);
+							HorizontalPanel hp = new HorizontalPanel();
 							Label an2 = new Label("Answered:"+ug.total);
 							an2.getElement().setClassName("list-group-item");
-							listG.setWidget(count, 1, an2);
+							hp.add( an2);
 							
 							Label an3 = new Label("Try:"+ug.tries);
 							an3.getElement().setClassName("list-group-item");
-							listG.setWidget(count, 2, an3);
+							hp.add( an3);
 							
+							{
+								Label an4 = new Label("Average Seconds:"+(int)ug.milliSecondsTaken/ug.total *.001);
+								an4.getElement().setClassName("list-group-item");
+								hp.add( an4);	
+							}
+							listG.add(hp);
 							if(ug.getPercent() < 80){
 								Button button = new Button("Reanswer");
 								button.addClickHandler(new ClickHandler() {
@@ -204,7 +213,7 @@ public class ProfileGroups extends Composite {
 									}
 								});
 								button.getElement().setClassName("btn");
-								listG.setWidget(count, 3, button);
+								listG.add( button);
 								//hp.getWidget(1).getElement().getStyle().setPadding(5, Unit.EM);
 							}
 							count++;

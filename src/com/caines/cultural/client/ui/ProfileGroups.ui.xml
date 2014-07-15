@@ -46,7 +46,7 @@
 		<ul class="list-group" ui:field="listGroups">
 		</ul>
 		
-		<g:FlexTable ui:field="listG">
-		</g:FlexTable>
+		<g:FlowPanel ui:field="listG">
+		</g:FlowPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

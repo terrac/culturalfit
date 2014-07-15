@@ -1,6 +1,7 @@
 package com.caines.cultural.client;
 
 import com.caines.cultural.client.ui.TopArea;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
@@ -101,7 +102,7 @@ public class AddQuestion {
 		yesOrNo.add(yes);
 		yesOrNo.add(no);
 		yesOrNo.setVisible(false);
-		
+		yesOrNo.setHeight("5em");
 		HorizontalPanel hp = new HorizontalPanel();
 		hp.add(new Label("Correct Answer:"));
 		hp.add(ta1);

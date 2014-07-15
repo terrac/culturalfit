@@ -10,12 +10,14 @@ public class JUtil {
 		List<UserGroup> ugList=new BasicServiceImpl().getUserGroupList();
 		String a = "";
 		for(UserGroup ug : ugList){
-
+			if(ug.total == 0){
+				continue;
+			}
 			String label = getColorLabel(ug);
 			a +="<li class='list-group-item list-group-item-"+label+"'>"+ug.name
 					+ "<span class='badge'>" + ug.getPercent() 
 					+ "%<span class='label'>Answered:"
-					+ ug.total + " Tries:"+ug.tries+"</span></span></li>";
+					+ ug.total + " Tries:"+ug.tries+" Average seconds:"+(int)ug.milliSecondsTaken/ug.total *.001+"</span></span></li>";
 		}
 		return a;
 	}
