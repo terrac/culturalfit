@@ -126,7 +126,7 @@ public class GroupSelect extends Composite {
 									Window.alert("Created");
 								} else {
 									boolean owner = "owner".equals(result.b);
-									new GroupEdit().editGroup(owner);
+									new GroupEdit().editGroup(owner,result.a);
 								}
 							}
 

@@ -227,6 +227,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		qu.group = g.getRef();
 		SDao.getQuestionDao().put(qu);
 		qu.tags = TagUtil.getTagRefs(tagString);
+		g.addMoreQuestions = getQuestionList(g.getRef()).size() < 50;
 		SDao.getGroupDao().put(g);
 		return null;
 	}

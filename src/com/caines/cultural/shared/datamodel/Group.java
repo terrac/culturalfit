@@ -71,6 +71,7 @@ public class Group implements Serializable{
 	@Index
 	public Ref<Group> parent;
 	public boolean rightWrong;
+	public boolean addMoreQuestions = true;
 
 	@Override
 	public String toString() {
