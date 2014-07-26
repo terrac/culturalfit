@@ -35,11 +35,12 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		GreetingService {
 
 	public void setupQuestions(Ref<Group> gRef) {
+		
 		setupProfileForGroup();
 		if(gRef == null){
 			return;
 		}
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		List<Question> qList = getQuestionList(gRef);
 		List<UserQuestion> uqList = new ArrayList<>();
 		List<UserQuestion> listSetup = SDao.getUserQuestionDao()
@@ -64,7 +65,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	public void setupProfileForGroup() {
 		
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 
 		List<UserQuestion> listAnswered = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getRef()).filter("processed", false)
@@ -111,7 +112,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<UserGroup> getUserGroupList() {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		if (li.gUser.currentGroup == null) {
 			return null;
 		}
@@ -136,13 +137,13 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 	@Override
 	public List<Question> getQuestionList() {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		return getQuestionList(li.gUser.currentGroup);
 	}
 
 	@Override
 	public Question getNextQuestion() {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 
 		Group group = li.gUser.currentGroup.get();
 		if (group == null) {
@@ -191,7 +192,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void answerQuestion(Long id, String answer) {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		UserQuestion uq = SDao.getUserQuestionDao().get(
 				li.gUser.currentQuestion);
 		Calendar c = Calendar.getInstance();
@@ -212,9 +213,12 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public String addQuestion(String question, String answer1, String answer2,
 			String tagString) {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		Group g = SDao.getGroupDao().get(li.gUser.currentGroup);
-
+		boolean addMoreQuestions = getQuestionList(g.getRef()).size() < 25;
+		if(!addMoreQuestions){
+			return "No more questions";
+		}
 		Question qu = new Question(question, answer1, answer2);
 		if (!PermissionsUtil.canEdit(li.gUser, g)) {
 			TemporaryQuestion tq = new TemporaryQuestion();
@@ -227,14 +231,15 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		qu.group = g.getRef();
 		SDao.getQuestionDao().put(qu);
 		qu.tags = TagUtil.getTagRefs(tagString);
-		g.addMoreQuestions = getQuestionList(g.getRef()).size() < 50;
+		g.addMoreQuestions = addMoreQuestions;
 		SDao.getGroupDao().put(g);
 		return null;
 	}
 
 	@Override
 	public Group addGroup(String value) {
-		LoginInfo li = LoginService.login(null, null);
+	
+		LoginInfo li = login();
 		Group group = new Group(value, li.gUser);
 		group.chopName();
 		SDao.getGroupDao().put(group);
@@ -250,15 +255,22 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Group setCurrentGroup(String text) {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
+		Group g = getGroup(text);
+		if(g == null){
+			return null;
+		}
+		Ref<Group> ref = g.getRef();
+		setCurrentGroup(li,ref);
+		return g;
+	}
+
+	public static Group getGroup(String text) {
 		Group g = SDao.getGroupDao().getByProperty("lowerName",
 				text.toLowerCase());
 		if(g == null){
 			return null;
 		}
-		
-		Ref<Group> ref = g.getRef();
-		setCurrentGroup(li,ref);
 		return g;
 	}
 
@@ -277,7 +289,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Group getCurrentGroup() {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		if (!li.loggedIn) {
 			return null;
 		}
@@ -307,7 +319,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void sendProfile(int salary, long location) {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		UserProfile up = SDao.getUserProfileDao().getByProperty("user",
 				li.gUser);
 		up.salary = salary;
@@ -322,7 +334,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 
 	public UserProfile getUProfile() {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		if (li.gUser == null) {
 			return null;
 		}
@@ -337,7 +349,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void setLocation(long locationRef) {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		UserProfile up = SDao.getUserProfileDao().getByProperty("user",
 				li.gUser);
 
@@ -361,23 +373,24 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public Tuple<Group, Tuple<String, Boolean>> getLogInOutString() {
+		LoginInfo li = login();
 		UserService userService = UserServiceFactory.getUserService();
 		String path = "/";
-		Group group = getCurrentGroup();
-		if (!userService.isUserLoggedIn()) {
-			return new Tuple<Group, Tuple<String, Boolean>>(group,
+		if (!li.loggedIn) {
+			return new Tuple<Group, Tuple<String, Boolean>>(null,
 					new Tuple<String, Boolean>(
-							userService.createLoginURL(path), true));
+							"/loginRequired", true));
 		} else {
+			Group group = getCurrentGroup();
 			return new Tuple<Group, Tuple<String, Boolean>>(group,
 					new Tuple<String, Boolean>(
-							userService.createLogoutURL(path), false));
+							"/loginRequired?logout=true", false));
 		}
 	}
 
 	@Override
 	public Tuple<Group,String> editGroup(String groupName) {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		Group g =setCurrentGroup(groupName);
 
 		if (g == null) {
@@ -392,7 +405,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<Question> getTemporaryQuestions() {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		
 		List<Question> ql = new ArrayList<Question>();
 		if (!PermissionsUtil.canEditCurrentGroup(li.gUser)) {
@@ -407,7 +420,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public void addPermanentQuestion(long id, boolean shouldAdd) {
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		if (!PermissionsUtil.canEditCurrentGroup(li.gUser)) {
 			return;
 		}
@@ -425,7 +438,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	
 	@Override
 	public Group addTry(long userGroupId){
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = login();
 		
 		UserGroup ug = SDao.getUserGroupDao().get(userGroupId);
 		ug.tries++;
@@ -440,5 +453,9 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		
 		setCurrentGroup(li,ug.group);
 		return ug.group.get();
+	}
+
+	private LoginInfo login() {
+		return LoginService.login(getThreadLocalRequest(), getThreadLocalResponse());
 	}
 }

@@ -1,10 +1,13 @@
 package com.caines.cultural.server;
 
 import java.io.IOException;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.caines.cultural.shared.LoginInfo;
 
 public class MainServlet extends HttpServlet {
 
@@ -15,6 +18,17 @@ public class MainServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
+		LoginInfo li=LoginService.login(req, resp);
+		if(!li.loggedIn){
+			try {
+				req.getSession().setAttribute("redirect", req.getRequestURI());
+				resp.sendRedirect("/loginRequired");
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+			return;
+		}
+		
 		String[] u= req.getPathInfo().split("/");
 		if(u.length > 1){
 			if(u[1].equals("profile")){
@@ -22,7 +36,7 @@ public class MainServlet extends HttpServlet {
 				return;
 			}
 			if("seeker".equals(u[1])&& u.length >2){
-				new BasicServiceImpl().setCurrentGroup(u[2]);
+				new BasicServiceImpl().setCurrentGroup(li,BasicServiceImpl.getGroup(u[2]).getRef());
 			}
 
 		}

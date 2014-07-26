@@ -62,9 +62,9 @@ public class QuestionList extends Composite {
 	public VerticalPanel temporaryQuestions;
 
 	CellTable<Question> table = new CellTable<Question>();
-	
+	int count = 0;
 	public void load() {
-		
+		count = 0;
 		SimpleFront.basicService.getTemporaryQuestions(new AsyncCallback<List<Question>>() {
 			
 			@Override
@@ -105,8 +105,18 @@ public class QuestionList extends Composite {
 		
 		// Create a CellTable.
 		table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
-
+		
 		// Add a text column to show the name.
+		TextColumn<Question> nColumn = new TextColumn<Question>() {
+			@Override
+			public String getValue(Question object) {
+				count++;
+				return ""+count;
+			}
+		};
+		
+		table.addColumn(nColumn, "Count");
+
 		TextColumn<Question> nameColumn = new TextColumn<Question>() {
 			@Override
 			public String getValue(Question object) {

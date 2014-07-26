@@ -45,7 +45,7 @@ public class AdminServlet extends HttpServlet {
 		
 		boolean setAdmin = Boolean.parseBoolean(req.getParameter("uurba"));
 		if (setAdmin) {
-			LoginInfo li = LoginService.login(null, null);
+			LoginInfo li = LoginService.login(req,resp);
 			li.gUser.admin = true;
 			SDao.getGUserDao().put(li.gUser);
 			return;
@@ -53,7 +53,7 @@ public class AdminServlet extends HttpServlet {
 
 		boolean setGroups = Boolean.parseBoolean(req.getParameter("setGroups"));
 		if (setGroups) {
-			LoginInfo li = LoginService.login(null, null);
+			LoginInfo li = LoginService.login(req,resp);
 
 			for (Group g : SDao.getGroupDao().getQuery().list()) {
 				g.creator = li.gUser.getRef();
@@ -83,7 +83,7 @@ public class AdminServlet extends HttpServlet {
 			SDao.getTemporaryQuestionDao().deleteAll(SDao.getTemporaryQuestionDao().getQuery().list());
 			return;
 		}
-		LoginInfo li = LoginService.login(null, null);
+		LoginInfo li = LoginService.login(req,resp);
 
 		String[] loc = new String[] { "Atlanta", "Seattle", "Philidelphia",
 				"Chicago", "Los Angeles", "Dallas", "Boston", "Silicon Valley",

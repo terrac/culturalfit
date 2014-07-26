@@ -18,6 +18,7 @@ import com.caines.cultural.server.datautil.TagUtil;
 import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
+import com.caines.cultural.shared.datamodel.GroupNameChopped;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.Question;
 import com.caines.cultural.shared.datamodel.Tag;
@@ -40,14 +41,25 @@ public class ConsoleServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		Group g=SDao.getGroupDao().getByProperty("lowerName", "welcome");
-		g.seconds = 0;
-		SDao.getGroupDao().put(g);
-		
-		List<UserQuestion> uqL=SDao.getUserQuestionDao().getQuery().list();
-		
-		for(UserQuestion uq :uqL){
-			resp.getWriter().write(uq+" <br><br><br>");
+//		Group g=SDao.getGroupDao().getByProperty("lowerName", "welcome");
+//		g.seconds = 0;
+//		SDao.getGroupDao().put(g);
+//		
+//		List<UserQuestion> uqL=SDao.getUserQuestionDao().getQuery().list();
+//		
+//		for(UserQuestion uq :uqL){
+//			resp.getWriter().write(uq+" <br><br><br>");
+//		}
+		for(Group g :  SDao.getGroupDao().getQuery().list()){
+			
+			g.name = g.name.trim();
+			g.lowerName = g.lowerName.trim();
+			SDao.getGroupDao().put(g);
 		}
+		for(GroupNameChopped gnc : SDao.getGroupNameChoppedDao().getQuery().list()){
+			gnc.groupName = gnc.groupName.trim();
+			SDao.getGroupNameChoppedDao().put(gnc);
+		}
+		
 	}
 }

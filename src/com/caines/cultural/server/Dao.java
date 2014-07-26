@@ -9,11 +9,11 @@ import com.google.appengine.api.datastore.QueryResultIterator;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 import com.googlecode.objectify.Key;
+import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.NotFoundException;
 import com.googlecode.objectify.cmd.Query;
 
-import static com.googlecode.objectify.ObjectifyService.ofy;
 
 public class Dao<T> {
 
@@ -56,7 +56,9 @@ public class Dao<T> {
 	}
 
 	public T get(String id) {
-
+		if(id == null){
+			return null;
+		}
 		return OService.ofy().load().type(this.clazz).id(id).now();
 	}
 
@@ -113,6 +115,10 @@ public class Dao<T> {
 
 	public Query<T> getQByProperty(String propName, Object propValue) {
 		return ofy().load().type(clazz).filter(propName, propValue);
+	}
+
+	private Objectify ofy() {
+		return OService.ofy();
 	}
 
 	private List<T> asList(QueryResultIterator<T> queryResultIterator) {

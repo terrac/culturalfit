@@ -16,7 +16,7 @@ public class GroupEdit {
 			// add question link
 			addQuestionButton();
 		} else {
-			TopArea.content.add(new Label("Group has 50 active questions so no more can be currently added"));
+			TopArea.content.add(new Label("Group has 25 active questions so no more can be currently added"));
 		}
 		if (creator) {
 			TopArea.content.add(new QuestionList());

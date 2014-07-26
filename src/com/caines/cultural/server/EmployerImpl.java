@@ -5,13 +5,11 @@ import java.util.List;
 
 import com.caines.cultural.client.EmployerService;
 import com.caines.cultural.shared.Tuple;
-import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Location;
 import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.clientserver.SharedUserProfile;
-import com.google.appengine.api.search.query.ExpressionParser.negation_return;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import com.googlecode.objectify.Ref;
 

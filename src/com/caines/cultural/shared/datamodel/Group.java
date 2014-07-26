@@ -45,7 +45,6 @@ public class Group implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	public Group() {
-	
 	}
 	
 	@Id
@@ -57,7 +56,7 @@ public class Group implements Serializable{
 			creator = gUser.getRef();	
 		}
 		//id = groupname;
-		name = groupname;
+		name = groupname.trim();
 		lowerName = name.toLowerCase();
 		
 	}

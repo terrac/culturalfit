@@ -40,6 +40,11 @@ public class UserProfile implements Serializable {
 	public String name;
 	public int vacation;
 
+	public String password;
+
+	@Index
+	public String email;
+
 
 
 	public Ref<UserProfile> getRef() {
