@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.UUID;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,13 +17,19 @@ import com.google.appengine.api.users.UserServiceFactory;
 
 public class LoginPage extends HttpServlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
 		String logout = req.getParameter("logout");
-		if("true".equals(logout)){
+		if ("true".equals(logout)) {
 			req.getSession().invalidate();
-			resp.sendRedirect(UserServiceFactory.getUserService().createLogoutURL("/"));
+			resp.sendRedirect(UserServiceFactory.getUserService()
+					.createLogoutURL("/"));
 		}
 		// UserService userService = UserServiceFactory.getUserService();
 		// User user = userService.getCurrentUser(); // or
@@ -34,17 +42,22 @@ public class LoginPage extends HttpServlet {
 		} else {
 			resp.getWriter().println(formData);
 		}
-		
+
 		String email = req.getParameter("emailAddress");
 		String password = req.getParameter("passwordinput");
 		String register = req.getParameter("register");
-		if(email == null){
+		if (email == null) {
 			return;
 		}
+		if (!isValidEmailAddress(email)) {
+			resp.getWriter().write("Invalid email");
+			return;
+		}
+
 		UserProfile up = SDao.getUserProfileDao().getByProperty("email", email);
 		String redirect = "/c/seeker";
 		String sred = (String) req.getSession().getAttribute("redirect");
-		if(sred!= null){
+		if (sred != null) {
 			redirect = sred;
 		}
 		if ("on".equals(register)) {
@@ -65,10 +78,11 @@ public class LoginPage extends HttpServlet {
 		} else {
 			if (up != null) {
 				if (up.password.equals(password)) {
-					req.getSession().setAttribute("userId", up.user.getKey().getName());
-					
+					req.getSession().setAttribute("userId",
+							up.user.getKey().getName());
+
 					resp.sendRedirect(redirect);
-					
+
 				} else {
 					resp.getWriter().write("Password incorrect");
 				}
@@ -94,7 +108,7 @@ public class LoginPage extends HttpServlet {
 			+ "<script type=text/javascript language=javascript src=/assets/CulturalFit.js></script>"
 			+ "</head>"
 			+ "<body>"
-			+ "<button class='btn btn-primary' onclick=\"location='"
+			+ "<button class='btn btn-success' onclick=\"location='"
 			+ UserServiceFactory.getUserService().createLoginURL("/c/seeker")
 			+ "'\">Login With Google</Button><br>"
 			+ "<form class=form-horizontal action=/loginRequired><fieldset>"
@@ -110,4 +124,11 @@ public class LoginPage extends HttpServlet {
 			+ "<div class=control-group><label class=control-label for=submit></label>"
 			+ "<div class=controls><button id=submit name=submit class='btn btn-primary'>Login</button>"
 			+ "</div></div></fieldset></form></body></html>";
+
+	public boolean isValidEmailAddress(String email) {
+		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
+		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
+		java.util.regex.Matcher m = p.matcher(email);
+		return m.matches();
+	}
 }

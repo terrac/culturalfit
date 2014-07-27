@@ -32,6 +32,7 @@ public class MainServlet extends HttpServlet {
 		String[] u= req.getPathInfo().split("/");
 		if(u.length > 1){
 			if(u[1].equals("profile")){
+				JUtil.showList(req,resp);
 				req.getRequestDispatcher("/d/profile.jsp").forward(req, resp);;
 				return;
 			}

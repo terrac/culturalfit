@@ -36,11 +36,12 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	public void setupQuestions(Ref<Group> gRef) {
 		
-		setupProfileForGroup();
 		if(gRef == null){
 			return;
 		}
 		LoginInfo li = login();
+		setupProfileForGroup(li);
+		
 		List<Question> qList = getQuestionList(gRef);
 		List<UserQuestion> uqList = new ArrayList<>();
 		List<UserQuestion> listSetup = SDao.getUserQuestionDao()
@@ -63,9 +64,8 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		SDao.getUserQuestionDao().putAll(uqList);
 	}
 
-	public void setupProfileForGroup() {
+	public void setupProfileForGroup(LoginInfo li) {
 		
-		LoginInfo li = login();
 
 		List<UserQuestion> listAnswered = SDao.getUserQuestionDao()
 				.getQByProperty("user", li.gUser.getRef()).filter("processed", false)
@@ -88,7 +88,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			answered.processed = true;
 
 		}
-		UserProfile up = getUProfile();
+		UserProfile up = getUProfile(li);
 
 		
 		List<UserGroup> ugList = new ArrayList<>();
@@ -116,7 +116,15 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		if (li.gUser.currentGroup == null) {
 			return null;
 		}
-		setupProfileForGroup();
+		List<UserGroup> userGroupList = getUserGroupList(li);
+		return userGroupList;
+	}
+
+	public List<UserGroup> getUserGroupList(LoginInfo li) {
+		if (li.gUser.currentGroup == null) {
+			return null;
+		}
+		setupProfileForGroup(li);
 
 		List<UserGroup> userGroupList = getUserGroupList(SDao
 				.getUserProfileDao().getByProperty("user", li.gUser).id);
@@ -329,12 +337,12 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public SharedUserProfile getUserProfile() {
-		UserProfile up = getUProfile();
+		LoginInfo li = login();
+		UserProfile up = getUProfile(li);
 		return up.getShared();
 	}
 
-	public UserProfile getUProfile() {
-		LoginInfo li = login();
+	public UserProfile getUProfile(LoginInfo li) {
 		if (li.gUser == null) {
 			return null;
 		}

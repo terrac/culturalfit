@@ -1,11 +1,218 @@
+Video, words and website
+  a show someone clicking through the website and answering some questions
+  b show them taking that link, and putting it on their resume
+  c show a recruiter looking at two different resumes, and seeing the question one
+  
+
+1 hobbies - do nothing
+ travel
+ cars
+ hiking
+ sports
+ 
+2  
+
+1 once a day beta email user
+  a click on a link in the profile
+  b this gives a form with a partial subjet (showing uneditable part)
+  c you can then hit send to email person
+  d a note saying, this is beta
+
+
+
+1 if no user, redirect to login required page
+  a add a link to a google login page (using the google login link)
+  b add a email/pass combo and register checkbox
+2 email pass sends to itself, which then displays any errors or redirects
+  back to main on successful login
+3 if google login, it then checks to see if person is logged in and does setup
+  there  
+
+
+
+
+1 page that displays all groups and sums up the user groups
+  a it is a servlet
+  b it s
+2
+
+
+1 30 question for each basic group
+  a javascript questions
+  b java questions
+  c html
+  d css
+  e sql
+  
+2 bootstrap for buttons insead of radio boxes on add yes or no question  
+
+body {
+    background-color: #d0e4fe;
+}
+In this case everything below the navigation of the page will have a background color set, but
+the top portion of the document will not have a color set
+
+h1 {
+    color: orange;
+}
+All headers will have the color orange set 
+
+p {
+    font-size: 20pixels;
+}
+All p elements will have the font size set to 20 pixels
+
+CSS stands for Continuous Style Sheets
+
+<link rel="stylesheet" type="text/css" href="stylish.css">
+Will link to a stylesheet
+
+<style href="mystyle.css">
+Will link to a stylesheet
+
+Style sheets should be placed in the head of the document
+
+Style sheets should be placed before everything else in the document
+
+<css> is used to style inside a document
+
+<style> is used to put css inside a document
+
+br "color=blue" is correct syntax
+
+backgroundColor will set the background color
+
+<p text-size="10t"></p>
+Will increase the text size by 10 times its current amount
+
+<p style="font-size:bold;">
+Will make the font bold for all p elements
+
+
+intermediate css
+//this is a css comment
+
+inline styles are preferred over classes because classes are too abstract
+
+* is used in debugging when trying to determine whether or not a style is correct
+
+basic programming- general concepts
+
+javascript specific
+
+java specific
+
+
+
+sql specific
+
+Selecting data in SQL is accomplished with the GET keyword
+Getting data in SQL is accomplished with the SELECT keyword
+
+Modifying data in sql is accomplished with the UPDATE keyword
+Updating data in sql is accomplished with the MODIFY keyword
+
+Adding data in sql is accomplished with the INSERT keyword
+Inserting data in sql is accomplished with the ADD keyword
+
+Removing data in sql is accomplished with the DELETE keyword
+Deleting data in sql is accomplished with the REMOVE keyword
+
+
+
+3 programming-basic solid set of "You should get 100% on these" basic questions
+  a basic this is "html" questions (exising list is fine
+  b basic css questions
+  
+  c basic javascript (ie no gotchas, just loops, alerts, functions, etc
+  d on the main category what is a function, what is a for loop, what is a database, etc
+4 then onto some intermediate questions
+5 then share wider (using programming-basic link)
+
+
+#1 public profile includes tries in badge
+#2 test simple question (yes or no)
+
+
+
+
+
+
+#2 on click reanswer, increment 1 to tries on user group, and clear out answers
+  set the group and get the next question
+
+
+
+#1 on creating a group, make sure to clear out next question list
+
+2 refresh admin, do through website, write simple export ( with single names first)
+2.5
+3 post on cscareerquestions with programming-basic, ask for feedback
+
+1 test adding questions, creating groups, etc
+5 android
+
+3 test
+4 run console
+1 the create... button adds based on the select group text (and calls the select group function)
+#6 make profile link back to employer and employee pages
+#1 parent sibling stuff
+#2 link to automatically set programming group
+
+
+1 create normal users and add groups and questions
+#2 create a bar at the bottom which counts to 5 and then moves you back to the profile page
+3 make the get sibling stuff get a child if it is a parent
+4 run console after admin on web page
+
+
+
+
+
+1 re pull in questions
+2 format the money on the drop down list
+3 test the new "pull all from related groups" logic
+4 test programming and hobby buttons
+
+
+
+1 
+
+1 pull first name
+2 make indexed parent on group
+3 make 3 groups get pulled 1 (selected, or just 3 generic)
+4 do a random pull from one of them each time
+
+
+1 Beta label
+
+
+
+1 if the group does not have a space in the name then
+  show a second 7 button list of the top groups for that (without the first name added,and badges of popularity)
+  when adding a group take the first word and make the first word be the parent group if
+  it exists.  Order by questions answered (create a counter on the group for that)
+
+2 more questions, well structured
+  a programming style (perfectionism/requirements/etc, the programming group gets questions from all subgroups)
+  MVC,AOP,convention over configuration
+3 Add beta label
+4 make list horizontal, add reanswer button (make it refresh once a day)  
+
+
+1 create programming group
+2 create general programming button/have it populate list
+3 create hobbies group
+4 10 each basic python, basic android, basic cloud computing, basic dart
+html, basic css, basic javascript, basic java, basic sql, basic spring
+
 1 change "switch" to, "back"
 
 1 If there are no more questions, then add a "move to profile button" 
  and some "move to next" buttons
  initially just call the method to set up the next stuff
 2 test questions group
-3 100 basic python, basic android, basic cloud computing, basic dart
-html, basic css, basic javascript, basic java, basic sqlh 
+3 100  
 4 add reanswer button 
 
 NextGroup (group,nextGroup)

@@ -2,12 +2,15 @@ package com.caines.cultural.server;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import com.caines.cultural.client.ui.ProfileGroups;
 import com.caines.cultural.shared.datamodel.UserGroup;
 
 public class JUtil {
-	public static String showList(){
-		List<UserGroup> ugList=new BasicServiceImpl().getUserGroupList();
+	public static String showList(HttpServletRequest req, HttpServletResponse resp){
+		List<UserGroup> ugList=new BasicServiceImpl().getUserGroupList(LoginService.login(req, resp));
 		String a = "";
 		for(UserGroup ug : ugList){
 			if(ug.total == 0){
@@ -19,6 +22,7 @@ public class JUtil {
 					+ "%<span class='label'>Answered:"
 					+ ug.total + " Tries:"+ug.tries+" Average seconds:"+(int)ug.milliSecondsTaken/ug.total *.001+"</span></span></li>";
 		}
+		req.setAttribute("person", a);
 		return a;
 	}
 	public static String getColorLabel(UserGroup ug) {

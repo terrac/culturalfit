@@ -13,7 +13,7 @@
 	<button onclick="myFunction()">Contact this person</button>
 	<a href="/welcome.html">Back to entrance</a>
   	<ul class="list-group">
-	  <%=JUtil.showList()%></li>
+	  <%=request.getAttribute("person")%></li>
 	</ul>
 
 	<script>
