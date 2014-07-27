@@ -1,5 +1,5 @@
 1 remove the sign in security part
-2 if the user has not been created then create a temporary user (with a temporary flag)
+#2 if the user has not been created then create a temporary user (with a temporary flag)
 3 let them act as normal, but add a "make permanent user button" in addition to the login
 3 on clicking it will pop over to the login page, with register selected, and from then on the select
 1 change "switch" to, "back"
