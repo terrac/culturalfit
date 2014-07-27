@@ -19,6 +19,11 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LoginInfo li=LoginService.login(req, resp);
+		if(li.currentUser.temporary){
+			Cookie cookie =
+  			new Cookie("temporary", "true");
+  			response.addCookie(cookie);
+		}
 		if(!li.loggedIn){
 			try {
 				req.getSession().setAttribute("redirect", req.getRequestURI());

@@ -47,6 +47,10 @@ public class LoginService {
 					SDao.getGUserDao().put(per);
 				}
 			}
+			if(per == null){
+				per = new GUser(UUID.randomUUID().toString(),"");
+				per.temporary = true;
+			}
 		}
 
 		// probably should add in a cookie later that says logged in/ not logged

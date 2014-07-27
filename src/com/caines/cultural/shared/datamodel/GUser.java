@@ -35,6 +35,7 @@ public class GUser implements Serializable{
 	public Ref<Group> currentGroup;
 	public boolean admin;
 	public boolean loggedIn;
+	public boolean temporary;
 	
 	public String getDisplayName() {
 		return displayName;
