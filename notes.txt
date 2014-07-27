@@ -1,7 +1,10 @@
 1 remove the sign in security part
 #2 if the user has not been created then create a temporary user (with a temporary flag)
-3 let them act as normal, but add a "make permanent user button" in addition to the login
+#3 let them act as normal, but add a "make permanent user button" in addition to the login
 3 on clicking it will pop over to the login page, with register selected, and from then on the select
+  a if there is a temporary cookie on the register page, and there is a successful register then clear
+  b also set the checbox to true
+  c additionally don't create a guser, just set temporary to false
 1 change "switch" to, "back"
 
 1 If there are no more questions, then add a "move to profile button" 
