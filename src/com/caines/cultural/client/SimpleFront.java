@@ -73,8 +73,13 @@ public class SimpleFront implements EntryPoint {
 	public void onModuleLoad() {
 		singleton = this;
 		HorizontalPanel hp = new HorizontalPanel();
+		final Anchor temporary = new Anchor("Make Permanent");
 		final Anchor logIn = new Anchor("Log In");
+		temporary.getElement().setClassName("btn btn-success");
 		logIn.getElement().setClassName("btn");
+		hp.add(temporary);
+		String temporary = Cookies.getCookie("temporary");
+		temporary.setVisible("true".equals(temporary));
 		hp.add(logIn);
 		
 //		employerSwitch.getElement().setClassName("btn");		
