@@ -3,6 +3,7 @@ package com.caines.cultural.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -18,13 +19,13 @@ import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.SideBar;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.Group;
+import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import com.google.gwt.user.server.rpc.AbstractRemoteServiceServlet;
 
 public class LoginService {
-
 		public static LoginInfo login(HttpServletRequest req,HttpServletResponse resp) {
 		if(req == null){
 			throw new IllegalArgumentException("ahh");
@@ -49,7 +50,11 @@ public class LoginService {
 			}
 			if(per == null){
 				per = new GUser(UUID.randomUUID().toString(),"");
+				req.getSession().setAttribute("userId", per.id);
 				per.temporary = true;
+				UserProfile up = new UserProfile(per);
+				SDao.getUserProfileDao().put(up);
+				SDao.getGUserDao().put(per);
 			}
 		}
 

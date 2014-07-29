@@ -3,6 +3,7 @@ package com.caines.cultural.server;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +20,11 @@ public class MainServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		LoginInfo li=LoginService.login(req, resp);
-		if(li.currentUser.temporary){
-			Cookie cookie =
-  			new Cookie("temporary", "true");
-  			response.addCookie(cookie);
-		}
+//		if(li.gUser.temporary){
+//			Cookie cookie =
+//  			new Cookie("temporary", "true");
+//  			resp.addCookie(cookie);
+//		}
 		if(!li.loggedIn){
 			try {
 				req.getSession().setAttribute("redirect", req.getRequestURI());

@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,6 +31,12 @@ public class LoginPage extends HttpServlet {
 			req.getSession().invalidate();
 			resp.sendRedirect(UserServiceFactory.getUserService()
 					.createLogoutURL("/"));
+			return;
+		}
+		String temp = getCookie("temporary", req);
+		String checked ="";
+		if("true".equals(temp)){
+			checked = "checked";
 		}
 		// UserService userService = UserServiceFactory.getUserService();
 		// User user = userService.getCurrentUser(); // or
@@ -37,10 +44,11 @@ public class LoginPage extends HttpServlet {
 		LoginInfo li = LoginService.login(req, resp);
 		resp.setContentType("text/html");
 
-		if (li.loggedIn) {
+		if (li.loggedIn&&!li.gUser.temporary) {
 			resp.sendRedirect("/c/seeker/");
+			return;
 		} else {
-			resp.getWriter().println(formData);
+			resp.getWriter().println(setupForm(checked));
 		}
 
 		String email = req.getParameter("emailAddress");
@@ -66,14 +74,17 @@ public class LoginPage extends HttpServlet {
 			} else {
 				String uid = UUID.randomUUID().toString();
 				req.getSession().setAttribute("userId", uid);
-				GUser gu = new GUser(uid, email);
-
+				GUser gu = li.gUser;
+				gu.temporary = false;
 				SDao.getGUserDao().put(gu);
 				up = new UserProfile(gu);
 				up.email = email;
 				up.password = password;
 				SDao.getUserProfileDao().put(up);
 				resp.sendRedirect(redirect);
+				Cookie cookie = new Cookie("temporary", null); // Not necessary, but saves bandwidth.
+				cookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
+				resp.addCookie(cookie);
 			}
 		} else {
 			if (up != null) {
@@ -95,40 +106,59 @@ public class LoginPage extends HttpServlet {
 
 	}
 
-	String formData = ""
-			+ "<html>"
-			+ "<head>"
-			+ "<meta http-equiv=content-type content=text/html; charset=UTF-8>"
-			+ "<link type=text/css rel=stylesheet href=/assets/CulturalFit.css>"
-			+ "<link href=/assets/bootstrap.min.css rel=stylesheet>"
-			+ "<script src=/assets/jQuery.js></script>"
-			+ "<script src=/assets/bootstrap.min.js></script>"
-			+ "<title>Cultural Fit: Who you are, not what you are</title>"
-			+ "<script type=text/javascript language=javascript src=/culturalfit/culturalfit.nocache.js></script>"
-			+ "<script type=text/javascript language=javascript src=/assets/CulturalFit.js></script>"
-			+ "</head>"
-			+ "<body>"
-			+ "<button class='btn btn-success' onclick=\"location='"
-			+ UserServiceFactory.getUserService().createLoginURL("/c/seeker")
-			+ "'\">Login With Google</Button><br>"
-			+ "<form class=form-horizontal action=/loginRequired><fieldset>"
-			+ "<legend>Login/Create Account</legend>"
-			+ "<div class=control-group>"
-			+ "<label class=control-label for=emailAddress>Email Address</label>"
-			+ "<div class=controls>"
-			+ "<input id=emailAddress name=emailAddress type=text placeholder=email@example.com class=input-xlarge required=>"
-			+ "</div></div><div class=control-group><label class=control-label for=passwordinput>Password</label>"
-			+ "<div class=controls>"
-			+ "<input id=passwordinput name=passwordinput type=password placeholder=****** class=input-xlarge required=>"
-			+ "<p class=help-block>Register <input type=checkbox name=register ></p></div></div>"
-			+ "<div class=control-group><label class=control-label for=submit></label>"
-			+ "<div class=controls><button id=submit name=submit class='btn btn-primary'>Login</button>"
-			+ "</div></div></fieldset></form></body></html>";
+	public String setupForm(String checked) {
+		return ""
+				+ "<html>"
+				+ "<head>"
+				+ "<meta http-equiv=content-type content=text/html; charset=UTF-8>"
+				+ "<link type=text/css rel=stylesheet href=/assets/CulturalFit.css>"
+				+ "<link href=/assets/bootstrap.min.css rel=stylesheet>"
+				+ "<script src=/assets/jQuery.js></script>"
+				+ "<script src=/assets/bootstrap.min.js></script>"
+				+ "<title>Cultural Fit: Who you are, not what you are</title>"
+				+ "<script type=text/javascript language=javascript src=/culturalfit/culturalfit.nocache.js></script>"
+				+ "<script type=text/javascript language=javascript src=/assets/CulturalFit.js></script>"
+				+ "</head>"
+				+ "<body>"
+				+ "<button class='btn btn-success' onclick=\"location='"
+				+ UserServiceFactory.getUserService().createLoginURL("/c/seeker")
+				+ "'\">Login With Google</Button><br>"
+				+ "<form class=form-horizontal action=/loginRequired><fieldset>"
+				+ "<legend>Login/Create Account</legend>"
+				+ "<div class=control-group>"
+				+ "<label class=control-label for=emailAddress>Email Address</label>"
+				+ "<div class=controls>"
+				+ "<input id=emailAddress name=emailAddress type=text placeholder=email@example.com class=input-xlarge required=>"
+				+ "</div></div><div class=control-group><label class=control-label for=passwordinput>Password</label>"
+				+ "<div class=controls>"
+				+ "<input id=passwordinput name=passwordinput type=password placeholder=****** class=input-xlarge required=>"
+				+ "<p class=help-block>Register <input type=checkbox name=register "+checked+"></p></div></div>"
+				+ "<div class=control-group><label class=control-label for=submit></label>"
+				+ "<div class=controls><button id=submit name=submit class='btn btn-primary'>Login</button>"
+				+ "</div></div></fieldset></form></body></html>";
+	};
 
 	public boolean isValidEmailAddress(String email) {
 		String ePattern = "^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$";
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
 		java.util.regex.Matcher m = p.matcher(email);
 		return m.matches();
+	}
+
+	public String getCookie(String name, HttpServletRequest req) {
+		Cookie[] cookies = req.getCookies();
+
+		String cookieName = name;
+
+		for (int i = 0; i < cookies.length; i++) {
+
+			Cookie cookie = cookies[i];
+
+			if (cookieName.equals(cookie.getName()))
+
+				return cookie.getValue();
+
+		}
+		return null;
 	}
 }

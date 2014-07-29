@@ -15,6 +15,7 @@ import com.caines.cultural.shared.datamodel.ZipCode;
 
 
 public class SDao {
+	static OService  a= new OService();
 	public static Dao<GUser> getGUserDao() {
 		return new Dao<GUser>(GUser.class);
 	}

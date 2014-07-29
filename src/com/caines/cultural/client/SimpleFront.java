@@ -8,6 +8,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -73,13 +74,12 @@ public class SimpleFront implements EntryPoint {
 	public void onModuleLoad() {
 		singleton = this;
 		HorizontalPanel hp = new HorizontalPanel();
-		final Anchor temporary = new Anchor("Make Permanent");
+		//final Anchor temporary = new Anchor("Make Permanent");
+		//temporary.setHref("/loginRequired");
 		final Anchor logIn = new Anchor("Log In");
-		temporary.getElement().setClassName("btn btn-success");
+		//temporary.getElement().setClassName("btn btn-success");
 		logIn.getElement().setClassName("btn");
-		hp.add(temporary);
-		String temporary = Cookies.getCookie("temporary");
-		temporary.setVisible("true".equals(temporary));
+		//hp.add(temporary);
 		hp.add(logIn);
 		
 //		employerSwitch.getElement().setClassName("btn");		
@@ -122,6 +122,7 @@ public class SimpleFront implements EntryPoint {
 						} else {
 							logIn.setText("Log Out");
 						}
+						
 						logIn.setHref(result.b.a);
 						TopArea.setGroupName(result.a.name);
 						TopArea.setGroup(result.a);

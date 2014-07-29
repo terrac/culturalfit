@@ -384,7 +384,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		LoginInfo li = login();
 		UserService userService = UserServiceFactory.getUserService();
 		String path = "/";
-		if (!li.loggedIn) {
+		if (!li.loggedIn||li.gUser.temporary) {
 			return new Tuple<Group, Tuple<String, Boolean>>(null,
 					new Tuple<String, Boolean>(
 							"/loginRequired", true));
