@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
@@ -73,6 +74,12 @@ public class SimpleFront implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		singleton = this;
+		
+		
+		PopupPanel pp = new PopupPanel();
+		
+		pp.add(new verticalp);
+		pp.center();
 		HorizontalPanel hp = new HorizontalPanel();
 		//final Anchor temporary = new Anchor("Make Permanent");
 		//temporary.setHref("/loginRequired");

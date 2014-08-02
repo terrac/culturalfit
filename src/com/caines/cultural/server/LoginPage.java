@@ -22,7 +22,6 @@ public class LoginPage extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException {
@@ -33,11 +32,8 @@ public class LoginPage extends HttpServlet {
 					.createLogoutURL("/"));
 			return;
 		}
-		String temp = getCookie("temporary", req);
 		String checked ="";
-		if("true".equals(temp)){
-			checked = "checked";
-		}
+		
 		// UserService userService = UserServiceFactory.getUserService();
 		// User user = userService.getCurrentUser(); // or
 		// req.getUserPrincipal()
@@ -47,9 +43,9 @@ public class LoginPage extends HttpServlet {
 		if (li.loggedIn&&!li.gUser.temporary) {
 			resp.sendRedirect("/c/seeker/");
 			return;
-		} else {
-			resp.getWriter().println(setupForm(checked));
-		}
+		} 
+		resp.getWriter().println(setupForm(checked));
+		
 
 		String email = req.getParameter("emailAddress");
 		String password = req.getParameter("passwordinput");
@@ -122,7 +118,7 @@ public class LoginPage extends HttpServlet {
 				+ "<body>"
 				+ "<button class='btn btn-success' onclick=\"location='"
 				+ UserServiceFactory.getUserService().createLoginURL("/c/seeker")
-				+ "'\">Login With Google</Button><br>"
+				+ "'>Login With Google</Button><br>"
 				+ "<form class=form-horizontal action=/loginRequired><fieldset>"
 				+ "<legend>Login/Create Account</legend>"
 				+ "<div class=control-group>"
@@ -143,22 +139,5 @@ public class LoginPage extends HttpServlet {
 		java.util.regex.Pattern p = java.util.regex.Pattern.compile(ePattern);
 		java.util.regex.Matcher m = p.matcher(email);
 		return m.matches();
-	}
-
-	public String getCookie(String name, HttpServletRequest req) {
-		Cookie[] cookies = req.getCookies();
-
-		String cookieName = name;
-
-		for (int i = 0; i < cookies.length; i++) {
-
-			Cookie cookie = cookies[i];
-
-			if (cookieName.equals(cookie.getName()))
-
-				return cookie.getValue();
-
-		}
-		return null;
 	}
 }
