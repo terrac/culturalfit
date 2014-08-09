@@ -34,7 +34,7 @@ public class LoginService {
 		String guserId = (String)req.getSession().getAttribute("userId");
 		UserService userService = UserServiceFactory.getUserService();
 		User user = userService.getCurrentUser();
-		if(guserId == null&&user != null){
+		if(user != null){
 			guserId = user.getUserId();
 		}
 		GUser per = SDao.getGUserDao().get(guserId);

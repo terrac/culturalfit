@@ -19,7 +19,7 @@ import com.googlecode.objectify.Ref;
 @RemoteServiceRelativePath("greet")
 public interface GreetingService extends RemoteService {
 
-	Question getNextQuestion();
+	Tuple<Group, Question> getNextQuestion();
 
 
 	String addQuestion(String question, String rAnswer, String wAnswer,

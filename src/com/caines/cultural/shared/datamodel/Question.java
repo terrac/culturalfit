@@ -54,6 +54,8 @@ public class Question implements Serializable{
 	@GwtTransient
 	@Index
 	public Ref<Group> group;
+	@GwtTransient
+	public Ref<Group> correctPointer;
 	
 	@GwtIncompatible("")
 	public Ref<Question> getRef(){

@@ -78,9 +78,9 @@ public class LoginPage extends HttpServlet {
 				up.password = password;
 				SDao.getUserProfileDao().put(up);
 				resp.sendRedirect(redirect);
-				Cookie cookie = new Cookie("temporary", null); // Not necessary, but saves bandwidth.
-				cookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
-				resp.addCookie(cookie);
+//				Cookie cookie = new Cookie("temporary", null); // Not necessary, but saves bandwidth.
+//				cookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
+//				resp.addCookie(cookie);
 			}
 		} else {
 			if (up != null) {
@@ -118,7 +118,7 @@ public class LoginPage extends HttpServlet {
 				+ "<body>"
 				+ "<button class='btn btn-success' onclick=\"location='"
 				+ UserServiceFactory.getUserService().createLoginURL("/c/seeker")
-				+ "'>Login With Google</Button><br>"
+				+ "'\">Login With Google</Button><br>"
 				+ "<form class=form-horizontal action=/loginRequired><fieldset>"
 				+ "<legend>Login/Create Account</legend>"
 				+ "<div class=control-group>"

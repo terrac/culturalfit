@@ -76,14 +76,11 @@ public class SimpleFront implements EntryPoint {
 		singleton = this;
 		
 		
-		PopupPanel pp = new PopupPanel();
 		
-		pp.add(new verticalp);
-		pp.center();
 		HorizontalPanel hp = new HorizontalPanel();
 		//final Anchor temporary = new Anchor("Make Permanent");
 		//temporary.setHref("/loginRequired");
-		final Anchor logIn = new Anchor("Log In");
+		final Anchor logIn = new Anchor("Log In/Register");
 		//temporary.getElement().setClassName("btn btn-success");
 		logIn.getElement().setClassName("btn");
 		//hp.add(temporary);
@@ -125,7 +122,7 @@ public class SimpleFront implements EntryPoint {
 					public void onSuccess(
 							Tuple<Group, Tuple<String, Boolean>> result) {
 						if (result.b.b) {
-							logIn.setText("Log In");
+							logIn.setText("Log In/Register");
 						} else {
 							logIn.setText("Log Out");
 						}

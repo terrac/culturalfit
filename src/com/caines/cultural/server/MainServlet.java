@@ -35,6 +35,7 @@ public class MainServlet extends HttpServlet {
 			return;
 		}
 		
+		
 		String[] u= req.getPathInfo().split("/");
 		if(u.length > 1){
 			if(u[1].equals("profile")){

@@ -16,7 +16,7 @@ import com.googlecode.objectify.Ref;
  * The async counterpart of <code>GreetingService</code>.
  */
 public interface GreetingServiceAsync {
-	void getNextQuestion(AsyncCallback<Question> question);
+	void getNextQuestion(AsyncCallback<Tuple<Group,Question>> question);
 
 	void addQuestion(String question, String rAnswer, String wAnswer,
 			String tags, AsyncCallback<String> callback);

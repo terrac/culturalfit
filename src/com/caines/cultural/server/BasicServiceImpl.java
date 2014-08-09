@@ -150,7 +150,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public Question getNextQuestion() {
+	public Tuple<Group,Question> getNextQuestion() {
 		LoginInfo li = login();
 
 		Group group = li.gUser.currentGroup.get();
@@ -172,11 +172,11 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 			setupQuestions(group.getRef());
 			uq = getNextQuestion(ref);
 			if (uq == null) {
-				setupQuestions(group.getRandomUnansweredSibling(li.gUser));
-				uq = getNextQuestion(ref);
-				if(uq == null){
+//				setupQuestions(group.getRandomUnansweredSibling(li.gUser));
+//				uq = getNextQuestion(ref);
+//				if(uq == null){
 					return null;	
-				}
+//				}
 			}
 		}
 		Question question = SDao.getQuestionDao().get(uq.question);
@@ -187,7 +187,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		SDao.getUserQuestionDao().put(uq);
 		li.gUser.currentQuestion = Ref.create(uq);
 		SDao.getGUserDao().put(li.gUser);
-		return question;
+		return new Tuple<Group, Question>(group,question);
 	}
 
 	
@@ -216,31 +216,48 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		UserGroup ug=SDao.getUserGroupDao().getByProperty("group", uq.group);
 		ug.milliSecondsTaken += (int) (Calendar.getInstance().getTimeInMillis() -uq.timeVisited.getTime());
 		SDao.getUserGroupDao().put(ug);
+		
+		if(uq.question.get().correctPointer != null){
+			if(uq.correct){
+				setCurrentGroup(li, uq.question.get().correctPointer);
+			}
+		}
 	}
 
 	@Override
 	public String addQuestion(String question, String answer1, String answer2,
-			String tagString) {
+			String lowerName) {
 		LoginInfo li = login();
 		Group g = SDao.getGroupDao().get(li.gUser.currentGroup);
-		boolean addMoreQuestions = getQuestionList(g.getRef()).size() < 25;
+		return addQuestion(question, answer1, answer2, lowerName, li,g);
+	}
+
+	public String addQuestion(String question, String answer1, String answer2,
+			String pointerName, LoginInfo li, Group ownerGroup) {
+		
+		boolean addMoreQuestions = getQuestionList(ownerGroup.getRef()).size() < 25;
 		if(!addMoreQuestions){
 			return "No more questions";
 		}
 		Question qu = new Question(question, answer1, answer2);
-		if (!PermissionsUtil.canEdit(li.gUser, g)) {
+		if (!PermissionsUtil.canEdit(li.gUser, ownerGroup)) {
 			TemporaryQuestion tq = new TemporaryQuestion();
-			tq.group = g.getRef();
+			tq.group = ownerGroup.getRef();
 			tq.question = SDao.getQuestionDao().put(qu);
 			SDao.getTemporaryQuestionDao().put(tq);
 			return null;
 		}
 
-		qu.group = g.getRef();
+		qu.group = ownerGroup.getRef();
+		if(!pointerName.isEmpty()){
+			qu.correctPointer = SDao.getGroupDao().getByProperty("lowerName", pointerName).getRef();
+		}
 		SDao.getQuestionDao().put(qu);
-		qu.tags = TagUtil.getTagRefs(tagString);
-		g.addMoreQuestions = addMoreQuestions;
-		SDao.getGroupDao().put(g);
+		
+		//qu.tags = TagUtil.getTagRefs("");
+		
+		ownerGroup.addMoreQuestions = addMoreQuestions;
+		SDao.getGroupDao().put(ownerGroup);
 		return null;
 	}
 
@@ -248,6 +265,11 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 	public Group addGroup(String value) {
 	
 		LoginInfo li = login();
+		Group group = addGroup(value, li);
+		return group;
+	}
+
+	public Group addGroup(String value, LoginInfo li) {
 		Group group = new Group(value, li.gUser);
 		group.chopName();
 		SDao.getGroupDao().put(group);
@@ -291,7 +313,7 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		
 		//has to be a better way
 		SDao.getUserQuestionDao().deleteAll(SDao.getUserQuestionDao().getQByProperty("user", li.gUser).filter("visited", false).list());
-		SDao.getNextGroupDao().deleteAll(SDao.getNextGroupDao().getQByProperty("user", li.gUser).list());
+		//SDao.getNextGroupDao().deleteAll(SDao.getNextGroupDao().getQByProperty("user", li.gUser).list());
 		SDao.getGUserDao().put(li.gUser);
 	}
 

@@ -1,4 +1,66 @@
-a if there is a temporary cookie on the register page, and there is a successful register then clear
+1 create II groups
+2 probably rename initial groups to be III or II
+3 create I groups
+4 create whatever level next groups
+5 keen eye towards individualized and interesting
+  questions( probably will need to source from community)e
+
+1 admin page
+  a All users/ all answered questions
+ 
+
+1 figure out issue with google login
+
+1 create a page to add the questions
+  a in console servlet,start adding initial questions that point to groups 
+#2 make the answer thing change the group
+#3 remove nextgroup logic
+
+  Are you interested in technical questions?
+  are you interested in web development languages
+  are you interested in php
+  are you interested in ruby
+  are you interested in more languages? (you can directly type in your language
+  on the group select page)
+  are you interested in popular languages
+  are you interested in java
+  are you interested in javascript
+  
+  are you interested in frontend development languages
+  are you interested in html
+  are you interested in sql
+  are you interested in javascript
+
+
+1 write out initial questions
+  a "are you interested in questions, and then a 1-5 level of proficency
+2 do coding
+
+1 a suggest box with the label "Move to on correct answer"
+2 remove next group logic, parent group logic
+3 on a correct answer, have it check the question to see if there is a
+ next group name on correct, if so then switch groups and return appropriate
+ questions along with new group name
+
+
+
+1 inital welcome group
+  associated questions
+  then are you interested in java
+1 no more parent group logic
+  questions that immediately move you to another group based on the answer
+  
+  
+
+1 readd in the
+
+1 only show people with verified email addresses (to start with just google since they are verified
+2 on clicking charge 100 points
+3 anyone who signs up on a recruiter sign up link through google gets 300 points
+
+
+
+#a if there is a temporary cookie on the register page, and there is a successful register then clear
   
 
 #1 remove the sign in security part

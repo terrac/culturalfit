@@ -41,25 +41,59 @@ public class ConsoleServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-//		Group g=SDao.getGroupDao().getByProperty("lowerName", "welcome");
-//		g.seconds = 0;
-//		SDao.getGroupDao().put(g);
-//		
-//		List<UserQuestion> uqL=SDao.getUserQuestionDao().getQuery().list();
-//		
-//		for(UserQuestion uq :uqL){
-//			resp.getWriter().write(uq+" <br><br><br>");
-//		}
-		for(Group g :  SDao.getGroupDao().getQuery().list()){
-			
-			g.name = g.name.trim();
-			g.lowerName = g.lowerName.trim();
-			SDao.getGroupDao().put(g);
-		}
-		for(GroupNameChopped gnc : SDao.getGroupNameChoppedDao().getQuery().list()){
-			gnc.groupName = gnc.groupName.trim();
-			SDao.getGroupNameChoppedDao().put(gnc);
-		}
+		LoginInfo li = LoginService.login(req, resp);
+		li.gUser.admin = true;
+		Group g=SDao.getGroupDao().getByProperty("lowerName", "welcome");
+		Group tech=new BasicServiceImpl().addGroup("programming-basic technical-questions",li);
+		Group web=new BasicServiceImpl().addGroup("programming-basic web-developer",li);
+		Group softwareDeveloper=new BasicServiceImpl().addGroup("programming-basic software-developer",li);
 		
+		Group gtech=SDao.getGroupDao().getByProperty("lowerName", "programming-basic technical-questions");
+		Group php=SDao.getGroupDao().getByProperty("lowerName", "programming-basic php");
+		Group javascript=SDao.getGroupDao().getByProperty("lowerName", "programming-basic javascript");
+		//Group ruby=SDao.getGroupDao().getByProperty("lowerName", "programming-basic ruby");
+		Group html=SDao.getGroupDao().getByProperty("lowerName", "programming-basic html");
+		
+		new BasicServiceImpl().addQuestion("Are you interested in technical questions?", "Yes", "No",
+				"programming-basic technical-questions", li,g);
+		
+		new BasicServiceImpl().addQuestion("Are you interested in web developer questions?", "Yes", "No",
+				"programming-basic web-developer", li,tech);
+		new BasicServiceImpl().addQuestion("Are you interested in software developer questions?", "Yes", "No",
+				"programming-basic web-developer", li,tech);
+		new BasicServiceImpl().addQuestion("Are you interested in Java?", "Yes", "No",
+				"programming-basic java", li,softwareDeveloper);
+//		new BasicServiceImpl().addQuestion("Are you interested in C#?", "Yes", "No",
+//				"programming-basic csharp", li,softwareDeveloper);
+		new BasicServiceImpl().addQuestion("Are you interested in sql?", "Yes", "No",
+				"programming-basic sql", li,softwareDeveloper);
+		new BasicServiceImpl().addQuestion("Are you interested in sql?", "Yes", "No",
+				"programming-basic sql", li,web);
+		new BasicServiceImpl().addQuestion("Are you interested in html?", "Yes", "No",
+				"programming-basic html", li,web);
+		new BasicServiceImpl().addQuestion("Are you interested in javascript?", "Yes", "No",
+				"programming-basic html", li,web);
+
+		
+		// g.seconds = 0;
+		// SDao.getGroupDao().put(g);
+		//
+		// List<UserQuestion> uqL=SDao.getUserQuestionDao().getQuery().list();
+		//
+		// for(UserQuestion uq :uqL){
+		// resp.getWriter().write(uq+" <br><br><br>");
+		// }
+		// for(Group g : SDao.getGroupDao().getQuery().list()){
+		//
+		// g.name = g.name.trim();
+		// g.lowerName = g.lowerName.trim();
+		// SDao.getGroupDao().put(g);
+		// }
+		// for(GroupNameChopped gnc :
+		// SDao.getGroupNameChoppedDao().getQuery().list()){
+		// gnc.groupName = gnc.groupName.trim();
+		// SDao.getGroupNameChoppedDao().put(gnc);
+		// }
+
 	}
 }

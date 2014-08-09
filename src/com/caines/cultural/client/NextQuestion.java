@@ -2,6 +2,8 @@ package com.caines.cultural.client;
 
 import com.caines.cultural.client.ui.QuestionArea;
 import com.caines.cultural.client.ui.TopArea;
+import com.caines.cultural.shared.Tuple;
+import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -10,19 +12,21 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NextQuestion {
 	
-	AsyncCallback<Question> questionCallback = new AsyncCallback<Question>() {
+	AsyncCallback<Tuple<Group,Question>> questionCallback = new AsyncCallback<Tuple<Group,Question>>() {
 		
 		@Override
-		public void onSuccess(Question result) {
-			if(result == null){
+		public void onSuccess(Tuple<Group,Question> t) {
+			if(t.b == null){
 				questionArea.questionsFinished();
 				return;
 			}
 			if(qPanel.getParent() == null){
 				initialSetup();
 			}
-			qRef = result.id;
-			questionArea.setQuestion(result);
+			TopArea.setGroupName(t.a.name);
+			TopArea.setGroup(t.a);
+			qRef = t.b.id;
+			questionArea.setQuestion(t.b);
 		}
 		
 		@Override

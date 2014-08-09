@@ -3,6 +3,8 @@ package com.caines.cultural.client.ui;
 import com.caines.cultural.client.NextQuestion;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.client.ViewGroups;
+import com.caines.cultural.shared.Tuple;
+import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.Question;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.PreElement;
@@ -49,7 +51,7 @@ public class QuestionArea extends Composite {
 	// ClockTimer timer;
 	int count = 0;
 
-	public QuestionArea(final AsyncCallback<Question> asyncCallback) {
+	public QuestionArea(final AsyncCallback<Tuple<Group,Question>> asyncCallback) {
 		initWidget(uiBinder.createAndBindUi(this));
 		// timer=new ClockTimer(clock);
 		ClickHandler ch = new ClickHandler() {
@@ -94,7 +96,12 @@ public class QuestionArea extends Composite {
 		question.setInnerText(result.question);
 
 		boolean rand = Math.random() > .5;
-		if (result.answer1.equals("Correct")
+		if (result.answer1.equals("Yes")
+				|| result.answer2.equals("Yes")) {
+			setupAnswer(answer2, "No");
+			setupAnswer(answer1, "Yes");
+
+		} else if (result.answer1.equals("Correct")
 				|| result.answer2.equals("Correct")) {
 			setupAnswer(answer2, "Incorrect");
 			setupAnswer(answer1, "Correct");
