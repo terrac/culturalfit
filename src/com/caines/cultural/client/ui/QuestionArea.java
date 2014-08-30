@@ -65,7 +65,12 @@ public class QuestionArea extends Composite {
 
 							@Override
 							public void onSuccess(Void result) {
+								if (count >= 5) {
+									TopArea.singleton.setupProfile();
+									return;
+								}
 
+								SimpleFront.basicService.getNextQuestion(asyncCallback);
 							}
 
 							@Override
@@ -74,12 +79,7 @@ public class QuestionArea extends Composite {
 
 							}
 						});
-				if (count >= 5) {
-					TopArea.singleton.setupProfile();
-					return;
-				}
 
-				SimpleFront.basicService.getNextQuestion(asyncCallback);
 
 			}
 		};

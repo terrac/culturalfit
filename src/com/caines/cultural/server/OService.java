@@ -12,6 +12,10 @@ import com.caines.cultural.shared.datamodel.UserGroup;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.UserQuestion;
 import com.caines.cultural.shared.datamodel.ZipCode;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodePath;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeQuestionPointer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
@@ -31,6 +35,10 @@ public class OService {
 		factory().register(TemporaryQuestion.class);
 		factory().register(GroupNameChopped.class);
 		factory().register(NextGroup.class);
+		factory().register(CodeContainer.class);
+		factory().register(CodePath.class);
+		factory().register(CodeQuestionPointer.class);
+		factory().register(CodeUserDetails.class);
 		
 		
 	}

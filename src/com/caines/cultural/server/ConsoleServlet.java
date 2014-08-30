@@ -74,7 +74,7 @@ public class ConsoleServlet extends HttpServlet {
 		new BasicServiceImpl().addQuestion("Are you interested in javascript?", "Yes", "No",
 				"programming-basic html", li,web);
 
-		
+		SDao.getGUserDao().put(li.gUser);
 		// g.seconds = 0;
 		// SDao.getGroupDao().put(g);
 		//

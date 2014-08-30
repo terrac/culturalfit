@@ -1,6 +1,7 @@
 package com.caines.cultural.client;
 
 import com.caines.cultural.client.ui.TopArea;
+import com.caines.cultural.client.ui.codingscramble.ScrambleFrontPage;
 import com.caines.cultural.client.ui.employer.EmployerTopArea;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.Group;
@@ -76,6 +77,13 @@ public class SimpleFront implements EntryPoint {
 		singleton = this;
 		
 		
+		RootPanel rp=RootPanel.get("codingScramble");
+		if(rp == null){
+			rp.add(new ScrambleFrontPage());
+			
+			return;
+		}
+		
 		
 		HorizontalPanel hp = new HorizontalPanel();
 		//final Anchor temporary = new Anchor("Make Permanent");
@@ -128,7 +136,7 @@ public class SimpleFront implements EntryPoint {
 						}
 						
 						logIn.setHref(result.b.a);
-						TopArea.setGroupName(result.a.name);
+						
 						TopArea.setGroup(result.a);
 					}
 

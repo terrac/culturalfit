@@ -214,6 +214,9 @@ public class BasicServiceImpl extends RemoteServiceServlet implements
 		SDao.getUserQuestionDao().put(uq);
 		
 		UserGroup ug=SDao.getUserGroupDao().getByProperty("group", uq.group);
+		if(uq == null||uq.timeVisited == null){
+			return;
+		}
 		ug.milliSecondsTaken += (int) (Calendar.getInstance().getTimeInMillis() -uq.timeVisited.getTime());
 		SDao.getUserGroupDao().put(ug);
 		

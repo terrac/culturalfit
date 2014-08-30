@@ -182,6 +182,9 @@ public class TopArea extends Composite {
 	}
 	static Group group;
 	public static void setGroup(Group a) {
+		if(a == null){
+			return;
+		}
 		group = a;
 		setGroupName(a.name);
 		

@@ -16,14 +16,13 @@ public class NextQuestion {
 		
 		@Override
 		public void onSuccess(Tuple<Group,Question> t) {
-			if(t.b == null){
+			if(t== null||t.b == null){
 				questionArea.questionsFinished();
 				return;
 			}
 			if(qPanel.getParent() == null){
 				initialSetup();
 			}
-			TopArea.setGroupName(t.a.name);
 			TopArea.setGroup(t.a);
 			qRef = t.b.id;
 			questionArea.setQuestion(t.b);
