@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 
 
+
+import com.caines.cultural.shared.datamodel.codingscramble.CodeAlgorithm;
 import com.google.common.annotations.GwtIncompatible;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -36,6 +38,7 @@ public class GUser implements Serializable{
 	public boolean admin;
 	public boolean loggedIn;
 	public boolean temporary;
+	public Ref<CodeAlgorithm> currentAlgorithm;
 	
 	public String getDisplayName() {
 		return displayName;

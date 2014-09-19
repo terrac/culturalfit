@@ -35,7 +35,7 @@ public class MainServlet extends HttpServlet {
 			return;
 		}
 		
-		
+		String content = page;
 		String[] u= req.getPathInfo().split("/");
 		if(u.length > 1){
 			if(u[1].equals("profile")){
@@ -46,9 +46,16 @@ public class MainServlet extends HttpServlet {
 			if("seeker".equals(u[1])&& u.length >2){
 				new BasicServiceImpl().setCurrentGroup(li,BasicServiceImpl.getGroup(u[2]).getRef());
 			}
+			if("scrambler".equals(u[1])){
+				content = content.replace("content", "codingScramble");
+			}
+			if("scramblerSubmit".equals(u[1])){
+				content = content.replace("content", "codingScrambleSubmit");
+			}
 
+			
 		}
-		resp.getWriter().write(page);
+		resp.getWriter().write(content);
 		//make gwt pull the url and redirect things
 	}
 	final static String page = 

@@ -2,6 +2,7 @@ package com.caines.cultural.client;
 
 import com.caines.cultural.client.ui.TopArea;
 import com.caines.cultural.client.ui.codingscramble.ScrambleFrontPage;
+import com.caines.cultural.client.ui.codingscramble.ScramblerSubmit;
 import com.caines.cultural.client.ui.employer.EmployerTopArea;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.Group;
@@ -78,9 +79,13 @@ public class SimpleFront implements EntryPoint {
 		
 		
 		RootPanel rp=RootPanel.get("codingScramble");
-		if(rp == null){
-			rp.add(new ScrambleFrontPage());
-			
+		if(rp != null){
+			rp.add(new ScrambleFrontPage());			
+			return;
+		}
+		rp=RootPanel.get("codingScrambleSubmit");
+		if(rp != null){
+			rp.add(new ScramblerSubmit());			
 			return;
 		}
 		

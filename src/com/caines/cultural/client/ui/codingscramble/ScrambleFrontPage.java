@@ -18,7 +18,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ScrambleFrontPage extends Composite implements HasText {
+public class ScrambleFrontPage extends Composite {
 
 	public final static BasicScramblerServiceAsync basicService = GWT
 			.create(BasicScramblerService.class);
@@ -44,12 +44,8 @@ public class ScrambleFrontPage extends Composite implements HasText {
 	@UiField
 	Button bottomButton;
 
-	public ScrambleFrontPage(String firstName) {
-		initWidget(uiBinder.createAndBindUi(this));
-		button.setText(firstName);
-	}
-
-	@UiHandler("button")
+	
+	@UiHandler("topButton")
 	void onClick(ClickEvent e) {
 		//Top answer is correct
 	}

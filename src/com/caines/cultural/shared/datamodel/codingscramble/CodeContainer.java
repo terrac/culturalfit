@@ -1,9 +1,18 @@
 package com.caines.cultural.shared.datamodel.codingscramble;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Serializable;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 
+import org.eclipse.jetty.util.ArrayQueue;
+
+import com.caines.cultural.server.SDao;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.GwtTransient;
 import com.googlecode.objectify.Key;
@@ -23,6 +32,53 @@ public class CodeContainer implements Serializable {
 	public CodeContainer() {
 
 	}
+	List<String> file = new ArrayList<>();
+	public void setup(String url, String[] tagsA) {
+		// ...
+		try {
+		    URL urlU = new URL(url);
+		    BufferedReader reader = new BufferedReader(new InputStreamReader(urlU.openStream()));
+		    String line;
+		    Queue<String> q = new ArrayQueue<>();
+		    int count = 0;		    
+		     
+		    while ((line = reader.readLine()) != null) {
+		    	file.add(line);
+		    	//System.out.println(line);
+		    	q.add(line);
+		    	if(q.size() > 5){
+		    		q.remove();
+		    		int success = 3;
+		    		for(String a : q){
+			        	if(a.trim().length() < 20){
+			        		success--;
+			        	}
+			        }
+		    		if(success >0){
+		    			CodeQuestionPointer cqp = new CodeQuestionPointer(getRef(),count-5);
+		    			SDao.getCodeQuestionPointerDao().put(cqp);
+		    			for(String a :q){
+		    				System.out.println(a);	
+		    			}
+		    			
+		    			System.out.println("aoue");
+		    			q.clear();
+		    			//add questionpointer at the top line
+		    		}
+		    	}
+		    	count++;
+		        
+		    }
+		    
+		    reader.close();
+
+		} catch (MalformedURLException e) {
+		    // ...
+		} catch (IOException e) {
+		    // ...
+		}
+		
+	}
 
 	@Id
 	public Long id;
@@ -40,4 +96,8 @@ public class CodeContainer implements Serializable {
 		return Ref.create(Key.create(CodeContainer.class, id));
 	}
 
+	
+	public static void main(String[] args) {
+		new CodeContainer().setup("https://raw.githubusercontent.com/terrac/rikandroid/master/src/rik/shared/CRPC.java", null);
+	}
 }

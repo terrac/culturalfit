@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
-public class ScramblerSubmit extends Composite implements HasText {
+public class ScramblerSubmit extends Composite {
 
 	private static ScramblerSubmitUiBinder uiBinder = GWT
 			.create(ScramblerSubmitUiBinder.class);
@@ -57,12 +57,6 @@ public class ScramblerSubmit extends Composite implements HasText {
 		});
 	}
 
-	public void setText(String text) {
-		button.setText(text);
-	}
 
-	public String getText() {
-		return button.getText();
-	}
 
 }
