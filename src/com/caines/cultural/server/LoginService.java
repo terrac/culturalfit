@@ -1,8 +1,6 @@
 package com.caines.cultural.server;
 
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,17 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 
 
 import javax.servlet.http.HttpServletResponse;
-import javax.xml.ws.RespectBinding;
-
 import com.caines.cultural.shared.LoginInfo;
-import com.caines.cultural.shared.SideBar;
 import com.caines.cultural.shared.datamodel.GUser;
-import com.caines.cultural.shared.datamodel.Group;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.google.appengine.api.users.User;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
-import com.google.gwt.user.server.rpc.AbstractRemoteServiceServlet;
 
 public class LoginService {
 		public static LoginInfo login(HttpServletRequest req,HttpServletResponse resp) {
@@ -76,7 +69,6 @@ public class LoginService {
 			
 			loginInfo.gUser = per;
 			
-			setupDefaultGroup(per);
 		} else {
 			loginInfo.loggedIn = false;
 			if(requestUri != null){
@@ -85,16 +77,6 @@ public class LoginService {
 		}
 		return loginInfo;
 	}
-
-		public static void setupDefaultGroup(GUser per) {
-			if(per.currentGroup == null){
-				Group welcome = SDao.getGroupDao().getByProperty("lowerName", "welcome");
-				if(welcome != null){
-					per.currentGroup=welcome.getRef();
-					SDao.getGUserDao().put(per);
-				}
-			}
-		}
 
 
 

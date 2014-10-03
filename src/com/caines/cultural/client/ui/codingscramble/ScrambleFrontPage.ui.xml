@@ -1,14 +1,11 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	<ui:style>
-	.important {
-		font-weight: bold;
-	}
-	</ui:style>
+	
 	<g:HTMLPanel>
+	    <g:Button  ui:field="profile" text="New User"/>
 		<pre id="code"></pre>
-		<g:Button  ui:field="topButton" text="Top answer is correct"/>
-		<g:Button  ui:field="bottomButton" text="Bottom answer is correct"/>
+		<g:Button  ui:field="topButton" text="Answer is correct"/>
+		<g:Button  ui:field="bottomButton" text="Answer is incorrect"/>
 	</g:HTMLPanel>
 </ui:UiBinder> 

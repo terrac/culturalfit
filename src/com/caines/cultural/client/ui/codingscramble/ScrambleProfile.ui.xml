@@ -7,8 +7,7 @@
 	}
 	</ui:style>
 	<g:HTMLPanel>
-	    <g:VerticalPanel ui:field="temporaryQuestions"></g:VerticalPanel>
-	    
-		<div ui:field="grid"></div>
+		
+		<g:VerticalPanel ui:field="profileContent" />
 	</g:HTMLPanel>
 </ui:UiBinder> 

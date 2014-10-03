@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.caines.cultural.server.SDao;
+import com.caines.cultural.shared.LoginInfo;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.dev.util.collect.HashMap;
 import com.google.gwt.user.client.rpc.GwtTransient;
@@ -29,8 +31,17 @@ public class CodeUserDetails implements Serializable {
 	@Id
 	public Long id;
 
-	Map<String,Integer> mapCount = new HashMap<>();
 	
+	public Integer tagCount =0;
+	public Integer tagCorrect = 0;
+	public Double tagAvgTime = 3.0;
+
+	@Index
+	public String userId;
+	@Index
+	public String main;
+	@Index
+	public String tag;
 	@GwtIncompatible("")
 	public Ref<CodeUserDetails> getRef() {
 		return Ref.create(this);
@@ -40,5 +51,25 @@ public class CodeUserDetails implements Serializable {
 	public static Ref<CodeUserDetails> getRef(Long id) {
 		return Ref.create(Key.create(CodeUserDetails.class, id));
 	}
+
+	@GwtIncompatible("")
+	public static CodeUserDetails getByTag(String t, String main,LoginInfo li) {
+
+		CodeUserDetails cud = SDao.getCodeUserDetailsDao().getQuery().filter("tag", t).filter("main",main).filter("userId",li.gUser.id).first().now();
+		if(cud == null){
+			cud = new CodeUserDetails();
+			cud.userId = li.gUser.id;
+			cud.main = main;
+			cud.tag = t;
+			SDao.getCodeUserDetailsDao().put(cud);
+		}
+		return cud;
+	}
+
+	@GwtIncompatible("")
+	public static List<CodeUserDetails> getByUser(LoginInfo login) {
+		return SDao.getCodeUserDetailsDao().listByProperty("userId", login.gUser.id);
+	}
+	
 
 }

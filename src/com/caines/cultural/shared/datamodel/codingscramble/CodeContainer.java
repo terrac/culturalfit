@@ -7,8 +7,10 @@ import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 import org.eclipse.jetty.util.ArrayQueue;
 
@@ -32,14 +34,17 @@ public class CodeContainer implements Serializable {
 	public CodeContainer() {
 
 	}
-	List<String> file = new ArrayList<>();
+	public List<String> file = new ArrayList<>();
+	public List<String> tags = new ArrayList<>();
 	public void setup(String url, String[] tagsA) {
+		tags.addAll(Arrays.asList(tagsA));
+		SDao.getCodeContainerDao().put(this);
 		// ...
 		try {
 		    URL urlU = new URL(url);
 		    BufferedReader reader = new BufferedReader(new InputStreamReader(urlU.openStream()));
 		    String line;
-		    Queue<String> q = new ArrayQueue<>();
+		    Queue<String> q = new ArrayBlockingQueue<>(10);
 		    int count = 0;		    
 		     
 		    while ((line = reader.readLine()) != null) {

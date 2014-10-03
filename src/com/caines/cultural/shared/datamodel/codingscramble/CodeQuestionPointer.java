@@ -21,6 +21,7 @@ import java.util.Random;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.container.ScramblerQuestion;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.GwtTransient;
@@ -53,7 +54,7 @@ public class CodeQuestionPointer implements Serializable{
 	public Long id;
 	
 	@GwtIncompatible("")
-	Ref<CodeContainer> container;
+	public Ref<CodeContainer> container;
 	int lineNumber;
 	
 	@GwtIncompatible("")
@@ -66,7 +67,7 @@ public class CodeQuestionPointer implements Serializable{
 		return Ref.create(Key.create(CodeQuestionPointer.class, id));
 	}
 
-	public ScramblerQuestion getQuestion() {
+	public Tuple<ScramblerQuestion,Boolean> getQuestion() {
 		ScramblerQuestion sq = new ScramblerQuestion();
 		List<String> q = new ArrayList<>();
 		for(int a = 0; a < 5; a++){
@@ -76,14 +77,14 @@ public class CodeQuestionPointer implements Serializable{
 		List<String> q2 = new ArrayList<>(q);
 		q2.set(3, q.get(2));
 		q2.set(2, q.get(3));
-		if(new Random().nextBoolean()){
+		boolean correctAns = new Random().nextBoolean();
+		if(correctAns){
 			sq.q1 = q;
-			sq.q2 = q2;
 		} else {
 			sq.q1 = q2;
-			sq.q2 = q;
 		}
-		return sq;
+	
+		return new Tuple<ScramblerQuestion, Boolean>(sq, correctAns);
 	}
 	public boolean checkQuestion(List<String> answer){
 		for(int a = 0; a < 5; a++){
