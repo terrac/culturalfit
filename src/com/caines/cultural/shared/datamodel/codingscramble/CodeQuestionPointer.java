@@ -44,6 +44,7 @@ public class CodeQuestionPointer implements Serializable{
 	
 	}
 	
+	@GwtIncompatible("")
 	public CodeQuestionPointer(Ref<CodeContainer> container, int lineNumber) {
 		super();
 		this.container = container;
@@ -56,6 +57,8 @@ public class CodeQuestionPointer implements Serializable{
 	@GwtIncompatible("")
 	public Ref<CodeContainer> container;
 	int lineNumber;
+	List<String> questionCode;
+	boolean isCorrect;
 	
 	@GwtIncompatible("")
 	public Ref<CodeQuestionPointer> getRef(){
@@ -67,11 +70,13 @@ public class CodeQuestionPointer implements Serializable{
 		return Ref.create(Key.create(CodeQuestionPointer.class, id));
 	}
 
-	public Tuple<ScramblerQuestion,Boolean> getQuestion() {
-		ScramblerQuestion sq = new ScramblerQuestion();
+	@GwtIncompatible("")
+	public void createQuestion() {
+		
 		List<String> q = new ArrayList<>();
 		for(int a = 0; a < 5; a++){
-			String line=container.get().file.get(lineNumber+a);
+			CodeContainer codeContainer = container.get();
+			String line=codeContainer.file.get(lineNumber+a);
 			q.add(line);
 		}
 		List<String> q2 = new ArrayList<>(q);
@@ -79,13 +84,22 @@ public class CodeQuestionPointer implements Serializable{
 		q2.set(2, q.get(3));
 		boolean correctAns = new Random().nextBoolean();
 		if(correctAns){
-			sq.q1 = q;
+			questionCode = q;
 		} else {
-			sq.q1 = q2;
+			questionCode = q2;
 		}
-	
-		return new Tuple<ScramblerQuestion, Boolean>(sq, correctAns);
+		isCorrect = correctAns;
+		
 	}
+	
+	
+	public Tuple<ScramblerQuestion,Boolean> getQuestion() {
+		ScramblerQuestion sq = new ScramblerQuestion();
+		sq.q1 = questionCode;
+		sq.url = container.get().url;
+		return new Tuple<ScramblerQuestion, Boolean>(sq, isCorrect);
+	}
+	@GwtIncompatible("")
 	public boolean checkQuestion(List<String> answer){
 		for(int a = 0; a < 5; a++){
 			String line=container.get().file.get(lineNumber+a);

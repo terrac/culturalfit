@@ -2,7 +2,8 @@ package com.caines.cultural.client.ui.codingscramble;
 
 import com.caines.cultural.client.BasicScramblerService;
 import com.caines.cultural.client.BasicScramblerServiceAsync;
-
+import com.caines.cultural.client.SimpleFront;
+import com.caines.cultural.shared.UserInfo;
 import com.caines.cultural.shared.container.ScramblerQuestion;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -14,6 +15,7 @@ import com.google.gwt.uibinder.client.UiHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HasText;
@@ -42,6 +44,18 @@ public class ScrambleFrontPage extends Composite {
 	@UiField
 	Button bottomButton;
 
+	@UiField
+	Anchor link;
+
+	
+	@UiField
+	Button profile;
+	@UiField
+	Button logIn;
+	@UiField
+	Button addUrl;
+
+	
 	public void update() {
 		
 
@@ -51,6 +65,10 @@ public class ScrambleFrontPage extends Composite {
 			
 			@Override
 			public void onSuccess(ScramblerQuestion result) {
+				if(result == null){
+					return;
+				}
+				link.setHref(result.url);
 				Element preElement = DOM.getElementById("code");
 				preElement.setInnerText("");
 				for(String a : result.q1){
@@ -64,6 +82,28 @@ public class ScrambleFrontPage extends Composite {
 				
 			}
 		});
+		
+		SimpleFront.scramblerService.getUserInfo(new AsyncCallback<UserInfo>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void onSuccess(UserInfo result) {
+				// TODO Auto-generated method stub
+				if(result == null){
+					logIn.setVisible(true);
+				}
+				if(!result.isAdmin){
+					return;
+				}
+				addUrl.setVisible(true);
+			}
+		});
+
 	}
 
 	@UiHandler("topButton")
@@ -98,6 +138,18 @@ public class ScrambleFrontPage extends Composite {
 				// TODO Auto-generated method stub
 				update();
 			}});		
+	}
+	@UiHandler("logIn")
+	void onClickLogIn(ClickEvent e) {
+		Window.Location.assign("/loginRequired");
+	}
+	@UiHandler("profile")
+	void onClickProfile(ClickEvent e) {
+		SimpleFront.setupTopOfSidePage().add(new ScrambleProfile());
+	}
+	@UiHandler("addUrl")
+	void onClickAddUrl(ClickEvent e) {
+		SimpleFront.addUrl();
 	}
 
 }

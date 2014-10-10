@@ -16,6 +16,7 @@ import org.eclipse.jetty.util.ArrayQueue;
 
 import com.caines.cultural.server.SDao;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.rpc.GwtTransient;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
@@ -36,7 +37,10 @@ public class CodeContainer implements Serializable {
 	}
 	public List<String> file = new ArrayList<>();
 	public List<String> tags = new ArrayList<>();
+
+	@GwtIncompatible("")
 	public void setup(String url, String[] tagsA) {
+		this.url = url;
 		tags.addAll(Arrays.asList(tagsA));
 		SDao.getCodeContainerDao().put(this);
 		// ...
@@ -51,6 +55,10 @@ public class CodeContainer implements Serializable {
 		    	file.add(line);
 		    	//System.out.println(line);
 		    	q.add(line);
+		    	
+		    	if(line.contains("import")||line.trim().startsWith("*")){
+		    		q.remove(line);
+		    	}
 		    	if(q.size() > 5){
 		    		q.remove();
 		    		int success = 3;
@@ -61,6 +69,7 @@ public class CodeContainer implements Serializable {
 			        }
 		    		if(success >0){
 		    			CodeQuestionPointer cqp = new CodeQuestionPointer(getRef(),count-5);
+		    			cqp.createQuestion();
 		    			SDao.getCodeQuestionPointerDao().put(cqp);
 		    			for(String a :q){
 		    				System.out.println(a);	
@@ -87,8 +96,9 @@ public class CodeContainer implements Serializable {
 
 	@Id
 	public Long id;
-
+	@GwtIncompatible("")
 	Ref<CodePath> associatedCodePath;
+	public String url;
 	
 	
 	@GwtIncompatible("")
@@ -101,7 +111,7 @@ public class CodeContainer implements Serializable {
 		return Ref.create(Key.create(CodeContainer.class, id));
 	}
 
-	
+	@GwtIncompatible("")
 	public static void main(String[] args) {
 		new CodeContainer().setup("https://raw.githubusercontent.com/terrac/rikandroid/master/src/rik/shared/CRPC.java", null);
 	}

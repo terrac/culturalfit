@@ -30,8 +30,12 @@ public class CodeAlgorithm implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 	
+	@GwtIncompatible("")
 	public CodeQuestionPointer getNextQuestion(){
 		List<CodeQuestionPointer> list = SDao.getCodeQuestionPointerDao().getQuery().list();
+		if(list.size() == 0){
+			return null;
+		}
 		return list.get(new Random().nextInt(list.size()));
 		//return SDao.getCodeQuestionPointerDao().getQuery().first().now();
 	}

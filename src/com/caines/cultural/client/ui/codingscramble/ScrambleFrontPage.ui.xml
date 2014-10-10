@@ -1,11 +1,22 @@
 <!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
 <ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
 	xmlns:g="urn:import:com.google.gwt.user.client.ui">
-	
+
 	<g:HTMLPanel>
-	    <g:Button  ui:field="profile" text="New User"/>
-		<pre id="code"></pre>
-		<g:Button  ui:field="topButton" text="Answer is correct"/>
-		<g:Button  ui:field="bottomButton" text="Answer is incorrect"/>
+		<div class="container">
+
+			
+			<pre id="code" class="prettyprint"></pre> 
+			<g:Anchor text="See Raw File" ui:field="link"></g:Anchor>			
+			<g:Button ui:field="topButton" styleName="btn-info" text="Answer is correct" />
+			<g:Button ui:field="bottomButton" styleName="btn-warning"
+				text="Answer is incorrect" />
+		</div>
+		<g:VerticalPanel>
+		    <g:Button ui:field="profile" styleName="btn-info" text="Profile" />
+		    <g:Button ui:field="logIn" styleName="btn-info" text="Log In" visible="false"/>
+		    <g:Button ui:field="addUrl" styleName="btn-info" text="Add Url"  visible="false"/>
+		    
+		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

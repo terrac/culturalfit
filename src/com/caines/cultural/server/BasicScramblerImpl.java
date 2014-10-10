@@ -5,7 +5,9 @@ import java.util.List;
 import com.caines.cultural.client.BasicScramblerService;
 import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.Tuple;
+import com.caines.cultural.shared.UserInfo;
 import com.caines.cultural.shared.container.ScramblerQuestion;
+import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeAlgorithm;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeQuestionPointer;
@@ -32,12 +34,14 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 		if (li.gUser.currentAlgorithm == null) {
 			CodeAlgorithm codeAlgorithm = new CodeAlgorithm();
 			SDao.getCodeAlgorithmDao().put(codeAlgorithm);
-			li.gUser.currentAlgorithm = codeAlgorithm.getRef();
+			li.gUser.currentAlgorithm = codeAlgorithm;
 			SDao.getGUserDao().put(li.gUser);
 		}
-		CodeQuestionPointer cqp = li.gUser.currentAlgorithm.get()
+		CodeQuestionPointer cqp = li.gUser.currentAlgorithm
 				.getNextQuestion();
-
+		if(cqp == null){
+			return null;
+		}
 		Tuple<ScramblerQuestion, Boolean> t = cqp.getQuestion();
 		li.gUser.currentCQP = cqp;
 		li.gUser.currentAnswer = t.b;
@@ -98,6 +102,20 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 	public List<CodeUserDetails> getProfileContent() {
 
 		return CodeUserDetails.getByUser(login());
+	}
+
+	@Override
+	public UserInfo getUserInfo() {
+
+		LoginInfo login = login();
+		if(login == null){
+			return null;
+		}
+		
+		UserInfo userInfo = new UserInfo();
+		//userInfo.isAdmin = login.gUser.isAdmin();
+		userInfo.isAdmin = true;
+		return userInfo;
 	}
 
 }

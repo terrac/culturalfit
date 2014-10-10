@@ -41,7 +41,7 @@ public class LoginPage extends HttpServlet {
 		resp.setContentType("text/html");
 
 		if (li.loggedIn&&!li.gUser.temporary) {
-			resp.sendRedirect("/c/seeker/");
+			resp.sendRedirect("/");
 			return;
 		} 
 		resp.getWriter().println(setupForm(checked));
