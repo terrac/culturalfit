@@ -12,16 +12,12 @@ public interface BasicScramblerServiceAsync {
 
 	void addCodePage(String url, String tags, AsyncCallback<Void> callback);
 
-	void answerQuestion(String id, AsyncCallback<Void> callback);
-
-	void getNextQuestion(AsyncCallback<ScramblerQuestion> callback);
-
 	void getProfileContent(AsyncCallback<List<CodeUserDetails>> callback);
-
-
 
 	void getUserInfo(AsyncCallback<UserInfo> callback);
 
-	
+	void getNextLines(AsyncCallback<ScramblerQuestion> callback);
+
+	void linkCode(boolean next, AsyncCallback<Void> callback);
 
 }

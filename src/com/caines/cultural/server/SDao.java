@@ -4,8 +4,9 @@ import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeAlgorithm;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeLink;
 import com.caines.cultural.shared.datamodel.codingscramble.CodePath;
-import com.caines.cultural.shared.datamodel.codingscramble.CodeQuestionPointer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodePointer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 
 
@@ -30,8 +31,8 @@ public class SDao {
 		return new Dao<CodePath>(CodePath.class);
 	}
 	
-	public static Dao<CodeQuestionPointer> getCodeQuestionPointerDao() {
-		return new Dao<CodeQuestionPointer>(CodeQuestionPointer.class);
+	public static Dao<CodePointer> getCodePointerDao() {
+		return new Dao<CodePointer>(CodePointer.class);
 	}
 	
 	public static Dao<CodeUserDetails> getCodeUserDetailsDao() {
@@ -40,5 +41,9 @@ public class SDao {
 
 	public static Dao<CodeAlgorithm> getCodeAlgorithmDao() {
 		return new Dao<CodeAlgorithm>(CodeAlgorithm.class);
+	}
+	
+	public static Dao<CodeLink> getCodeLinkDao() {
+		return new Dao<CodeLink>(CodeLink.class);
 	}
 }

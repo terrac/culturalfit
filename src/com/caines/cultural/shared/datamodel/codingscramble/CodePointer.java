@@ -21,6 +21,7 @@ import java.util.Random;
 
 import org.apache.commons.collections.CollectionUtils;
 
+import com.caines.cultural.server.SDao;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.container.ScramblerQuestion;
 import com.google.common.annotations.GwtIncompatible;
@@ -34,18 +35,18 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class CodeQuestionPointer implements Serializable{
+public class CodePointer implements Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CodeQuestionPointer() {
+	public CodePointer() {
 	
 	}
 	
 	@GwtIncompatible("")
-	public CodeQuestionPointer(Ref<CodeContainer> container, int lineNumber) {
+	public CodePointer(Ref<CodeContainer> container, int lineNumber) {
 		super();
 		this.container = container;
 		this.lineNumber = lineNumber;
@@ -57,45 +58,26 @@ public class CodeQuestionPointer implements Serializable{
 	@GwtIncompatible("")
 	public Ref<CodeContainer> container;
 	int lineNumber;
-	List<String> questionCode;
+	public String line;
 	boolean isCorrect;
 	
 	@GwtIncompatible("")
-	public Ref<CodeQuestionPointer> getRef(){
+	public Ref<CodePointer> getRef(){
 		return Ref.create(this);
 	}
 	
 	@GwtIncompatible("")
-	public static Ref<CodeQuestionPointer> getRef(Long id){
-		return Ref.create(Key.create(CodeQuestionPointer.class, id));
+	public static Ref<CodePointer> getRef(Long id){
+		return Ref.create(Key.create(CodePointer.class, id));
 	}
 
-	@GwtIncompatible("")
-	public void createQuestion() {
-		
-		List<String> q = new ArrayList<>();
-		for(int a = 0; a < 5; a++){
-			CodeContainer codeContainer = container.get();
-			String line=codeContainer.file.get(lineNumber+a);
-			q.add(line);
-		}
-		List<String> q2 = new ArrayList<>(q);
-		q2.set(3, q.get(2));
-		q2.set(2, q.get(3));
-		boolean correctAns = new Random().nextBoolean();
-		if(correctAns){
-			questionCode = q;
-		} else {
-			questionCode = q2;
-		}
-		isCorrect = correctAns;
-		
-	}
+
 	
 	
 	public Tuple<ScramblerQuestion,Boolean> getQuestion() {
 		ScramblerQuestion sq = new ScramblerQuestion();
-		sq.q1 = questionCode;
+		
+		sq.rawFile = container.get().file;
 		sq.url = container.get().url;
 		return new Tuple<ScramblerQuestion, Boolean>(sq, isCorrect);
 	}
@@ -108,6 +90,18 @@ public class CodeQuestionPointer implements Serializable{
 			}
 		}
 		return true;
+	}
+
+	public static CodePointer getCodePointer(CodeContainer c, int a) {
+		CodePointer codeP = SDao.getCodePointerDao().getQByProperty("container", c).filter("lineNumber", a).first().now();
+		if(codeP == null){
+			codeP = new CodePointer();
+			codeP.container = c.getRef();
+			codeP.line = c.file.get(a);
+			codeP.lineNumber = a;
+			SDao.getCodePointerDao().put(codeP);
+		}
+		return codeP;
 	}
 	
 	

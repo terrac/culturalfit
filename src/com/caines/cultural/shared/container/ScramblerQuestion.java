@@ -11,7 +11,27 @@ public class ScramblerQuestion implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	public List<String> q1;
+	public String code1;
+	public String code2;
+	public List<String> rawFile;
+	public List<String> rawFile2;
 	public String url;
-
+	public String linkedText;
+	
+	public String getRawFile(){
+		StringBuilder c = new StringBuilder();				
+		for(String a : rawFile){
+			c.append(a);
+			c.append("\n");
+		}
+		return c.toString();
+	}
+	public String getRawFile2(){
+		StringBuilder c = new StringBuilder();				
+		for(String a : rawFile2){
+			c.append(a);
+			c.append("\n");
+		}
+		return c.toString();
+	}
 }

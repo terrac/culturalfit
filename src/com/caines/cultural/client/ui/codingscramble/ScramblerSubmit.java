@@ -46,7 +46,7 @@ public class ScramblerSubmit extends Composite {
 			@Override
 			public void onSuccess(Void result) {
 				// TODO Auto-generated method stub
-				
+				Window.alert("Success");
 			}
 			
 			@Override

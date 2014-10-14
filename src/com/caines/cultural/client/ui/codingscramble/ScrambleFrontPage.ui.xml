@@ -7,10 +7,14 @@
 
 			
 			<pre id="code" class="prettyprint"></pre> 
-			<g:Anchor text="See Raw File" ui:field="link"></g:Anchor>			
-			<g:Button ui:field="topButton" styleName="btn-info" text="Answer is correct" />
-			<g:Button ui:field="bottomButton" styleName="btn-warning"
-				text="Answer is incorrect" />
+			<g:Anchor text="See Raw File" ui:field="link"></g:Anchor>
+			<pre id="code2" class="prettyprint"></pre>
+			 
+			<g:Anchor text="See Raw File" ui:field="link2"></g:Anchor>			
+			<g:Button ui:field="b1" styleName="btn-success" text="Highly linked" />
+			<g:Button ui:field="b2" styleName="btn-info" text="Linked" />
+			<g:Button ui:field="b3" styleName="btn-warning"
+				text="Not Linked" />
 		</div>
 		<g:VerticalPanel>
 		    <g:Button ui:field="profile" styleName="btn-info" text="Profile" />

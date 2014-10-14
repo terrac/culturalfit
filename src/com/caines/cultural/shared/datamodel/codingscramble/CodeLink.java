@@ -16,42 +16,32 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class CodeAlgorithm implements Serializable {
+public class CodeLink implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CodeAlgorithm() {
+	public CodeLink() {
 
 	}
 
-	public CodeAlgorithm(String url, String[] tagsA) {
-		// TODO Auto-generated constructor stub
-	}
+	public CodePointer cp1;
+	public CodePointer cp2;
+	public boolean isNext;
 	
-	@GwtIncompatible("")
-	public CodePointer getNextQuestion(){
-		List<CodePointer> list = SDao.getCodePointerDao().getQuery().list();
-		if(list.size() == 0){
-			return null;
-		}
-		return list.get(new Random().nextInt(list.size()));
-		//return SDao.getCodeQuestionPointerDao().getQuery().first().now();
-	}
-
 	@Id
 	public Long id;
 
 	
 	@GwtIncompatible("")
-	public Ref<CodeAlgorithm> getRef() {
+	public Ref<CodeLink> getRef() {
 		return Ref.create(this);
 	}
 
 	@GwtIncompatible("")
-	public static Ref<CodeAlgorithm> getRef(Long id) {
-		return Ref.create(Key.create(CodeAlgorithm.class, id));
+	public static Ref<CodeLink> getRef(Long id) {
+		return Ref.create(Key.create(CodeLink.class, id));
 	}
 
 }

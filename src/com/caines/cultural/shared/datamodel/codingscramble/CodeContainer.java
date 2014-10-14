@@ -8,8 +8,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
+import java.util.Set;
 import java.util.concurrent.ArrayBlockingQueue;
 
 import org.eclipse.jetty.util.ArrayQueue;
@@ -36,8 +38,9 @@ public class CodeContainer implements Serializable {
 
 	}
 	public List<String> file = new ArrayList<>();
+	public Set<String> hs = new HashSet<>();
 	public List<String> tags = new ArrayList<>();
-
+	public int nextLink = 0;
 	@GwtIncompatible("")
 	public void setup(String url, String[] tagsA) {
 		this.url = url;
@@ -47,40 +50,20 @@ public class CodeContainer implements Serializable {
 		try {
 		    URL urlU = new URL(url);
 		    BufferedReader reader = new BufferedReader(new InputStreamReader(urlU.openStream()));
-		    String line;
-		    Queue<String> q = new ArrayBlockingQueue<>(10);
-		    int count = 0;		    
+		    String line;		    
 		     
 		    while ((line = reader.readLine()) != null) {
 		    	file.add(line);
 		    	//System.out.println(line);
-		    	q.add(line);
+		    	//q.add(line);
 		    	
-		    	if(line.contains("import")||line.trim().startsWith("*")){
-		    		q.remove(line);
+		    	if(line.contains("import")||line.trim().startsWith("*")||line.trim().length()==0){
+		    		continue;		    		
+		    		//q.remove(line);
 		    	}
-		    	if(q.size() > 5){
-		    		q.remove();
-		    		int success = 3;
-		    		for(String a : q){
-			        	if(a.trim().length() < 20){
-			        		success--;
-			        	}
-			        }
-		    		if(success >0){
-		    			CodeQuestionPointer cqp = new CodeQuestionPointer(getRef(),count-5);
-		    			cqp.createQuestion();
-		    			SDao.getCodeQuestionPointerDao().put(cqp);
-		    			for(String a :q){
-		    				System.out.println(a);	
-		    			}
-		    			
-		    			System.out.println("aoue");
-		    			q.clear();
-		    			//add questionpointer at the top line
-		    		}
+		    	for(String b : line.split("[^A-Za-z0-9]")){
+		    		hs.add(b);
 		    	}
-		    	count++;
 		        
 		    }
 		    
@@ -91,7 +74,7 @@ public class CodeContainer implements Serializable {
 		} catch (IOException e) {
 		    // ...
 		}
-		
+		hs.remove("");
 	}
 
 	@Id
@@ -99,6 +82,7 @@ public class CodeContainer implements Serializable {
 	@GwtIncompatible("")
 	Ref<CodePath> associatedCodePath;
 	public String url;
+	public int nextLine;
 	
 	
 	@GwtIncompatible("")

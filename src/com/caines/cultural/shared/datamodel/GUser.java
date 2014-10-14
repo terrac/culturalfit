@@ -13,13 +13,15 @@ import java.io.Serializable;
 
 
 
+
 import com.caines.cultural.shared.datamodel.codingscramble.CodeAlgorithm;
-import com.caines.cultural.shared.datamodel.codingscramble.CodeQuestionPointer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodePointer;
 import com.google.common.annotations.GwtIncompatible;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
+import com.googlecode.objectify.annotation.Serialize;
 
 @Entity
 public class GUser implements Serializable{
@@ -45,10 +47,9 @@ public class GUser implements Serializable{
 	public boolean loggedIn;
 	public boolean temporary;
 	@GwtIncompatible("")
-	public CodeAlgorithm currentAlgorithm;
-	@GwtIncompatible("")
-	public CodeQuestionPointer currentCQP;
-	public boolean currentAnswer;
+	@Serialize
+	public
+	CurrentVars cv = new CurrentVars();
 	
 	public String getDisplayName() {
 		return displayName;

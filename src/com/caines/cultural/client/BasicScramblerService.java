@@ -17,13 +17,13 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("basic")
 public interface BasicScramblerService extends RemoteService {
 
-	ScramblerQuestion getNextQuestion();
+	ScramblerQuestion getNextLines();
+
+	void linkCode(boolean next);
 	
-	void answerQuestion(String id);
 	void addCodePage(String url,String tags);
 	List<CodeUserDetails> getProfileContent();
 
-
 	UserInfo getUserInfo();
-
+	
 }
