@@ -5,6 +5,8 @@ import java.util.List;
 import com.caines.cultural.client.SimpleFront;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.PreElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
@@ -37,10 +39,13 @@ public class ScrambleProfile extends Composite {
 				for(CodeUserDetails cud : result){
 					VerticalPanel vp = new VerticalPanel();
 					profileContent.add(vp);
-					HorizontalPanel hp = new HorizontalPanel();
-					hp.add(new Label(cud.tag));
-					hp.add(new Label("Count:"+cud.tagCount));
-					vp.add(hp);
+					PreElement pe = Document.get().createPreElement();
+					String text = cud.tag;
+					text+="\n\t:Viewed "+cud.tagCount+" lines of code";
+					text+="\n\t(Average time "+cud.tagAvgTime+" seconds";
+					text+="\n\tSee just this user's links here";
+					pe.setInnerText(text);
+					vp.getElement().appendChild(pe);
 				}
 			}
 			

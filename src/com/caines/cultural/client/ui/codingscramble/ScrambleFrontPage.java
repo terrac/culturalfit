@@ -83,6 +83,9 @@ public class ScrambleFrontPage extends Composite {
 	Anchor link2;
 
 	@UiField
+	Anchor currentTag;
+
+	@UiField
 	Button profile;
 	@UiField
 	Button logIn;
@@ -100,7 +103,9 @@ public class ScrambleFrontPage extends Composite {
 				if (result == null) {
 					return;
 				}
-
+				currentTag.setText(result.tag);
+				//currentTag.setHref("/viewer/"+result.tag+"?url="+result.url);
+				currentTag.setHref("/viewer/"+result.url+"/");
 				link.addClickHandler(new AlternateLink("code", result.code1,
 						result.getRawFile(),result.linkedText));
 				link.setHref("#");

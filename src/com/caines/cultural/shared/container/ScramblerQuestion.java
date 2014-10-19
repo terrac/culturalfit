@@ -17,6 +17,7 @@ public class ScramblerQuestion implements Serializable{
 	public List<String> rawFile2;
 	public String url;
 	public String linkedText;
+	public  String tag;
 	
 	public String getRawFile(){
 		StringBuilder c = new StringBuilder();				
@@ -34,4 +35,6 @@ public class ScramblerQuestion implements Serializable{
 		}
 		return c.toString();
 	}
+	
+	
 }

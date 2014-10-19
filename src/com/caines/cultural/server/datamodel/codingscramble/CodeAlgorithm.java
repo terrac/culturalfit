@@ -1,4 +1,4 @@
-package com.caines.cultural.shared.datamodel.codingscramble;
+package com.caines.cultural.server.datamodel.codingscramble;
 
 import java.io.Serializable;
 import java.util.ArrayList;

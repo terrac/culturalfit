@@ -4,7 +4,7 @@
 
 	<g:HTMLPanel>
 		<div class="container">
-
+			<g:Anchor text="Current Tag" ui:field="currentTag"></g:Anchor>
 			
 			<pre id="code" class="prettyprint"></pre> 
 			<g:Anchor text="See Raw File" ui:field="link"></g:Anchor>

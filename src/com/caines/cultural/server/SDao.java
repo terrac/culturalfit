@@ -1,13 +1,14 @@
 package com.caines.cultural.server;
 
+import com.caines.cultural.server.datamodel.codingscramble.CodeAlgorithm;
+import com.caines.cultural.server.datamodel.codingscramble.CodeLink;
+import com.caines.cultural.server.datamodel.codingscramble.CodePath;
+import com.caines.cultural.server.datamodel.codingscramble.CodePointer;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.UserProfile;
-import com.caines.cultural.shared.datamodel.codingscramble.CodeAlgorithm;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
-import com.caines.cultural.shared.datamodel.codingscramble.CodeLink;
-import com.caines.cultural.shared.datamodel.codingscramble.CodePath;
-import com.caines.cultural.shared.datamodel.codingscramble.CodePointer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
+import com.googlecode.objectify.Ref;
 
 
 public class SDao {
@@ -43,7 +44,13 @@ public class SDao {
 		return new Dao<CodeAlgorithm>(CodeAlgorithm.class);
 	}
 	
-	public static Dao<CodeLink> getCodeLinkDao() {
+	public static Dao<CodeLink> getLineDao() {
 		return new Dao<CodeLink>(CodeLink.class);
+	}
+
+
+	public static<T> Ref<T> getRef(T c) {
+			return Ref.create(c);
+
 	}
 }

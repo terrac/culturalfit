@@ -2,6 +2,7 @@ package com.caines.cultural.client;
 
 import com.caines.cultural.client.ui.codingscramble.ScrambleFrontPage;
 import com.caines.cultural.client.ui.codingscramble.ScrambleProfile;
+import com.caines.cultural.client.ui.codingscramble.ScrambleViewer;
 import com.caines.cultural.client.ui.codingscramble.ScramblerSubmit;
 import com.caines.cultural.shared.UserInfo;
 import com.caines.cultural.shared.datamodel.GUser;
@@ -9,6 +10,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Button;
@@ -33,14 +35,24 @@ public class SimpleFront implements EntryPoint {
 	 * This is the entry point method.
 	 */
 	public void onModuleLoad() {
+		String[] u = Window.Location.getHref().split("/");
+		if("viewer".equalsIgnoreCase(u[3])){
+			setupViewerPage();
+			return;
+		}
 		setupFrontPage();
+	}
+	
+	public static void setupViewerPage() {
+		final RootPanel rootPanel = RootPanel.get("content");
+		ScrambleViewer scrambleViewer = new ScrambleViewer();
+		scrambleViewer.init();
+		rootPanel.add(scrambleViewer);
+		
 	}
 	public static void setupFrontPage() {
 		final RootPanel rootPanel = RootPanel.get("content");
 		rootPanel.add(new ScrambleFrontPage());
-		
-		
-		
 		
 	}
 	public static RootPanel setupTopOfSidePage() {

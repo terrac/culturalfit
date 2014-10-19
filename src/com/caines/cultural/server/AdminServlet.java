@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.caines.cultural.server.datautil.CodeContainerUtil;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
 
 public class AdminServlet extends HttpServlet {
@@ -42,7 +43,7 @@ public class AdminServlet extends HttpServlet {
 	
 	public void addCodeContainer(String url, String[] tagsA) {
 		CodeContainer cc = new CodeContainer();
-		cc.setup(url, tagsA);
+		CodeContainerUtil.setup(cc,url, tagsA);
 		SDao.getCodeContainerDao().put(cc);
 	}
 }

@@ -1,4 +1,4 @@
-package com.caines.cultural.shared.datamodel.codingscramble;
+package com.caines.cultural.server.datamodel.codingscramble;
 
 
 import java.io.Serializable;
@@ -24,6 +24,7 @@ import org.apache.commons.collections.CollectionUtils;
 import com.caines.cultural.server.SDao;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.container.ScramblerQuestion;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.GwtTransient;
 import com.google.gwt.user.client.rpc.core.java.util.Collections;
@@ -74,13 +75,13 @@ public class CodePointer implements Serializable{
 
 	
 	
-	public Tuple<ScramblerQuestion,Boolean> getQuestion() {
-		ScramblerQuestion sq = new ScramblerQuestion();
-		
-		sq.rawFile = container.get().file;
-		sq.url = container.get().url;
-		return new Tuple<ScramblerQuestion, Boolean>(sq, isCorrect);
-	}
+//	public Tuple<ScramblerQuestion,Boolean> getQuestion() {
+//		ScramblerQuestion sq = new ScramblerQuestion();
+//		
+//		sq.rawFile = container.get().file;
+//		sq.url = container.get().url;
+//		return new Tuple<ScramblerQuestion, Boolean>(sq, isCorrect);
+//	}
 	@GwtIncompatible("")
 	public boolean checkQuestion(List<String> answer){
 		for(int a = 0; a < 5; a++){
@@ -92,11 +93,12 @@ public class CodePointer implements Serializable{
 		return true;
 	}
 
+	@GwtIncompatible("")
 	public static CodePointer getCodePointer(CodeContainer c, int a) {
 		CodePointer codeP = SDao.getCodePointerDao().getQByProperty("container", c).filter("lineNumber", a).first().now();
 		if(codeP == null){
 			codeP = new CodePointer();
-			codeP.container = c.getRef();
+			codeP.container = SDao.getRef(c);
 			codeP.line = c.file.get(a);
 			codeP.lineNumber = a;
 			SDao.getCodePointerDao().put(codeP);

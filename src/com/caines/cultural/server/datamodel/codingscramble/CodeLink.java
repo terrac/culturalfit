@@ -1,17 +1,11 @@
-package com.caines.cultural.shared.datamodel.codingscramble;
-
+package com.caines.cultural.server.datamodel.codingscramble;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-
-
-
-
-
-
-
+import com.caines.cultural.server.SDao;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.gwt.user.client.rpc.GwtTransient;
 import com.googlecode.objectify.Key;
@@ -22,33 +16,23 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class CodePath implements Serializable{
+public class CodeLink implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CodePath() {
-	
+	public CodeLink() {
+
 	}
-	//holdes a string
-	//code containers are associated with
-	String pathName;
-	
-	
+
+	public CodePointer cp1;
+	public CodePointer cp2;
+	public int highlyLinked;
+	public int 
 	@Id
 	public Long id;
-		
-	@GwtIncompatible("")
-	public Ref<CodePath> getRef(){
-		return Ref.create(this);
-	}
+
 	
-	@GwtIncompatible("")
-	public static Ref<CodePath> getRef(Long id){
-		return Ref.create(Key.create(CodePath.class, id));
-	}
-	
-	
-	
+
 }

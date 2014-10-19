@@ -14,8 +14,10 @@ import java.io.Serializable;
 
 
 
-import com.caines.cultural.shared.datamodel.codingscramble.CodeAlgorithm;
-import com.caines.cultural.shared.datamodel.codingscramble.CodePointer;
+
+
+import com.caines.cultural.server.datamodel.codingscramble.CodeAlgorithm;
+import com.caines.cultural.server.datamodel.codingscramble.CodePointer;
 import com.google.common.annotations.GwtIncompatible;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.Ref;

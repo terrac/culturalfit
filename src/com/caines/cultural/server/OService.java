@@ -1,12 +1,12 @@
 package com.caines.cultural.server;
 
+import com.caines.cultural.server.datamodel.codingscramble.CodeAlgorithm;
+import com.caines.cultural.server.datamodel.codingscramble.CodeLink;
+import com.caines.cultural.server.datamodel.codingscramble.CodePath;
+import com.caines.cultural.server.datamodel.codingscramble.CodePointer;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.UserProfile;
-import com.caines.cultural.shared.datamodel.codingscramble.CodeAlgorithm;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
-import com.caines.cultural.shared.datamodel.codingscramble.CodeLink;
-import com.caines.cultural.shared.datamodel.codingscramble.CodePath;
-import com.caines.cultural.shared.datamodel.codingscramble.CodePointer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;

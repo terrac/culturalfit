@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.caines.cultural.shared.UserInfo;
 import com.caines.cultural.shared.container.ScramblerQuestion;
-import com.caines.cultural.shared.datamodel.GUser;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
@@ -20,4 +20,8 @@ public interface BasicScramblerServiceAsync {
 
 	void linkCode(boolean next, AsyncCallback<Void> callback);
 
+	void getContainer(String associatedUrl,
+			AsyncCallback<CodeContainer> callback);
+
+	void get
 }
