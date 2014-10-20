@@ -1,589 +1,302 @@
-1 create II groups
-2 probably rename initial groups to be III or II
-3 create I groups
-4 create whatever level next groups
-5 keen eye towards individualized and interesting
-  questions( probably will need to source from community)e
-
-1 admin page
-  a All users/ all answered questions
- 
-
-1 figure out issue with google login
-
-1 create a page to add the questions
-  a in console servlet,start adding initial questions that point to groups 
-#2 make the answer thing change the group
-#3 remove nextgroup logic
-
-  Are you interested in technical questions?
-  are you interested in web development languages
-  are you interested in php
-  are you interested in ruby
-  are you interested in more languages? (you can directly type in your language
-  on the group select page)
-  are you interested in popular languages
-  are you interested in java
-  are you interested in javascript
-  
-  are you interested in frontend development languages
-  are you interested in html
-  are you interested in sql
-  are you interested in javascript
-
-
-1 write out initial questions
-  a "are you interested in questions, and then a 1-5 level of proficency
-2 do coding
-
-1 a suggest box with the label "Move to on correct answer"
-2 remove next group logic, parent group logic
-3 on a correct answer, have it check the question to see if there is a
- next group name on correct, if so then switch groups and return appropriate
- questions along with new group name
-
-
-
-1 inital welcome group
-  associated questions
-  then are you interested in java
-1 no more parent group logic
-  questions that immediately move you to another group based on the answer
-  
-  
-
-1 readd in the
-
-1 only show people with verified email addresses (to start with just google since they are verified
-2 on clicking charge 100 points
-3 anyone who signs up on a recruiter sign up link through google gets 300 points
-
-
-
-#a if there is a temporary cookie on the register page, and there is a successful register then clear
-  
-
-#1 remove the sign in security part
-#2 if the user has not been created then create a temporary user (with a temporary flag)
-#3 let them act as normal, but add a "make permanent user button" in addition to the login
-3 on clicking it will pop over to the login page, with register selected, and from then on the select
-  #b also set the checbox to true
-  #c additionally don't create a guser, just set temporary to false
-Video, words and website
-  a show someone clicking through the website and answering some questions
-  b show them taking that link, and putting it on their resume
-  c show a recruiter looking at two different resumes, and seeing the question one
-  
-
-1 hobbies - do nothing
- travel
- cars
- hiking
- sports
- 
-2  
-
-1 once a day beta email user
-  a click on a link in the profile
-  b this gives a form with a partial subjet (showing uneditable part)
-  c you can then hit send to email person
-  d a note saying, this is beta
-
-
-
-1 if no user, redirect to login required page
-  a add a link to a google login page (using the google login link)
-  b add a email/pass combo and register checkbox
-2 email pass sends to itself, which then displays any errors or redirects
-  back to main on successful login
-3 if google login, it then checks to see if person is logged in and does setup
-  there  
-
-
-
-
-1 page that displays all groups and sums up the user groups
-  a it is a servlet
-  b it s
-2
-
-
-1 30 question for each basic group
-  a javascript questions
-  b java questions
-  c html
-  d css
-  e sql
-  
-2 bootstrap for buttons insead of radio boxes on add yes or no question  
-
-body {
-    background-color: #d0e4fe;
-}
-In this case everything below the navigation of the page will have a background color set, but
-the top portion of the document will not have a color set
-
-h1 {
-    color: orange;
-}
-All headers will have the color orange set 
-
-p {
-    font-size: 20pixels;
-}
-All p elements will have the font size set to 20 pixels
-
-CSS stands for Continuous Style Sheets
-
-<link rel="stylesheet" type="text/css" href="stylish.css">
-Will link to a stylesheet
-
-<style href="mystyle.css">
-Will link to a stylesheet
-
-Style sheets should be placed in the head of the document
-
-Style sheets should be placed before everything else in the document
-
-<css> is used to style inside a document
-
-<style> is used to put css inside a document
-
-br "color=blue" is correct syntax
-
-backgroundColor will set the background color
-
-<p text-size="10t"></p>
-Will increase the text size by 10 times its current amount
-
-<p style="font-size:bold;">
-Will make the font bold for all p elements
-
-
-intermediate css
-//this is a css comment
-
-inline styles are preferred over classes because classes are too abstract
-
-* is used in debugging when trying to determine whether or not a style is correct
-
-basic programming- general concepts
-
-javascript specific
-
-java specific
-
-
-
-sql specific
-
-Selecting data in SQL is accomplished with the GET keyword
-Getting data in SQL is accomplished with the SELECT keyword
-
-Modifying data in sql is accomplished with the UPDATE keyword
-Updating data in sql is accomplished with the MODIFY keyword
-
-Adding data in sql is accomplished with the INSERT keyword
-Inserting data in sql is accomplished with the ADD keyword
-
-Removing data in sql is accomplished with the DELETE keyword
-Deleting data in sql is accomplished with the REMOVE keyword
-
-
-
-3 programming-basic solid set of "You should get 100% on these" basic questions
-  a basic this is "html" questions (exising list is fine
-  b basic css questions
-  
-  c basic javascript (ie no gotchas, just loops, alerts, functions, etc
-  d on the main category what is a function, what is a for loop, what is a database, etc
-4 then onto some intermediate questions
-5 then share wider (using programming-basic link)
-
-
-#1 public profile includes tries in badge
-#2 test simple question (yes or no)
-
-
-
-
-
-
-#2 on click reanswer, increment 1 to tries on user group, and clear out answers
-  set the group and get the next question
-
-
-
-#1 on creating a group, make sure to clear out next question list
-
-2 refresh admin, do through website, write simple export ( with single names first)
-2.5
-3 post on cscareerquestions with programming-basic, ask for feedback
-
-1 test adding questions, creating groups, etc
-5 android
-
-3 test
-4 run console
-1 the create... button adds based on the select group text (and calls the select group function)
-#6 make profile link back to employer and employee pages
-#1 parent sibling stuff
-#2 link to automatically set programming group
-
-
-1 create normal users and add groups and questions
-#2 create a bar at the bottom which counts to 5 and then moves you back to the profile page
-3 make the get sibling stuff get a child if it is a parent
-4 run console after admin on web page
-
-
-
-
-
-1 re pull in questions
-2 format the money on the drop down list
-3 test the new "pull all from related groups" logic
-4 test programming and hobby buttons
-
-
-
-1 
-
-1 pull first name
-2 make indexed parent on group
-3 make 3 groups get pulled 1 (selected, or just 3 generic)
-4 do a random pull from one of them each time
-
-
-1 Beta label
-
-
-
-1 if the group does not have a space in the name then
-  show a second 7 button list of the top groups for that (without the first name added,and badges of popularity)
-  when adding a group take the first word and make the first word be the parent group if
-  it exists.  Order by questions answered (create a counter on the group for that)
-
-2 more questions, well structured
-  a programming style (perfectionism/requirements/etc, the programming group gets questions from all subgroups)
-  MVC,AOP,convention over configuration
-3 Add beta label
-4 make list horizontal, add reanswer button (make it refresh once a day)  
-
-
-1 create programming group
-2 create general programming button/have it populate list
-3 create hobbies group
-4 10 each basic python, basic android, basic cloud computing, basic dart
-html, basic css, basic javascript, basic java, basic sql, basic spring
-
-1 change "switch" to, "back"
-
-1 If there are no more questions, then add a "move to profile button" 
- and some "move to next" buttons
- initially just call the method to set up the next stuff
-2 test questions group
-3 100  
-4 add reanswer button 
-
-NextGroup (group,nextGroup)
- suggestbox + addnext, adds to a list that you can delete
- 
-#1 don't load next question area until initial question, otherwise straight to profile
-#  a make sure that the welcome doesn't have a timer
-1 test question group, which lets you get comfortable
-  a groups have a "next" set of options that they can select
-  b they can do that in the group editor ( a suggest box that lets you add "Next" to a list of 5) 
-1 more questions, sub groups ie programming/java/etc  
-  
-  
-  
-  
-  
-  
-1 Beta test options
-  a unlimited reanswers (with a note that in the final version this will be restricted)
-  (after people start answering, worry about recruiters)
-  
-  
-
-1 a "What is" which explains all of the decisions, linked off the welcome page
-
-1 once a month you can reanswer all the quesions by hitting a "reanswer" button (disabled with a note normally)
-
-1 will need to order by newness of latest question answered too
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1 new questions submitted.  If add
-
-1 test adding questions to groups as a normal user and then getting them approved
-
-1 put a few people on each area
-2 test group create
-  a create a set admin option on the servlet
-  b create a set all groups to this user on servlet
-  c
-
-1 screen out locations when group has none
-  a
-
-1 workflow
-  a start on next question
-  #b remove timer
-
-1 rethink welcome page
-
-
-1 make some admin options to test group create
-
-
-1 on clicking ok thanks, relocate to login page
-
-1 fetch by magic number
-  a (match with group)
-  b ( salary range)
-  c ( least recent contact/view )
-    1 save queries, 
-2 more questions/ create group and submit/manage questions
-
-3 beta recruiter signup (free credits for beta testers)
-
-#1 desired weeks of vacation
-#2 remove select group button, add small popup for success
-3 grid search
-4 add questions
-1 servlet to set groups with a null user to current user
-2 fake users
-  a run through all groups
-  b give some random %s and numbers based on the numbers
-  c look into grid component for search
-3 Add question button / manage group/create group button
-#1 remove clock when not being used
-#2 login welcome page
-  a simple bootstrap welcome with a couple of lines
-  Welcome to Culture Fit
-  
-  Culture fit exists because the interview process needs some major updating.  
-  
-  It is here for people who want to be great employees and not talented interviewees.
-  
-  It is here for people who want to find the right candidate rather than become talented interviewers.
-  
-  Answer some questions, look for some talented employees in your area and see what it can do for you.
-  
-3 Put on resume
-
-4 question stuff
-
-
-#1 fix button select on employer page
-#2 wire up login/logout
-3 welcome page
-Main points of welcome
-login button
-
-1 welcome page
-  a (login/logout link below the button)
-  b if logged out then do a popup welcoming 
-  (set a cookie to only do it once, popup is a label and clicking on it moves
-   in or clicking on a button does)
-2 Pretty timer
-
-
-
-1 create popup
-  a do a query on it to find all groups associated
-  b list groups with 
-
-1 put the appropriate % match, then the desired salary
-2 on clicking a list of groups should pop out
-3 fake users
-
-#1 write an "updateGroupLocation" function
-2 fake users by faking groups and profiles through basicimpl methods
-
-a
-1 build a location to group mapping
- a (it 
-
-1 location
-2 finish up location and testing
-3 fake user profiles
-4 send out
-5 rework add groups
-
-1 test zip code query
-2 populate with 10 fake users
-3 test again
-
-1 save state/ save salary
-2 pull back top group matches by state
-  a Filter by state
-  b order by group match (drop down)
-3 Build in 50+-10 fake results in different states
-4 have a "purchase a message", for now just have it say coming soon 
-
-1 send email to brian
-2 make sure selecting salary and zip code save and reload
-3 submit questions to group
-4 employer
-5 more questions
-
-#1 gwt splits up url and moves to profile/userprofile if given the correct user profile key
-#2 button on profile page for "public profile link"
-
-1 profile link (history)
+1 pull down the code container and the list of links
+2 (code container,code pointer, line)
 3
 
-#1 fix add/edit/select
-#3 fix answered
-
-#1 a check for a null usegroup, if so then set to a "welcome" question with one question
-#2 5 most popular groups as buttons
-#3 make the typing have a select group button (not edit or add to start with, that should be a seperate thing
-
-#1 parse json on admin page and create questions
-2 profile link
-#2.5 make profile inputs clearer (label of salary, hint for zipcode and label, not shown for salary if not selected)
-3 get brian to do it
 
 
 
-2 change logic so that people can add questions
-3 do basic employer page
-4 create a login screen 
-  a base servlet which checks login and displays a "please login" or redirects to website
-5 a restful link to the profile page (with an option to make it public)
-6 show off to reddit
-
-1 add a couple if statements that makes the answers
-  a put a font tag or something inside the button
-  b based on the length of the text get a % and use that to resize the font of the text
-1 add a description of how the questions should be in the edit group page
-
-1 you can add questions to be approved
-  a add an extra field with a button (Approve) on group edit
-  b edit group shows to everyone, but if they aren't the creator the question has a value approved=false
-  c make the text boxes for the questions bigger
-
-1 more questions java, television, video games, work life balance , python, programming
-
-1 search by group match
-  a group selectore
-  b on selected call a search
-  c sort by usergroup % matches
-  d limit 100
-  e filter by location (select state (and city, if desired)
-  f display salary with users
-  g show example idea
+1 rebuildcodecontainer using codecontainer test until gwt works
+  a try creating a local copy (to test app engine issues)
+  b otherwise just change over until success
 
 
- zip code (RadiusBox.java, http://www.unitedstateszipcodes.org/zip-code-database/, put on page then parse
- and filter using radius box 
-
-4 Add a "For potential employers" button in the top right corner
-
-5 it has a single list heading, a button to switch back to employees in the same spot
 
 
-7 5 groups (java, television, video games, work life balance, , python, programming)
-
-8 company you currently work for (not visible)
 
 
-9 create no users, but write some scrpts to allow 4000 to be created so that it looks like the website
- is steadily gaining in popularity 
-
-#1 make the top group name get updated on it being changed, make that a static method
-#  of the top area
+1 viewerselect
+  #a get a list of complimentary colors/two lists
+  b replace each link for normal link with the light, highly linked with the dark
+  c clicking on an individual spot clears the colors 
+  d clicking on an individual link removes every link but that one
   
-#2 list and ability to disable questions (mention that you cannot edit them)
-
-
-
-1 make edit group be
-
-1 group permissions (administrator, can add other people as well)
-2 question list (and ability to disable)
-#3 do something better than the alert and make sure there is a minimum spacing on the label
-  a suggest a related group (pick a tag and pull groups with the same tag, do a couple)
-  b add some buttons which set the current group and get the next question
-
-
-
-1 make sure that answering questions correctly is saved
-2 check %
-
-
-
-
-
-
-
-1 profile setup
-  e give a % for the group, make running out of questions move to the profile.
-  f have a list of all the groups with %s, but only process the current one, but give a date of last processing, and a button to update
-
-  a userresults
-  #b if they don't exist then do setup and pull all user questions that have processed = false;
-  #c on setup run through all the new questions and get answered correctly/total
-  #d take the existing amount answered correctly/ total and add the two together
+2 linking between multiple files
+  a after a person has linked 10 things they get an additional mode
+  b they get the ability to link between files
+  c it shows two filenames and gives same buttons
+  d toggle the mode with a dropdown at the top
   
-2 do more questions and more groups, get a profile going  
+3 viewerselect linking
+  a to the left highly linked files are listed as links to click on
+  b to the right normal linked files
+  
+  
+4 viewerselect popular
+  a an associated linkedcount,highlylinkedcount,not linked count with a reference
+  b the reference points to an interface which will include line,comment,expected data
+  c viewerselect will have tabs for your votes,
+    newest votes ( a copy of whatever the latest with no users)
+    popular votes (keeps track of count, highest count wins) 
+    
+5 lines
+  a migrate line number logic to individual line references for future updates
+  b make it so that lines are associated with a count so a specific increment is shown
+      
+6 comments
+  a buttons on the left side for different modes
+  b on normal mode you mouse over for comments
+  c on other mode you mouse over for expected data
+  d comments are voted on by voting between two comments, 
+    with a top or bottom comment button
+  e if only one comment exists for an area vote against nothing
+  f button "add comment" to click on and then it highlights lines to click      
+7 expected data
+  a very similar to comments
+  
 
-1 on Add group
-  a move to the edit group page
-  b have a button to add questions (default to this)
-  c have a button to view questions and edit tags or disable
+1 finish viewerservlet
+
+1 add comments (with a comment compare part (if just one comment then vote against nothing)
+2 add expected data at point x (given y input) straigt up or down vote
+
+2 expand across muliple files
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2 record links in profile
+  a viewed 100 lines of code in tag x (average time 2 seconds) see just this user's links for this tag (here)
+  b viewed 20 lines of code in tag y (average time 3 seconds) see just this user's links for this tag (here)
+  c viewed 24 lines of code in tag z
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  
+
+#1 make sure hs has actual data
+
+a create a code pointer (to a specific line)
+b create a user link (to the code pointer) (username, linked, isnext)
+c write code to add links (to raw, and line)
+
+4 record links in profile
+
+
+5 view links mode
+  a (a tree format with tags)
+  b (then files)
+  c the files then have lots of links 
+  d the links go to individual pages that show the next line
+    the next linked line, other linked lines on the same pages, and other lines
+    on other pages
+
+#1 code to pull all words from a file (break up all non abc characters into words)
+#2 save by word and line
+#3 buttons linked, next, not linked
+  
+
+(plane ticket, pill box)
+
+1 pulls in files (done)
+2 randomly generates cqps on the fly (variable length 1-10), but still use 
+ scraping technquies at least most of the time (like with .py it might just look for 
+ functions
+3 code linking
+ a break up file into a series of words
+ b link two individual lines by words (link or don't link
+ c link more complicated sets of lines
+
+
+4 profile list tags links and examples
+
+
+
+
+5 "I believe in" questions with yes or no
+
+1 heavily repeat same question algorithm
+  a starts on the same tags
+  b repeatedly asks questions until a certain correctness is hit
+
+
+1 more interesting examples (clear out again first for url)
+  #a more hadoop
+  b more mongodb
+  c more jira
+  d more bootstrap
+(and expand those to be a lot)
+
+2 think more about good questions
+3 purge button
+
+
+
+
+
+
+1 purge button
+
+3 move simplefront to a uibinder
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 add login button
+
+1 add https://raw.githubusercontent.com/apache/hadoop-common/trunk/hadoop-mapreduce-project/hadoop-mapreduce-examples/src/main/java/org/apache/hadoop/examples/AggregateWordCount.java
+2 tags java/hadoop (code automatically takes these, sorts them, and creates a profile)
+ profile like java/hadoop 10 count, 50% correct, time to answer 3.33 seconds
+3 purge button
+4 save filename on adding files (and display) 
+
+
+https://raw.githubusercontent.com/terrac/rikandroid/master/src/rik/shared/SUtil.java
+
+1 tags are java/blah/spring/etc,java/blah,spring
+2 Add in major fundamental projects, hadoop, spring, hibernate, etc
+3 add a purge button (on the first 5 viewings of the question if 4 are purge then purge, otherwise if admin then purge, 
+  if that doesn't occur then remove associated temporary data (
+
+
+
+#1 pull out code adding logic into admin only file
+#  a go into datastore and make my user an admin 
+#2 make fewer cqps be created per file
+#  a reject import
+#3 create questions when generating this stuff
+
+
+7  
+
+
+
+
+
+
+1 object that says if string contains import then reject 
+3 object that says if string is empty then reject
+
+structure 
+
+function dosomething(string)
+	return bool
+	
+object that contains variables to determine fitness
+(random chance of doing it per cqp)
+(chance of doing it if it is a certain type)
+(chance of doing it if the lines contain x)
+	
+
+1 object that replaces one type with another type
+2 object that replaces two strings with each other
+
+
+
+1 complicated curating mechanism based on a darwinian approach (ie it has lots of variables)
+  a described in general terms on the site (with maybe some of the framework code available
+  b so like variable a would be 90% chance of rejecting an import statement
+  b would be the length of the code to look at
+  c would be etc
+  
+2 up and down votes then hit the model and it changes based on that, saving various things
+  (each file is built off of a new model based on the existing successful models)
+  
+3 general statistics showing rejected models    
+
+
+
+
+
+
+1 think about best initial question algorithm
+  a cqp also contains the actual questions and whether they are correct or incorrect
+  b it also shows the actual answer after you answer it
+  c then you can like or dislike the question (correct answer with highlights shown after
+  
+2 code as a puzzle
+  a in this case you click on individual lines and sort them into the correct order
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+4 correctness, time
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#2 maybe make buttons big (add bootstrap labels, maybe remove gwt css altogether)
+#3 start answering questions
+
+1 redo errors (cuds are individual and not tree based
+2 take that and then do profile
+
+
+
+
+
+
+1 profile page
+  a onclick clear contents and show a vp
+  b that will have a hp that has the top level tag
+  c then underneath it a list of hps inside a hp that have lower level tags
   d
 
-#1 on "no more questions" move back to view 
-2
-
-
-
-1 profile shows %match with group answers
-  a run through all groups
-  b if the group has new answers (userGroup newAnswers = true)
-  c run through all user questions and questions and
-2 move add question to "edit group" page
-3 make the add question give a right answer
-
-1 fill out groups and questions
-2 make the navigation lose add question and gain a "navitgate groups" which will go to add questions
-3 statistics, charts, case studies (ie, you do some comparisons and write your comment on how it worked out)
 
 
 
@@ -591,49 +304,71 @@ a
 
 
 
-1 5 java interview questions
-  b a link to reset visited
+#1 assuming that actual results will be random on website, write a little list get random just to test (but not to use)
+2 answer question (adds to profile, create profile to see
+
+1 profile
+2 novice, intermediate etc based on percentages
+3 overall number of things done, break down by tags
+4 average time for all
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 verify if question is being sent back
+2 see if it needs to be actually shown
+3 etc
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1 start deleting extra files
+2 build a page with a button saying "new user" and then below that a coding square (with two buttons below that)
+3 build in bootstrap 3 (put html code in pages, pull those from ids, have bootstrap 3 js file)
+4 build a profile interface that shows the language (which is seperate from tags) and the tags underneath
+5 it shows the amount answered for each one, a total amount answered, a total percentage correct, a total time spent
+
+6 a place where you enter in concepts, these concepts then turn into questions
+  (note you don't worry about repeats, you just try to make them less likely)
   
-  
-  
-
-
-1 show the current group selected, have a button to choose a new group
-2 fix submit button on next question
-3 add 5 questions to a group
-  a google java interview questions
-4 write a page that sets up fake users to answer questions (give a percentage to make it look like how I think it should)
-5 develop a search page?
-
-1 if no group selected, don't show next question
-2 once a group is selected update the next shown question
-3 Add 3 groups, Add 5 fake questions to group
-4 Deploy
-5 Develop profile element that shows % cultural fit with group (one is with group moderators, other is with gen pop)
-6 Develop some strong questions, and group modification tools
-  a on clicking edit group
-  b list questions, http://www.gwtproject.org/javadoc/latest/com/google/gwt/user/cellview/client/CellTable.html 
-  c you can disable, but not edit questions
-  d and add new questions
-
-
-
-1 go in and try to add a question to a group
-2 go to next questions and have it suggest some groups, once selected it then
-  goes through the questions in that group
-3 add more questions,   
-
-2 run and test add question
- a same with tag logic
-3 run and test next question
-4 a "group" page that allows you to create a top level tag
-  a additionally eventually modify questions
-
-
-1 general ideas
-  a one minute per question
-  b a "cultural fit button
-  c each top level tag is curated by a group
+7   
 
 
 
@@ -647,16 +382,79 @@ a
 
 
 
-2 write add question page
-  a on simple front
-  b tag component, 3 text areas
-  c on submit, send
+
+
+1 make the display page display a question
+2 on answer make the current cqp with appropriate related tags be stored in the profile.
+3 calculate %s and tags and display a profile page
+
+
+#1 make the algorithm randomly pick a questionpointer
+#2 make it return a usable format to the question display
 
 
 
-4 finish next question page
 
-3 write profile page
-  a on simple front
-  b tag component
-  c add personal tags
+3 on the submit page create a code container and point the question pointers to it
+4 add tags to code container
+#1 make codecontainer.java run through the loop an create some question pointers
+
+#1 create codealgorithm
+#2 put a list of code question pointers in it
+
+
+5 main page uses an algorithm not used (algorithms point to the next one created in order
+ , on submit pulls an algoirthm without a pointer and assigns the newest one to it
+ 
+6 page that pulls first one, runs through it till complete, then pulls next, with questions 
+
+
+
+1 test 
+  a http://localhost:8888/c/codingScramble
+  b http://localhost:8888/c/codingScrambleSubmit
+
+2 write the servlet for submit that
+	a generic algorithm creator
+      1 when submitting a code file, also create an algorithm with the entire list of code
+      2 adds the tags to code container
+2 make the main page automatically select a random algorithm and start going through it  
+3 profile
+  a list all of the % by algorithm
+  b add in tags
+  c add an organized mode where the tags are by the top tag, and then the ones underneath
+
+
+
+1 create a new get basic scramble page to async interact with
+2 create a submit page, with a comma delimited tag list
+3 make the servlet serve up that page with the appropriate root id
+4 on submit a code container is created and code question pointers are created
+  a iterate through and create based on length
+  b attach all tags (which, the first one is the top level tag, all others are sub tags)
+5 algorithm picks question (another object, simplest is a just a list)
+  a algorithms have a % complete and don't get repeated if they have the completed = true
+  b first if there aren't any user algorithms, then you call on a method to pull one back and 
+    add it
+  c then just call on the algorithm which goes through its list
+6 profile takes all user algorithms and adds them together to make page        
+
+
+1 have algorithms that pick a random set of questions
+2 have a % complete on them
+3 sum up algorithms associated tags into a profile k
+
+
+1 do a http request on a couple of github files (if hard then host locally)
+2 have it look for several relatively dense lines (ie do a trim and see if length > 20,
+  grab 4 lines and calculate avg length 
+3 page that has two buttons, each with the lines of code on them, it does a red or green popunder for correct
+4 one button is scrambled, one isn't
+5 preserve registration system, but don't require registration to answer questions, and get rid of temporary user id
+6 give a running total along the bottom of blue/red for successes vs failures
+7 if logged in then save stats, overall stats are most important 
+8 tag by language
+
+
+7 move onto new id with new url
+

@@ -1,0 +1,13 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui="urn:ui:com.google.gwt.uibinder"
+	xmlns:g="urn:import:com.google.gwt.user.client.ui">
+	
+	<g:HTMLPanel >
+	    <div class="container">
+			<g:Anchor text="To Submit" ui:field="toSubmit"></g:Anchor>
+			<g:Anchor text="Current Tag" ui:field="currentTag"></g:Anchor>
+			
+			<pre id="code" class="prettyprint"></pre>
+		</div>	 
+	</g:HTMLPanel>
+</ui:UiBinder> 

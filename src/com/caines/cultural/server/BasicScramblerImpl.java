@@ -1,5 +1,6 @@
 package com.caines.cultural.server;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -7,7 +8,11 @@ import com.caines.cultural.client.BasicScramblerService;
 import com.caines.cultural.server.datamodel.codingscramble.CodeAlgorithm;
 import com.caines.cultural.server.datamodel.codingscramble.CodeLink;
 import com.caines.cultural.server.datamodel.codingscramble.CodePointer;
+import com.caines.cultural.server.datamodel.codingscramble.history.UserRecordingLink;
 import com.caines.cultural.server.datautil.CodeContainerUtil;
+import com.caines.cultural.server.datautil.CodeLinkContainerUtil;
+import com.caines.cultural.server.datautil.CodeLinkUtil;
+import com.caines.cultural.server.datautil.HistoryUtil;
 import com.caines.cultural.shared.LoginInfo;
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.UserInfo;
@@ -15,6 +20,7 @@ import com.caines.cultural.shared.container.SContainer;
 import com.caines.cultural.shared.container.ScramblerQuestion;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeLinkContainer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -119,36 +125,25 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public void linkCode(boolean next) {
+	public void linkCode(String linkType) {
 		LoginInfo li = login();
 
-		CodeLinkUti
-		CodeLink cl = new CodeLink();
-		cl.cp1 = li.gUser.cv.cp1;
-		cl.cp2 = li.gUser.cv.cp2;
-		cl.isNext = next;
-		String mainTag = null;
-		SDao.getLineDao().put(cl);
-		for (String t : li.gUser.cv.cp1.container.get().tags) {
-
-			CodeUserDetails cud;
-			if (mainTag == null) {
-				mainTag = t;
-				cud = CodeUserDetails.getByTag(t, mainTag, li);
-			} else {
-				cud = CodeUserDetails.getByTag(t, mainTag, li);
-			}
-			int count = cud.tagCount;
-			cud.tagCount = count + 1;
-
-			// average time later
-			cud.tagAvgTime = 3.3333;
-			SDao.getCodeUserDetailsDao().put(cud);
+		CodeLink cl=CodeLinkUtil.getCodeLink(li.gUser.cv.cp1,li.gUser.cv.cp2);
+		if("highlyLinked".equals(linkType)){
+			cl.highlyLinked++;
 		}
+		if("linked".equals(linkType)){
+			cl.linked++;
+		}
+		if("notLinked".equals(linkType)){
+			cl.notLinked++;
+		}
+		UserRecordingLink url=HistoryUtil.getHistory(cl,li.gUser);
+		
 	}
 
 	@Override
-	public CodeContainer getContainer(String associatedUrl) {
+	public Tuple<CodeContainer, List<CodeLinkContainer>> getContainer(String associatedUrl) {
 		LoginInfo li = login();
 		
 		SContainer sContainer = new SContainer();
@@ -157,7 +152,8 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 		
 		sContainer.rawFile=codeContainer.file;
 		sContainer.hs = codeContainer.hs;
-		return new CodeContainer();
+		List<CodeLinkContainer> cll = new ArrayList<CodeLinkContainer>(CodeLinkContainerUtil.generateCodeLinkContainer(SDao.getRef(codeContainer), li.gUser).values());
+		return new Tuple<CodeContainer,List<CodeLinkContainer>>(codeContainer,cll);
 	}
 
 	

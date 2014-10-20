@@ -5,35 +5,6 @@
 	version="2.5" xmlns="http://java.sun.com/xml/ns/javaee">
 
 	<!-- Servlets -->
-	<servlet>
-		<servlet-name>greetServlet</servlet-name>
-		<servlet-class>com.caines.cultural.server.BasicServiceImpl</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>greetServlet</servlet-name>
-		<url-pattern>/culturalfit/greet</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>employerServlet</servlet-name>
-		<servlet-class>com.caines.cultural.server.EmployerImpl</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>employerServlet</servlet-name>
-		<url-pattern>/culturalfit/employer</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>suggestServlet</servlet-name>
-		<servlet-class>com.caines.cultural.server.SuggestServiceImpl</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>suggestServlet</servlet-name>
-		<url-pattern>/culturalfit/suggest</url-pattern>
-	</servlet-mapping>
 
 
 	<servlet>
@@ -45,27 +16,15 @@
 		<servlet-name>adminServlet</servlet-name>
 		<url-pattern>/culturalfit/admin</url-pattern>
 	</servlet-mapping>
-	
-	
 	<servlet>
-		<servlet-name>cServlet</servlet-name>
-		<servlet-class>com.caines.cultural.server.ConsoleServlet</servlet-class>
+		<servlet-name>basicServlet</servlet-name>
+		<servlet-class>com.caines.cultural.server.BasicScramblerImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>cServlet</servlet-name>
-		<url-pattern>/culturalfit/console</url-pattern>
-	</servlet-mapping>
-	
-	<servlet>
-		<servlet-name>mainServlet</servlet-name>
-		<servlet-class>com.caines.cultural.server.MainServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>mainServlet</servlet-name>
-		<url-pattern>/c/*</url-pattern>
-	</servlet-mapping>
+		<servlet-name>basicServlet</servlet-name>
+		<url-pattern>/culturalfit/basic</url-pattern>
+	</servlet-mapping>	
 
 	<filter>
 		<filter-name>ObjectifyFilter</filter-name>
@@ -75,7 +34,6 @@
 		<filter-name>ObjectifyFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
 	    <servlet>
         <servlet-name>LoginRequiredServlet</servlet-name>
         <servlet-class>com.caines.cultural.server.LoginPage</servlet-class>
@@ -85,6 +43,7 @@
         <url-pattern>/loginRequired</url-pattern>
     </servlet-mapping>
 	
+		
     <servlet>
         <servlet-name>LoginSendServlet</servlet-name>
         <servlet-class>com.caines.cultural.server.LoginSubmit</servlet-class>
@@ -94,9 +53,18 @@
         <url-pattern>/loginSubmit</url-pattern>
     </servlet-mapping>
     
+    <servlet>
+        <servlet-name>viewerServlet</servlet-name>
+        <servlet-class>com.caines.cultural.server.ViewerServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>viewerServlet</servlet-name>
+        <url-pattern>/viewer/*</url-pattern>
+    </servlet-mapping>
+    
 	<!-- Default page to serve -->
 	<welcome-file-list>
-		<welcome-file>welcome.html</welcome-file>
+		<welcome-file>c/culturalfit.html</welcome-file>
 	</welcome-file-list>
 	<security-constraint>
 		<web-resource-collection>

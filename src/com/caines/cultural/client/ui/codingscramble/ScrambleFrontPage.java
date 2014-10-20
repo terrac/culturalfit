@@ -39,8 +39,9 @@ public class ScrambleFrontPage extends Composite {
 		private final String toHighlight;
 		private boolean file = false;
 
-		private AlternateLink(String name, String code, String rawFile,String toHighlight) {
-			setupCode(code, name,toHighlight);
+		private AlternateLink(String name, String code, String rawFile,
+				String toHighlight) {
+			setupCode(code, name, toHighlight);
 			this.name = name;
 			this.code = code;
 			this.rawFile = rawFile;
@@ -51,10 +52,10 @@ public class ScrambleFrontPage extends Composite {
 		public void onClick(ClickEvent event) {
 			file = !file;
 			if (file) {
-				setupCode(rawFile, name,toHighlight);
+				setupCode(rawFile, name, toHighlight);
 				link.setText("See Question");
 			} else {
-				setupCode(code, name,toHighlight);
+				setupCode(code, name, toHighlight);
 				link.setText("See File");
 			}
 		}
@@ -104,14 +105,15 @@ public class ScrambleFrontPage extends Composite {
 					return;
 				}
 				currentTag.setText(result.tag);
-				//currentTag.setHref("/viewer/"+result.tag+"?url="+result.url);
-				currentTag.setHref("/viewer/"+result.url+"/");
+				// currentTag.setHref("/viewer/"+result.tag+"?url="+result.url);
+				currentTag.setHref("/viewer/" + result.url + "/");
 				link.addClickHandler(new AlternateLink("code", result.code1,
-						result.getRawFile(),result.linkedText));
+						result.getRawFile(), result.linkedText));
 				link.setHref("#");
 				link.setText("See File");
 
-				link2.addClickHandler(new AlternateLink("code2", result.code2,result.getRawFile2(),result.linkedText));
+				link2.addClickHandler(new AlternateLink("code2", result.code2,
+						result.getRawFile2(), result.linkedText));
 				link2.setHref("#");
 				link2.setText("See File");
 
@@ -149,44 +151,17 @@ public class ScrambleFrontPage extends Composite {
 
 	@UiHandler("b1")
 	void onClick(ClickEvent e) {
-		basicService.linkCode(true, new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				// TODO Auto-generated method stub
-				update();
-			}
-		});
+		basicService.linkCode("highlyLinked", callback);
 	}
 
 	@UiHandler("b2")
 	void onClickBottom(ClickEvent e) {
-		basicService.linkCode(false, new AsyncCallback<Void>() {
-
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void onSuccess(Void result) {
-				// TODO Auto-generated method stub
-				update();
-			}
-		});
+		basicService.linkCode("linked", callback);
 	}
 
 	@UiHandler("b3")
 	void onClickNoLink(ClickEvent e) {
-
-		update();
+		basicService.linkCode("notLinked", callback);
 	}
 
 	@UiHandler("logIn")
@@ -208,7 +183,8 @@ public class ScrambleFrontPage extends Composite {
 		Element preElement = DOM.getElementById(name);
 		preElement.setInnerText("");
 
-		preElement.setInnerHTML(code.replace(toHighlight, "<u>"+toHighlight+"</u>"));
+		preElement.setInnerHTML(code.replace(toHighlight, "<u>" + toHighlight
+				+ "</u>"));
 
 		preElement.removeClassName("prettyprinted");
 		runPretty();
@@ -217,4 +193,20 @@ public class ScrambleFrontPage extends Composite {
 	public static native void runPretty() /*-{
 		$wnd.prettyPrint();
 	}-*/;
+
+	AsyncCallback<Void> callback = new AsyncCallback<Void>() {
+
+		@Override
+		public void onFailure(Throwable caught) {
+			// TODO Auto-generated method stub
+
+		}
+
+		@Override
+		public void onSuccess(Void result) {
+			// TODO Auto-generated method stub
+			update();
+		}
+	};
+
 }

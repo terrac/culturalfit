@@ -58,7 +58,7 @@ public class CodePointer implements Serializable{
 	
 	@GwtIncompatible("")
 	public Ref<CodeContainer> container;
-	int lineNumber;
+	public int lineNumber;
 	public String line;
 	boolean isCorrect;
 	
