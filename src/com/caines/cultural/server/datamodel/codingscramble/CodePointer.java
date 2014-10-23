@@ -57,10 +57,10 @@ public class CodePointer implements Serializable{
 	public Long id;
 	
 	@GwtIncompatible("")
+	@Index
 	public Ref<CodeContainer> container;
 	public int lineNumber;
 	public String line;
-	boolean isCorrect;
 	
 	@GwtIncompatible("")
 	public Ref<CodePointer> getRef(){
@@ -94,17 +94,25 @@ public class CodePointer implements Serializable{
 	}
 
 	@GwtIncompatible("")
-	public static CodePointer getCodePointer(CodeContainer c, int a) {
+	public static CodePointer getCodePointer(CodeContainer c, int a, String nextLink) {
 		CodePointer codeP = SDao.getCodePointerDao().getQByProperty("container", c).filter("lineNumber", a).first().now();
 		if(codeP == null){
 			codeP = new CodePointer();
 			codeP.container = SDao.getRef(c);
-			codeP.line = c.file.get(a);
+			codeP.line = nextLink;
 			codeP.lineNumber = a;
 			SDao.getCodePointerDao().put(codeP);
 		}
 		return codeP;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+		CodePointer cp = (CodePointer) obj;
+		if(cp.container.equals(this.container)&&this.lineNumber == cp.lineNumber&&this.line.equals(cp.line)){
+			return true;
+		}
+		return false;
+	}
 	
 }

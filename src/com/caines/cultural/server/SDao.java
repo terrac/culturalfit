@@ -4,6 +4,7 @@ import com.caines.cultural.server.datamodel.codingscramble.CodeAlgorithm;
 import com.caines.cultural.server.datamodel.codingscramble.CodeLink;
 import com.caines.cultural.server.datamodel.codingscramble.CodePath;
 import com.caines.cultural.server.datamodel.codingscramble.CodePointer;
+import com.caines.cultural.server.datamodel.codingscramble.CodeTag;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
@@ -44,10 +45,13 @@ public class SDao {
 		return new Dao<CodeAlgorithm>(CodeAlgorithm.class);
 	}
 	
-	public static Dao<CodeLink> getLineDao() {
+	public static Dao<CodeLink> getCodeLinkDao() {
 		return new Dao<CodeLink>(CodeLink.class);
 	}
 
+	public static Dao<CodeTag> getCodeTagDao() {
+		return new Dao<CodeTag>(CodeTag.class);
+	}
 
 	public static<T> Ref<T> getRef(T c) {
 			return Ref.create(c);

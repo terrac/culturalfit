@@ -1,6 +1,8 @@
 package com.caines.cultural.client.ui.codingscramble;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.caines.cultural.shared.Tuple;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
@@ -64,17 +66,22 @@ public class ScrambleViewer extends Composite  {
 //		Window.alert("Hello!");
 //	}
 
-
+	Map<String,Integer> nameColorMap = new HashMap<String, Integer>(); 
 	public void setupCode(CodeContainer code, String name, List<CodeLinkContainer> toHighlight) {
 		Element preElement = DOM.getElementById(name);
 		preElement.setInnerText("");
 		for(CodeLinkContainer tH : toHighlight){
-			
-			for(Integer i : tH.linkedPointers){
-				code.file.set(i, code.file.get(i).replace(tH.name, "<span class=link-color-"+count+">"+toHighlight+"</span>"));
+			Integer color =  nameColorMap.get(tH.name);
+			if(color == null){
+				count++;
+				if(count > maxCount) count = 1;
+				color = count;
+				nameColorMap.put(tH.name, color);
+				System.out.println(tH.name);
 			}
-			count++;
-			if(count > maxCount) count = 1;				
+			for(Integer i : tH.linkedPointers){
+				code.file.set(i, code.file.get(i).replace(tH.name, "<span class=link-color-"+color+">"+tH.name+"</span>"));
+			}				
 		}
 		preElement.setInnerHTML(code.getRawFile());
 		preElement.removeClassName("prettyprinted");

@@ -18,6 +18,11 @@ public class ScramblerQuestion implements Serializable{
 	public String url;
 	public String linkedText;
 	public  String tag;
+	public String tag1;
+	public String tag2;
+	public String filename;
+	public int line1;
+	public int line2;
 	
 	public String getRawFile(){
 		StringBuilder c = new StringBuilder();				

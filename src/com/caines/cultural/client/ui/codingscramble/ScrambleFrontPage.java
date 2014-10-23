@@ -32,34 +32,6 @@ public class ScrambleFrontPage extends Composite {
 	private static ScrambleFrontPageUiBinder uiBinder = GWT
 			.create(ScrambleFrontPageUiBinder.class);
 
-	private final class AlternateLink implements ClickHandler {
-		private final String name;
-		private final String code;
-		private final String rawFile;
-		private final String toHighlight;
-		private boolean file = false;
-
-		private AlternateLink(String name, String code, String rawFile,
-				String toHighlight) {
-			setupCode(code, name, toHighlight);
-			this.name = name;
-			this.code = code;
-			this.rawFile = rawFile;
-			this.toHighlight = toHighlight;
-		}
-
-		@Override
-		public void onClick(ClickEvent event) {
-			file = !file;
-			if (file) {
-				setupCode(rawFile, name, toHighlight);
-				link.setText("See Question");
-			} else {
-				setupCode(code, name, toHighlight);
-				link.setText("See File");
-			}
-		}
-	}
 
 	interface ScrambleFrontPageUiBinder extends
 			UiBinder<Widget, ScrambleFrontPage> {
@@ -70,13 +42,18 @@ public class ScrambleFrontPage extends Composite {
 		update();
 
 	}
-
+	boolean between;
 	@UiField
 	Button b1;
 	@UiField
 	Button b2;
 	@UiField
 	Button b3;
+
+	@UiField
+	Button tag1;
+	@UiField
+	Button tag2;
 
 	@UiField
 	Anchor link;
@@ -97,34 +74,68 @@ public class ScrambleFrontPage extends Composite {
 
 		// 5 or 10 lines above and below the scrambled area
 		//
-		basicService.getNextLines(new AsyncCallback<ScramblerQuestion>() {
+		basicService.getNextLines(Window.Location.getParameter("tag"),
+				new AsyncCallback<ScramblerQuestion>() {
 
-			@Override
-			public void onSuccess(final ScramblerQuestion result) {
-				if (result == null) {
-					return;
-				}
-				currentTag.setText(result.tag);
-				// currentTag.setHref("/viewer/"+result.tag+"?url="+result.url);
-				currentTag.setHref("/viewer/" + result.url + "/");
-				link.addClickHandler(new AlternateLink("code", result.code1,
-						result.getRawFile(), result.linkedText));
-				link.setHref("#");
-				link.setText("See File");
+					@Override
+					public void onSuccess(final ScramblerQuestion result) {
+						if (result == null) {
+							return;
+						}
+						currentTag.setText(result.filename);
+						// currentTag.setHref("/viewer/"+result.tag+"?url="+result.url);
+						currentTag.setHref("/viewer/" + result.url + "/");
+						link.addClickHandler(new ClickHandler() {
+							
 
-				link2.addClickHandler(new AlternateLink("code2", result.code2,
-						result.getRawFile2(), result.linkedText));
-				link2.setHref("#");
-				link2.setText("See File");
+							@Override
+							public void onClick(ClickEvent event) {
+								between = !between;
+								setupTopCode(result);
+							}
+						});
+						setupTopCode(result);
+						setupCode(result.line2, result.rawFile, "code2",
+								result.linkedText, -1);
+						link.setHref("#");
+						
 
-			}
+						// link2.setHref("#");
+						// link2.setText("See File");
 
-			@Override
-			public void onFailure(Throwable caught) {
-				// TODO Auto-generated method stub
+						tag1.setText(result.tag1);
+						tag1.addClickHandler(new ClickHandler() {
 
-			}
-		});
+							@Override
+							public void onClick(ClickEvent event) {
+								// TODO Auto-generated method stub
+								Window.Location.assign(Window.Location
+										.createUrlBuilder()
+										.setParameter("tag", result.tag1)
+										.buildString());
+							}
+						});
+
+						tag2.setText(result.tag2);
+						tag2.addClickHandler(new ClickHandler() {
+
+							@Override
+							public void onClick(ClickEvent event) {
+								// TODO Auto-generated method stub
+								Window.Location.assign(Window.Location
+										.createUrlBuilder()
+										.setParameter("tag", result.tag2)
+										.buildString());
+							}
+						});
+					}
+
+					@Override
+					public void onFailure(Throwable caught) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 
 		SimpleFront.scramblerService.getUserInfo(new AsyncCallback<UserInfo>() {
 
@@ -179,15 +190,43 @@ public class ScrambleFrontPage extends Composite {
 		SimpleFront.addUrl();
 	}
 
-	public void setupCode(String code, String name, String toHighlight) {
+	public void setupCode(int line, List<String> file, String name,
+			String toHighlight, int second) {
 		Element preElement = DOM.getElementById(name);
+		StringBuilder c = new StringBuilder();
+		int count = 0;
+		for (String a : file) {
+			boolean b = second != -1 && second > count&&line < count;
+			if (line == -1 || line + 1 == count || line - 1 == count
+					|| line == count || b) {
+				if (line == count) {
+					a = a.replace(toHighlight, "<u>" + toHighlight + "</u>");
+				}
+				c.append(a);
+				c.append("\n");
+			}
+			count++;
+		}
 		preElement.setInnerText("");
 
-		preElement.setInnerHTML(code.replace(toHighlight, "<u>" + toHighlight
-				+ "</u>"));
+		preElement.setInnerHTML(c.toString());
 
 		preElement.removeClassName("prettyprinted");
 		runPretty();
+	}
+
+	public void setupTopCode(final ScramblerQuestion result) {
+		if (between) {
+			setupCode(result.line1, result.rawFile,
+					"code", result.linkedText,
+					result.line2);
+			link.setText("See plus two lines");
+		} else {
+			setupCode(result.line1, result.rawFile,
+					"code", result.linkedText,
+					-1);
+			link.setText("See Between");
+		}
 	}
 
 	public static native void runPretty() /*-{

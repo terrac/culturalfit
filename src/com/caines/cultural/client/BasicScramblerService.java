@@ -20,7 +20,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("basic")
 public interface BasicScramblerService extends RemoteService {
 
-	ScramblerQuestion getNextLines();
+	ScramblerQuestion getNextLines(String tag);
 
 	
 	void addCodePage(String url,String tags);

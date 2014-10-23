@@ -17,7 +17,14 @@ import com.googlecode.objectify.Ref;
 public class CodeLinkUtil {
 
 	public static CodeLink getCodeLink(CodePointer cp1, CodePointer cp2) {
-		// TODO Auto-generated method stub
-		return null;
+		CodeLink cl=SDao.getCodeLinkDao().get(""+cp1.id+cp2.id);
+		if(cl == null){
+			cl = new CodeLink();
+			cl.cp1 = cp1;
+			cl.cp2 = cp2;
+			cl.id = ""+cp1.id+cp2.id;
+			SDao.getCodeLinkDao().put(cl);
+		}
+		return cl;
 	}
 }

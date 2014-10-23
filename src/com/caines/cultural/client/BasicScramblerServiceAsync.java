@@ -18,7 +18,7 @@ public interface BasicScramblerServiceAsync {
 
 	void getUserInfo(AsyncCallback<UserInfo> callback);
 
-	void getNextLines(AsyncCallback<ScramblerQuestion> callback);
+	void getNextLines(String tag, AsyncCallback<ScramblerQuestion> callback);
 
 	void linkCode(String linkType, AsyncCallback<Void> callback);
 

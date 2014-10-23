@@ -4,6 +4,7 @@ import com.caines.cultural.server.datamodel.codingscramble.CodeAlgorithm;
 import com.caines.cultural.server.datamodel.codingscramble.CodeLink;
 import com.caines.cultural.server.datamodel.codingscramble.CodePath;
 import com.caines.cultural.server.datamodel.codingscramble.CodePointer;
+import com.caines.cultural.server.datamodel.codingscramble.CodeTag;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
@@ -23,6 +24,7 @@ public class OService {
 		factory().register(CodeUserDetails.class);
 		factory().register(CodeAlgorithm.class);
 		factory().register(CodeLink.class);
+		factory().register(CodeTag.class);
 		
 		
 	}

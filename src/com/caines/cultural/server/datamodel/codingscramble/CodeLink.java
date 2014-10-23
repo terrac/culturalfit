@@ -32,7 +32,7 @@ public class CodeLink implements Serializable {
 	public int linked;
 	public int notLinked;
 	@Id
-	public Long id;
+	public String id;
 
 	
 

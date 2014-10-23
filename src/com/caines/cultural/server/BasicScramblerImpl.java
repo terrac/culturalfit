@@ -8,6 +8,7 @@ import com.caines.cultural.client.BasicScramblerService;
 import com.caines.cultural.server.datamodel.codingscramble.CodeAlgorithm;
 import com.caines.cultural.server.datamodel.codingscramble.CodeLink;
 import com.caines.cultural.server.datamodel.codingscramble.CodePointer;
+import com.caines.cultural.server.datamodel.codingscramble.CodeTag;
 import com.caines.cultural.server.datamodel.codingscramble.history.UserRecordingLink;
 import com.caines.cultural.server.datautil.CodeContainerUtil;
 import com.caines.cultural.server.datautil.CodeLinkContainerUtil;
@@ -23,6 +24,8 @@ import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeLinkContainer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.googlecode.objectify.Key;
+import com.googlecode.objectify.cmd.Query;
 
 public class BasicScramblerImpl extends RemoteServiceServlet implements
 		BasicScramblerService {
@@ -66,13 +69,21 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 	}
 
 	@Override
-	public ScramblerQuestion getNextLines() {
+	public ScramblerQuestion getNextLines(String tag) {
 		// Pull next from algorithm
 		LoginInfo li = login();
 
-		List<CodeContainer> cl = SDao.getCodeContainerDao().getQuery().list();
-
-		CodeContainer c = cl.get(new Random().nextInt(cl.size()));
+		CodeTag ct = SDao.getCodeTagDao().get(tag);
+		CodeContainer c = null;
+		
+		if(ct != null){
+			c = ct.codeContainerList.get(new Random().nextInt(ct.codeContainerList.size())).get();
+		} else {
+			List<CodeContainer> cl = SDao.getCodeContainerDao().getQuery().list();
+			c = cl.get(new Random().nextInt(cl.size()));
+		}
+		 
+		 
 		// run through h
 
 		int line1 = -1;
@@ -86,15 +97,31 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 
 			for (int a = c.nextLine; a < c.file.size(); a++) {
 				String b = c.file.get(a);
+				String btrim = b.trim();
+				if(btrim.startsWith("import")||btrim.startsWith("package")||b.contains("//")){
+					continue;
+				}
 				if (b.contains(nextLink)) {
-
-					if (line1 == -1) {
-						line1 = a;
-					} else if (line2 == -1) {
-						line2 = a;
-						c.nextLine = a + 1;
-						break;
+					boolean tooSmall = false;
+					if(nextLink.length() < 3){
+						tooSmall = true;
+						for(String m : btrim.split("[^A-Za-z0-9]")){
+							if(m.equals(nextLink)){
+								tooSmall = false;
+								break;
+							}
+						}
 					}
+					if(!tooSmall){
+						if (line1 == -1) {
+							line1 = a;
+						} else if (line2 == -1) {
+							line2 = a;
+							c.nextLine = a + 1;
+							break;
+						}	
+					}
+					
 				}
 			}
 
@@ -108,14 +135,19 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 
 		ScramblerQuestion sq = new ScramblerQuestion();
 		sq.linkedText = nextLink;
-		sq.code1 = c.file.get(line1);
-		sq.code2 = c.file.get(line2);
+		sq.line1 = line1;
+		sq.line2 = line2;
 		sq.rawFile = c.file;
 		sq.rawFile2 = c.file;
 		sq.tag = c.tags.get(0);
+		sq.filename = c.url.substring(c.url.lastIndexOf("/"));
 		sq.url = ""+c.id;
-		li.gUser.cv.cp1 = CodePointer.getCodePointer(c, line1);
-		li.gUser.cv.cp2 = CodePointer.getCodePointer(c, line2);
+		li.gUser.cv.cp1 = CodePointer.getCodePointer(c, line1,nextLink);
+		li.gUser.cv.cp2 = CodePointer.getCodePointer(c, line2,nextLink);
+		//List<Key<CodeTag>> list = SDao.getCodeTagDao().getQuery().limit(1000).keys().list();
+		List<Key<CodeTag>> list1 = SDao.getCodeTagDao().getQuery().filter("main",true).limit(1000).keys().list();
+		sq.tag1 = SDao.getCodeTagDao().get(list1.get(new Random().nextInt(list1.size())).getName()).tag;
+		sq.tag2 = SDao.getCodeTagDao().get(list1.get(new Random().nextInt(list1.size())).getName()).tag;
 		SDao.getGUserDao().put(li.gUser);
 		System.out.println(c.hs);
 		System.out.println(nextLink);
@@ -146,12 +178,8 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 	public Tuple<CodeContainer, List<CodeLinkContainer>> getContainer(String associatedUrl) {
 		LoginInfo li = login();
 		
-		SContainer sContainer = new SContainer();
 		CodeContainer codeContainer = SDao.getCodeContainerDao().get(Long.parseLong(associatedUrl));
-		List<CodePointer> cpList=SDao.getCodePointerDao().getQuery().filter("user",li.gUser).filter("container",codeContainer).list();
 		
-		sContainer.rawFile=codeContainer.file;
-		sContainer.hs = codeContainer.hs;
 		List<CodeLinkContainer> cll = new ArrayList<CodeLinkContainer>(CodeLinkContainerUtil.generateCodeLinkContainer(SDao.getRef(codeContainer), li.gUser).values());
 		return new Tuple<CodeContainer,List<CodeLinkContainer>>(codeContainer,cll);
 	}

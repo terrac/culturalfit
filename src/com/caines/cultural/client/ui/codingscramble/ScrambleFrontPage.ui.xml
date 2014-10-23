@@ -4,23 +4,27 @@
 
 	<g:HTMLPanel>
 		<div class="container">
+			<g:Button ui:field="tag1" styleName="btn" text="" />
+			<g:Button ui:field="tag2" styleName="btn" text="" />
+
 			<g:Anchor text="Current Tag" ui:field="currentTag"></g:Anchor>
-			
-			<pre id="code" class="prettyprint"></pre> 
 			<g:Anchor text="See Raw File" ui:field="link"></g:Anchor>
+			<pre id="code" class="prettyprint"></pre>
+			
 			<pre id="code2" class="prettyprint"></pre>
-			 
-			<g:Anchor text="See Raw File" ui:field="link2"></g:Anchor>			
+
+			<g:Anchor text="See Raw File" ui:field="link2"></g:Anchor>
 			<g:Button ui:field="b1" styleName="btn-success" text="Highly linked" />
 			<g:Button ui:field="b2" styleName="btn-info" text="Linked" />
-			<g:Button ui:field="b3" styleName="btn-warning"
-				text="Not Linked" />
+			<g:Button ui:field="b3" styleName="btn-warning" text="Not Linked" />
 		</div>
 		<g:VerticalPanel>
-		    <g:Button ui:field="profile" styleName="btn-info" text="Profile" />
-		    <g:Button ui:field="logIn" styleName="btn-info" text="Log In" visible="false"/>
-		    <g:Button ui:field="addUrl" styleName="btn-info" text="Add Url"  visible="false"/>
-		    
+			<g:Button ui:field="profile" styleName="btn-info" text="Profile" />
+			<g:Button ui:field="logIn" styleName="btn-info" text="Log In"
+				visible="false" />
+			<g:Button ui:field="addUrl" styleName="btn-info" text="Add Url"
+				visible="false" />
+
 		</g:VerticalPanel>
 	</g:HTMLPanel>
 </ui:UiBinder> 

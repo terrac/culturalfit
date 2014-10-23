@@ -23,7 +23,7 @@ public class CodeLinkContainerUtil {
 		// 
 		Map<String,CodeLinkContainer> cMap = new HashMap<>();
 		
-		for(CodePointer cp :SDao.getCodePointerDao().getQuery().filter("container", c).filter("user",gu).list()){
+		for(CodePointer cp :SDao.getCodePointerDao().getQuery().filter("container", c).list()){
 			CodeLinkContainer clc = cMap.get(cp.line);
 			if(clc == null){
 				clc = new CodeLinkContainer();
