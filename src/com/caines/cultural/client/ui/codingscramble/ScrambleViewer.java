@@ -9,9 +9,12 @@ import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeLinkContainer;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.query.client.Function;
+import com.google.gwt.query.client.GQuery;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
@@ -79,14 +82,54 @@ public class ScrambleViewer extends Composite  {
 				nameColorMap.put(tH.name, color);
 				System.out.println(tH.name);
 			}
-			for(Integer i : tH.linkedPointers){
-				code.file.set(i, code.file.get(i).replace(tH.name, "<span class=link-color-"+color+">"+tH.name+"</span>"));
-			}				
+			for(Integer i : tH.linkedPointers){				
+				code.cf.get().file.set(i, code.cf.get().file.get(i).replace(tH.name, updateName(tH, color)));
+			}
+			for(Integer i : tH.highlyLinkedPointers){				
+				code.cf.get().file.set(i, code.cf.get().file.get(i).replace(tH.name,updateName(tH, color)));
+			}
+			for(Integer i : tH.notLinkedPointers){				
+				code.cf.get().file.set(i, code.cf.get().file.get(i).replace(tH.name,updateName(tH, color)));
+			}
 		}
-		preElement.setInnerHTML(code.getRawFile());
+		preElement.setInnerHTML(code.cf.get().getRawFile());
 		preElement.removeClassName("prettyprinted");
 		ScrambleFrontPage.runPretty();
+		GQuery myElement = GQuery.$(".linkedName");
+		final Boolean showingAll = true;
+		myElement.click(new Function() {
+			@Override
+			public boolean f(Event e) {
+				final String clickedName = GQuery.$(e).text();
+				GQuery.$(".linkedName").each(new Function(){
+					@Override
+					public Object f(Element element, int i) {
+						if(showingAll){
+							if(!clickedName.equals(GQuery.$(element).text())){								
+								element.setClassName(element.getClassName().replace("color", "unused1"));	
+							} else {
+								element.setClassName(element.getClassName().replace("unused1", "color"));
+							}
+						}
+						
+						//GQuery.$(element).unbind("click");
+						return null;
+					}
+				});
+				
+				return super.f(e);
+			}
+			
+		});
+	}
+
+	public String updateName(CodeLinkContainer tH, Integer color) {
+		return "<span class='link-color-"+color+" linkedName' >"+tH.name+"</span>";
 	}
 	int count = 0;
 	final int maxCount = 11;
+	
+	public static native void runPretty() /*-{
+	$wnd.prettyPrint();
+}-*/;
 }

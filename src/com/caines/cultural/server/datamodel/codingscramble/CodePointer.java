@@ -62,6 +62,7 @@ public class CodePointer implements Serializable{
 	public int lineNumber;
 	public String line;
 	
+	
 	@GwtIncompatible("")
 	public Ref<CodePointer> getRef(){
 		return Ref.create(this);
@@ -85,7 +86,7 @@ public class CodePointer implements Serializable{
 	@GwtIncompatible("")
 	public boolean checkQuestion(List<String> answer){
 		for(int a = 0; a < 5; a++){
-			String line=container.get().file.get(lineNumber+a);
+			String line=container.get().cf.get().file.get(lineNumber+a);
 			if(!line.equals(answer.get(a))){
 				return false;
 			}

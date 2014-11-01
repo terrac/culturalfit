@@ -7,20 +7,25 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 import com.caines.cultural.server.SDao;
 import com.caines.cultural.server.datamodel.codingscramble.CodeTag;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeContainerFile;
 import com.google.common.annotations.GwtIncompatible;
 
 public class CodeContainerUtil {
 	
 	static List<String> javaList = Arrays.asList(new String[]{"com","org","public","class","static","private","final","new","String"});
 	static List<String> javaScriptList = Arrays.asList(new String[]{"var","slice", "concat", "push", "indexOf", "function","window", "return", "new", "for","this","document"});
+	static List<String> cppList = Arrays.asList(new String[]{"include","h"});
 	
 	@GwtIncompatible("")
-	public static void setup(CodeContainer c,String url, String[] tagsA) {
+	public static void setup(String url, String[] tagsA) {
+		CodeContainer c = new CodeContainer();
+		CodeContainerFile cf = new CodeContainerFile();
 		List<String> toIgnore = new ArrayList<>();
 		if(url.endsWith(".java")){
 			toIgnore = javaList;
@@ -28,9 +33,12 @@ public class CodeContainerUtil {
 		if(url.endsWith(".js")){
 			toIgnore = javaScriptList;
 		}
+		if(url.endsWith(".cpp")){
+			toIgnore = cppList;
+		}
 		
 		
-		c.url = url;
+		cf.url = url;
 		List<String> totalTags = new ArrayList<>();
 		for(String b : tagsA){
 			
@@ -49,25 +57,30 @@ public class CodeContainerUtil {
 			ct.codeContainerList.add(SDao.getRef(c));
 			SDao.getCodeTagDao().put(ct);
 		}
-		
+		HashSet<String> hs = new HashSet<>();
 		// ...
 		try {
 		    URL urlU = new URL(url);
 		    BufferedReader reader = new BufferedReader(new InputStreamReader(urlU.openStream()));
 		    String line;		    
-		     
+		    boolean isComment = false; 
 		    while ((line = reader.readLine()) != null) {
-		    	c.file.add(line);
+		    	cf.file.add(line);
 		    	//System.out.println(line);
 		    	//q.add(line);
-		    	
-		    	if(line.contains("import")||line.trim().startsWith("*")||line.trim().length()==0||line.contains("//")){
+		    	if(line.contains("/*")){
+		    		isComment = true;
+		    	} 
+		    	if(line.contains("*/")){
+		    		isComment = false;
+		    	} 
+		    	if(isComment||line.contains("import")||line.trim().startsWith("*")||line.trim().length()==0||line.contains("//")){
 		    		continue;		    		
 		    		//q.remove(line);
 		    	}
 		    	for(String b : line.split("[^A-Za-z0-9]")){
-		    		if(!c.hs.contains(b)&&!toIgnore.contains(b))
-		    			c.hs.add(b);
+		    		if(!toIgnore.contains(b))
+		    			hs.add(b);
 		    	}
 		        
 		    }
@@ -79,7 +92,11 @@ public class CodeContainerUtil {
 		} catch (IOException e) {
 		    // ...
 		}
-		c.hs.remove("");
+		hs.remove("");
+		c.hs = new ArrayList<>(hs);
+		SDao.getCodeContainerFileDao().put(cf);
+		c.cf = SDao.getRef(cf);
+		SDao.getCodeContainerDao().put(c);
 	}
 
 }

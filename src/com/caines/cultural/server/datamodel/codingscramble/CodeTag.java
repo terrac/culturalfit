@@ -17,25 +17,25 @@ import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Parent;
 
 @Entity
-public class CodeLink implements Serializable {
+public class CodeTag implements Serializable {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public CodeLink() {
-
+	public CodeTag() {
+		// TODO Auto-generated constructor stub
+	}
+	public CodeTag(String t) {
+		tag = t;
+		main = !tag.contains("/");
 	}
 
-	public CodePointer cp1;
-	public CodePointer cp2;
-	public int highlyLinked;
-	public int linked;
-	public int notLinked;
 	@Id
-	public String id;
+	public String tag;
 
 	@Index
-	public Ref<CodeContainer> codeContainer;
+	boolean main;
+	public List<Ref<CodeContainer>> codeContainerList = new ArrayList<>();
 
 }

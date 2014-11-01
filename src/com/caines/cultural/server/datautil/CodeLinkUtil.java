@@ -23,6 +23,7 @@ public class CodeLinkUtil {
 			cl.cp1 = cp1;
 			cl.cp2 = cp2;
 			cl.id = ""+cp1.id+cp2.id;
+			cl.codeContainer = cp1.container;
 			SDao.getCodeLinkDao().put(cl);
 		}
 		return cl;

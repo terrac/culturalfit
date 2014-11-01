@@ -8,6 +8,7 @@ import com.caines.cultural.server.datamodel.codingscramble.CodeTag;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.UserProfile;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeContainerFile;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;
@@ -19,6 +20,7 @@ public class OService {
 		factory().register(GUser.class);
 		factory().register(UserProfile.class);
 		factory().register(CodeContainer.class);
+		factory().register(CodeContainerFile.class);
 		factory().register(CodePath.class);
 		factory().register(CodePointer.class);
 		factory().register(CodeUserDetails.class);

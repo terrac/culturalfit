@@ -24,6 +24,8 @@ public class CodeLinkContainer implements Serializable {
 	}
 
 	public List<Integer> linkedPointers = new ArrayList<>();
+	public List<Integer> highlyLinkedPointers = new ArrayList<>();
+	public List<Integer> notLinkedPointers = new ArrayList<>();
 	public String name;
 
 	@Id

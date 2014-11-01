@@ -21,6 +21,7 @@ import com.caines.cultural.shared.container.SContainer;
 import com.caines.cultural.shared.container.ScramblerQuestion;
 import com.caines.cultural.shared.datamodel.GUser;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeContainer;
+import com.caines.cultural.shared.datamodel.codingscramble.CodeContainerFile;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeLinkContainer;
 import com.caines.cultural.shared.datamodel.codingscramble.CodeUserDetails;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -43,9 +44,9 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 	@Override
 	public void addCodePage(String url, String tags) {
 		String[] tagsA = tags.split("[,\\s]");
-		CodeContainer cc = new CodeContainer();
-		CodeContainerUtil.setup(cc,url, tagsA);
-		SDao.getCodeContainerDao().put(cc);
+		
+		CodeContainerUtil.setup(url, tagsA);
+		
 	}
 
 	@Override
@@ -75,15 +76,16 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 
 		CodeTag ct = SDao.getCodeTagDao().get(tag);
 		CodeContainer c = null;
-		
-		if(ct != null){
-			c = ct.codeContainerList.get(new Random().nextInt(ct.codeContainerList.size())).get();
+
+		if (ct != null) {
+			c = ct.codeContainerList.get(
+					new Random().nextInt(ct.codeContainerList.size())).get();
 		} else {
-			List<CodeContainer> cl = SDao.getCodeContainerDao().getQuery().list();
+			List<CodeContainer> cl = SDao.getCodeContainerDao().getQuery()
+					.list();
 			c = cl.get(new Random().nextInt(cl.size()));
 		}
-		 
-		 
+		CodeContainerFile cf = c.cf.get();
 		// run through h
 
 		int line1 = -1;
@@ -95,33 +97,31 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 			}
 			nextLink = c.hs.get(c.nextLink);
 
-			for (int a = c.nextLine; a < c.file.size(); a++) {
-				String b = c.file.get(a);
+			for (int a = c.nextLine; a < cf.file.size(); a++) {
+				String b = cf.file.get(a);
 				String btrim = b.trim();
-				if(btrim.startsWith("import")||btrim.startsWith("package")||b.contains("//")){
+				if (btrim.startsWith("import") || btrim.startsWith("package")
+						|| b.contains("//")) {
 					continue;
 				}
-				if (b.contains(nextLink)) {
-					boolean tooSmall = false;
-					if(nextLink.length() < 3){
-						tooSmall = true;
-						for(String m : btrim.split("[^A-Za-z0-9]")){
-							if(m.equals(nextLink)){
-								tooSmall = false;
-								break;
-							}
-						}
+				for (String m : btrim.split("[^A-Za-z0-9]")) {
+					if(m.length() == 0){
+						continue;
 					}
-					if(!tooSmall){
+					if (m.equals(nextLink)) {
 						if (line1 == -1) {
 							line1 = a;
+							break;
 						} else if (line2 == -1) {
 							line2 = a;
 							c.nextLine = a + 1;
 							break;
-						}	
+						}
+
 					}
-					
+				}
+				if(line2 != -1){
+					break;
 				}
 			}
 
@@ -137,17 +137,21 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 		sq.linkedText = nextLink;
 		sq.line1 = line1;
 		sq.line2 = line2;
-		sq.rawFile = c.file;
-		sq.rawFile2 = c.file;
-		sq.tag = c.tags.get(0);
-		sq.filename = c.url.substring(c.url.lastIndexOf("/"));
-		sq.url = ""+c.id;
-		li.gUser.cv.cp1 = CodePointer.getCodePointer(c, line1,nextLink);
-		li.gUser.cv.cp2 = CodePointer.getCodePointer(c, line2,nextLink);
-		//List<Key<CodeTag>> list = SDao.getCodeTagDao().getQuery().limit(1000).keys().list();
-		List<Key<CodeTag>> list1 = SDao.getCodeTagDao().getQuery().filter("main",true).limit(1000).keys().list();
-		sq.tag1 = SDao.getCodeTagDao().get(list1.get(new Random().nextInt(list1.size())).getName()).tag;
-		sq.tag2 = SDao.getCodeTagDao().get(list1.get(new Random().nextInt(list1.size())).getName()).tag;
+		sq.rawFile = cf.file;
+		sq.rawFile2 = cf.file;
+		sq.tag = cf.tags.get(0);
+		sq.filename = cf.url.substring(cf.url.lastIndexOf("/"));
+		sq.url = "" + c.id;
+		li.gUser.cv.cp1 = CodePointer.getCodePointer(c, line1, nextLink);
+		li.gUser.cv.cp2 = CodePointer.getCodePointer(c, line2, nextLink);
+		// List<Key<CodeTag>> list =
+		// SDao.getCodeTagDao().getQuery().limit(1000).keys().list();
+		List<Key<CodeTag>> list1 = SDao.getCodeTagDao().getQuery()
+				.filter("main", true).limit(1000).keys().list();
+		sq.tag1 = SDao.getCodeTagDao().get(
+				list1.get(new Random().nextInt(list1.size())).getName()).tag;
+		sq.tag2 = SDao.getCodeTagDao().get(
+				cf.tags.get(new Random().nextInt(cf.tags.size()))).tag;
 		SDao.getGUserDao().put(li.gUser);
 		System.out.println(c.hs);
 		System.out.println(nextLink);
@@ -160,30 +164,36 @@ public class BasicScramblerImpl extends RemoteServiceServlet implements
 	public void linkCode(String linkType) {
 		LoginInfo li = login();
 
-		CodeLink cl=CodeLinkUtil.getCodeLink(li.gUser.cv.cp1,li.gUser.cv.cp2);
-		if("highlyLinked".equals(linkType)){
+		CodeLink cl = CodeLinkUtil
+				.getCodeLink(li.gUser.cv.cp1, li.gUser.cv.cp2);
+		if ("highlyLinked".equals(linkType)) {
 			cl.highlyLinked++;
 		}
-		if("linked".equals(linkType)){
+		if ("linked".equals(linkType)) {
 			cl.linked++;
 		}
-		if("notLinked".equals(linkType)){
+		if ("notLinked".equals(linkType)) {
 			cl.notLinked++;
 		}
-		UserRecordingLink url=HistoryUtil.getHistory(cl,li.gUser);
-		
+		SDao.getCodeLinkDao().put(cl);
+
+		UserRecordingLink url = HistoryUtil.getHistory(cl, li.gUser);
+
 	}
 
 	@Override
-	public Tuple<CodeContainer, List<CodeLinkContainer>> getContainer(String associatedUrl) {
+	public Tuple<CodeContainer, List<CodeLinkContainer>> getContainer(
+			String associatedUrl) {
 		LoginInfo li = login();
-		
-		CodeContainer codeContainer = SDao.getCodeContainerDao().get(Long.parseLong(associatedUrl));
-		
-		List<CodeLinkContainer> cll = new ArrayList<CodeLinkContainer>(CodeLinkContainerUtil.generateCodeLinkContainer(SDao.getRef(codeContainer), li.gUser).values());
-		return new Tuple<CodeContainer,List<CodeLinkContainer>>(codeContainer,cll);
-	}
 
-	
+		CodeContainer codeContainer = SDao.getCodeContainerDao().get(
+				Long.parseLong(associatedUrl));
+
+		List<CodeLinkContainer> cll = new ArrayList<CodeLinkContainer>(
+				CodeLinkContainerUtil.generateCodeLinkContainer(
+						SDao.getRef(codeContainer), li.gUser).values());
+		return new Tuple<CodeContainer, List<CodeLinkContainer>>(codeContainer,
+				cll);
+	}
 
 }
